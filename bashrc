@@ -7,32 +7,50 @@ export PROMPT_COMMAND=__prompt_command
 __prompt_command() {
 	code=$?
 	[[ $code != 0 ]] && echo -e "$RED✗ ${code}${RESET_COLOR}"
-	# PS1="$(ps1_hostname)\[\e[1;34m\]\W\[\e[1;32m\]$\[\e[0m\] "
-	 if [ $UID -eq 0 ];
-	 then
-		PS1="$(ps1_hostname)\[\e[1;34m\]\W\[\e[1;31m\]#\[\e[0m\] "
-	 else
-		PS1="$(ps1_hostname)\[\e[1;34m\]\W\[\e[0m\]$ "
-	 fi
-}
-
-ps1_hostname() {
-	host=$(hostname)
-	user=$(whoami)
-	if [[ "$host" != "helios" || "$user" != "david" ]]; then
-		echo "\[\e[1;30m\]$user\[\e[0;37m\]@\[\e[1;36m\]$host "
+	if [ $UID -eq 0 ];
+	then
+		PS1="$(__ps1_hostname)\[\e[1;34m\]\W\$(__dev_loc)\[\e[0m\]\$(__cvs_info)#\[\e[0m\] "
+	else
+		PS1="$(__ps1_hostname)\[\e[1;34m\]\W\$(__dev_loc)\[\e[0m\]\$(__cvs_info)$\[\e[0m\] "
 	fi
 }
 
-# bind TAB:menu-complete
+__ps1_hostname() {
+	host=$(hostname)
+	user=$(whoami)
+	if [[ "$host" != "helios" || "$user" != "david" ]]; then
+		echo -n "\[\e[1;30m\]$user\[\e[0;37m\]@\[\e[1;36m\]$host "
+	fi
+}
+
+__dev_loc() {
+	[[ `pwd | grep "wordpress.org"` ]] && echo -e -n " ${LIGHT_BLUE}wp"
+	[[ `pwd | grep "vagrant"` ]] && echo -e -n " ${LIGHT_BLUE}vvv"
+}
+
+# Git and SVN helpers {{{2
+
+__cvs_info() {
+
+	[ -d .git ] || git rev-parse --git-dir > /dev/null 2>&1
+	[[ $? -eq 0 ]] && echo -n " " && __git_info && return
+
+}
+
+__git_info() {
+	branch=`git branch | grep \* | cut -d ' ' -f2`
+	echo -e -n "${LIGHT_PURPLE}${branch}${RESET_COLOR}"
+}
 
 # Env {{{1
 export PATH="$HOME/Programs/bin:$PATH:./node_modules/.bin"
 
-export RED='\033[0;31m'
-export YELLOW='\033[1;33m'
-export GREEN='\033[0;32m'
-export RESET_COLOR='\033[0m'
+export RED='' #'\033[0;31m'
+export YELLOW='' #'\033[1;33m'
+export GREEN='' #'\033[0;32m'
+export LIGHT_BLUE='' #'\033[0;34m'
+export LIGHT_PURPLE='' #'\033[0;35m'
+export RESET_COLOR='' #'\033[0m'
 
 export BROWSER=/usr/bin/chromium
 export EDITOR=vim
@@ -56,8 +74,6 @@ fi
 # Aliases {{{1
 alias calc="libreoffice --calc"
 alias cleanvim="vim -N -u NONE"
-alias cp="rsync --archive --human-readable --progress --verbose --whole-file"
-alias scp="rsync --archive --checksum --compress --human-readable --itemize-changes --rsh=ssh --stats --verbose"
 alias draw="libreoffice --draw"
 alias duh="du -h -d 0 [^.]*"
 alias em="mutt"

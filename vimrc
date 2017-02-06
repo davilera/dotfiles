@@ -3,9 +3,9 @@ set nocompatible
 filetype off
 
 let plugins_dir_name   = '.vim/bundle'
-let vimrc_path         = resolve(expand('<sfile>'))
-let vimrc_dir          = fnamemodify(vimrc_path, ':h')
-let plugins_dir        = '~/' . plugins_dir_name
+let vimrc_path         = '/home/david/.vimrc'
+let vimrc_dir          = '/home/david'
+let plugins_dir        = '/home/david/' . plugins_dir_name
 let plugins_dir_exists = isdirectory(plugins_dir)
 let vundle_dir         = plugins_dir . '/' . 'vundle'
 let vundle_dir_exists  = isdirectory(vundle_dir)
