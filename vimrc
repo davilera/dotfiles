@@ -30,25 +30,27 @@ Plugin 'gmarik/vundle'
 Plugin 'w0ng/vim-hybrid'
 Plugin 'bling/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
+Plugin 'editorconfig/editorconfig-vim'
+
 Plugin 'kien/ctrlp.vim'
 Plugin 'majutsushi/tagbar'
 Plugin 'scrooloose/syntastic'
 
-" PHP, web dev, and WP
+Plugin 'tpope/vim-surround'
+Plugin 'junegunn/vim-easy-align'
+Plugin 'kshenoy/vim-signature'
+Plugin 'airblade/vim-gitgutter'
+
+" Web Development
 Plugin 'StanAngeloff/php.vim'
 Plugin 'shawncplus/phpcomplete.vim'
 Plugin 'joonty/vim-phpqa.git'
 Plugin 'tpope/vim-markdown'
 Plugin 'mattn/emmet-vim'
 Plugin 'dsawardekar/wordpress.vim'
-
-" Additional hacks.
-Plugin 'junegunn/vim-easy-align'
-Plugin 'christoomey/vim-sort-motion'
-Plugin 'kshenoy/vim-signature' " Highlight marks.
-Plugin 'airblade/vim-gitgutter' " Highlight GIT changes.
-Plugin 'tpope/vim-surround'
-Plugin 'dhruvasagar/vim-table-mode'
+Plugin 'tobyS/vmustache'
+Plugin 'tobyS/pdv'
+Plugin 'pangloss/vim-javascript'
 
 filetype plugin indent on
 syntax enable
@@ -62,7 +64,6 @@ set directory=/tmp
 set encoding=utf-8
 set fileencodings=utf-8
 set fileformats=unix,dos,mac
-" set foldmethod=marker
 set formatprg=par
 set hidden
 set history=1000
@@ -102,6 +103,7 @@ set wildignore+=.svn,CVS,.git,*.o,*.a,*.class,*.mo,*.la,*.so,*.obj,*.swp,*.jpg,*
 set wildmode=list:longest,list:full
 set wrap
 set wrapmargin=0
+
 " Necessary order
 set linebreak
 set textwidth=0
@@ -148,12 +150,6 @@ let g:user_emmet_install_global = 0
 autocmd FileType html,css,php EmmetInstall
 
 " Functions {{{1
-" PrettyJSON {{{2
-command! -range=% JSON <line1>,<line2>call PrettyJSON()
-fun! PrettyJSON() range
-	exe a:firstline . "," . a:lastline . "!python2 -mjson.tool"
-endfun
-
 " Configure GIT
 let g:gitgutter_realtime = 0
 let g:gitgutter_eager = 0
@@ -164,4 +160,19 @@ let g:phpqa_codesniffer_cmd='/home/david/Programs/dev/workspaces/nelio/vagrant-l
 let g:phpqa_messdetector_cmd='/usr/bin/phpmd'
 let g:phpqa_codesniffer_args = '-s --standard=.config/phpcs.ruleset.xml'
 
-" }}} vim: fdm=marker
+" Manage errors
+map <F6> :w<CR>:Phpcs<CR>
+map <F7> :w<CR>:Phpmd<CR>
+map <F8> :call ToggleErrors()<CR>
+
+function! ToggleErrors()
+	let old_last_winnr = winnr('$')
+	lclose
+	if old_last_winnr == winnr('$')
+		" Nothing was closed, open syntastic error location
+		" panel
+		lopen
+	endif
+endfunction
+
+" }}}
