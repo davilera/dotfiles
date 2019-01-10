@@ -24,9 +24,13 @@ echo "========="
 echo "QTERMINAL"
 echo "========="
 
-echo "Adding color schemes..."
 mkdir -p ~/.config/qterminal.org/color-schemes
-ln -s $SRC_DIR/qterminal.org/color-schemes/* ~/.config/qterminal.org/color-schemes/
+for file in `ls -d config/qterminal.org/color-schemes/*`;
+do
+	echo "Adding colorscheme `basename $file`..."
+	rm -rf ~/.$file 2>/dev/null >&2
+	ln -s $SRC_DIR/$file ~/.$file
+done
 echo ""
 
 
