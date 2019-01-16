@@ -43,7 +43,7 @@ export NVM_DIR="$HOME/.nvm"
 # ------------
 alias ccat="pygmentize -f terminal256 -O style=native -g"
 alias colorize="ccze -A"
-alias grep="grep --color=always --exclude-dir=node_modules"
+alias grep="grep --color --exclude-dir=node_modules"
 alias ls="ls --color --group-directories-first"
 alias tree="tree -C"
 alias eog="xviewer"

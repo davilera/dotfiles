@@ -51,6 +51,7 @@ Plugin 'dsawardekar/wordpress.vim'
 Plugin 'tobyS/vmustache'
 Plugin 'tobyS/pdv'
 Plugin 'pangloss/vim-javascript'
+Plugin 'mxw/vim-jsx'
 
 filetype plugin indent on
 syntax enable
