@@ -1,0 +1,32 @@
+#!/bin/bash
+
+# This is just a simple wrapper to the real docker-compose.
+# It runs docker-compose with two ENV VARIABLES that I
+# usually use in my projects.
+
+if [ -e docker-compose.yml ] && [ `grep WORDPRESS_PORT docker-compose.yml | wc -l` -gt 0 ];
+then
+	WORDPRESS=`ruby -e 'require "socket"; puts Addrinfo.tcp("", 0).bind {|s| s.local_address.ip_port }'`
+	if [ "$1" == "up" ];
+	then
+		echo "WordPress port: $WORDPRESS"
+	fi
+fi
+
+if [ -e docker-compose.yml ] && [ `grep WORDPRESS_PORT docker-compose.yml | wc -l` -gt 0 ];
+then
+	MYSQL=`ruby -e 'require "socket"; puts Addrinfo.tcp("", 0).bind {|s| s.local_address.ip_port }'`
+	if [ "$1" == "up" ];
+	then
+		echo "MySQL port: $MYSQL"
+	fi
+fi
+
+if [ "$WORDPRESS" != "" ] || [ "$MYSQL" != "" ];
+then
+	export WORDPRESS_PORT="$WORDPRESS"
+	export MYSQL_PORT="$MYSQL"
+	/usr/bin/docker-compose "$@"
+else
+	/usr/bin/docker-compose "$@"
+fi

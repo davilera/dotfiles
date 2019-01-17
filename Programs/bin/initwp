@@ -1,0 +1,23 @@
+#!/bin/bash
+
+if [ ! -f docker-compose.yml ];
+then
+	echo "The current directory doesn't contain a docker-compose.yml file" >&2
+	exit 1
+fi
+
+if [ $# -ne 1 ];
+then
+	echo "Usage: initwp [SITE NAME]"
+	exit 2
+fi
+
+URL=`grep VIRTUAL_HOST docker-compose.yml | cut -d: -f2 | awk '{$1=$1;print}'`
+SITE=`echo "$1" | awk '{$1=$1;print}'`
+
+docker-compose exec wordpress wp core install --url=$URL --admin_user=admin --admin_password=password --admin_email=admin@$URL --title="$SITE"
+docker-compose exec wordpress wp core update
+docker-compose exec wordpress wp plugin delete akismet hello
+docker-compose exec wordpress wp theme activate twentynineteen
+docker-compose exec wordpress wp theme delete twentyfifteen twentysixteen twentyseventeen
+

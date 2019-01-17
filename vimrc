@@ -32,6 +32,7 @@ Plugin 'bling/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'editorconfig/editorconfig-vim'
 
+Plugin 'Valloric/YouCompleteMe'
 Plugin 'kien/ctrlp.vim'
 Plugin 'majutsushi/tagbar'
 Plugin 'scrooloose/syntastic'
@@ -100,7 +101,7 @@ set ttyfast
 set undolevels=100
 set viminfo='10,\"100,:20,%,n~/.viminfo
 set visualbell t_vb=".
-set wildignore+=.svn,CVS,.git,*.o,*.a,*.class,*.mo,*.la,*.so,*.obj,*.swp,*.jpg,*.png,*.xpm,*.gif,*.pdf,*.bak,*.beam,*.pyc,node_modules/**
+set wildignore+=.svn,CVS,.git,node_modules,*.o,*.a,*.class,*.mo,*.la,*.so,*.obj,*.swp,*.jpg,*.png,*.xpm,*.gif,*.pdf,*.bak,*.beam,*.pyc,*.min.js,*.min.css
 set wildmode=list:longest,list:full
 set wrap
 set wrapmargin=0

@@ -58,6 +58,16 @@ done
 echo ""
 
 
+echo "=============="
+echo "CUSTOM SCRIPTS"
+echo "=============="
+
+mkdir -p ~/Programs
+echo "Loading scripts..."
+rm -rf ~/Programs/bin
+ln -s $SRC_DIR/Programs/bin ~/Programs/
+echo ""
+
 echo "DONE"
 echo "Enjoy your new life, David!"
 
