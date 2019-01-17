@@ -22,6 +22,16 @@ then
 	fi
 fi
 
+if [ "$1" == "down" ];
+then
+	echo -n "You're about to stop and remove your containers. Do you really want to continue? (y/N) "
+	read answer
+	if [ "$answer" != "y" ] && [ "$answer" != "yes" ];
+	then
+		exit
+	fi
+fi
+
 if [ "$WORDPRESS" != "" ] || [ "$MYSQL" != "" ];
 then
 	export WORDPRESS_PORT="$WORDPRESS"

@@ -118,8 +118,8 @@ nnoremap <RightMouse> "+]p
 
 silent! colorscheme hybrid
 silent! set background=dark
-let g:airline_theme='hybrid'
-let g:airline_powerline_fonts=1
+let g:airline_theme = 'hybrid'
+let g:airline_powerline_fonts = 1
 
 " Leaders {{{1
 " Nothing here
@@ -156,11 +156,13 @@ autocmd FileType html,css,php EmmetInstall
 let g:gitgutter_realtime = 0
 let g:gitgutter_eager = 0
 
-" PHP Quality Check
-let g:phpqa_php_cmd='/usr/bin/php'
-let g:phpqa_codesniffer_cmd='/home/david/Programs/dev/workspaces/nelio/vagrant-local/www/phpcs/scripts/phpcs'
-let g:phpqa_messdetector_cmd='/usr/bin/phpmd'
-let g:phpqa_codesniffer_args = '-s --standard=.config/phpcs.ruleset.xml'
+" Syntastic
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+let g:syntastic_javascript_checkers = ['eslint']
+" let g:syntastic_php_checkers = ['/home/david/Programs/bin/phpcs']
 
 " Manage errors
 map <F6> :w<CR>:Phpcs<CR>

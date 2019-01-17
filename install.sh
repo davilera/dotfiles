@@ -57,13 +57,23 @@ do
 done
 echo ""
 
+echo "=============="
+echo "CUSTOM SCRIPTS"
+echo "=============="
+
+mkdir -p ~/Programs/dev
+echo "Adding local-by-nelio..."
+rm -rf ~/Programs/dev/local-by-nelio
+ln -s $SRC_DIR/Programs/dev/local-by-nelio ~/Programs/dev/
+echo ""
+
 
 echo "=============="
 echo "CUSTOM SCRIPTS"
 echo "=============="
 
 mkdir -p ~/Programs
-echo "Loading scripts..."
+echo "Adding scripts..."
 rm -rf ~/Programs/bin
 ln -s $SRC_DIR/Programs/bin ~/Programs/
 echo ""
