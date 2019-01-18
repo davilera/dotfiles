@@ -11,6 +11,16 @@ echo "=================="
 echo "BASIC CONFIG FILES"
 echo "=================="
 
+echo "Configuring Bash it..."
+if [ ! -d ~/.bash_it ];
+then
+	git clone --depth=1 https://github.com/Bash-it/bash-it.git ~/.bash_it 2>&1 >/dev/null
+else
+	cd ~/.bash_it 2>&1 >/dev/null
+	git up 2>&1 >/dev/null
+fi
+~/.bash_it/install.sh --no-modify-config --silent
+
 for file in `ls -p | grep -v / | grep -v "install.sh\|README.md\|LICENSE"`;
 do
 	echo "Adding ~/.$file..."
