@@ -67,6 +67,7 @@ do
 done
 echo ""
 
+
 echo "=============="
 echo "CUSTOM SCRIPTS"
 echo "=============="
@@ -77,17 +78,63 @@ rm -rf ~/Programs/dev/local-by-nelio
 ln -s $SRC_DIR/Programs/dev/local-by-nelio ~/Programs/dev/
 echo ""
 
-
-echo "=============="
-echo "CUSTOM SCRIPTS"
-echo "=============="
-
 mkdir -p ~/Programs
 echo "Adding scripts..."
 rm -rf ~/Programs/bin
 ln -s $SRC_DIR/Programs/bin ~/Programs/
 echo ""
 
+
+echo "========================"
+echo "OPTIONAL SYSTEM PAKCAGES"
+echo "========================"
+
+echo -n "Do you want to install system packages? (y/N) "
+read answer
+if [ "$answer" == "y" ];
+then
+	echo "Installing development packages..."
+	sudo apt install fasd tree docker.io docker-compose vim
+fi
+
+echo ""
+echo -n "Do you want to install YouCompleteMe in vim? (y/N) "
+read answer
+if [ "$answer" == "y" ];
+then
+	sudo apt install build-essential cmake python2.7-dev python3-dev
+	cd ~/.vim/bundle
+	if [ -d YouCompleteMe ];
+	then
+		rm -rf YouCompleteMe 2>&1 >/dev/null
+	fi
+	git clone https://github.com/Valloric/YouCompleteMe
+	cd YouCompleteMe
+	git pull
+	git submodule update --init --recursive
+	./install.sh
+	sudo apt remove build-essential cmake python2.7-dev python3-dev
+fi
+
+echo ""
+echo -n "Do you want to update the system? (y/N) "
+read answer
+if [ "$answer" == "y" ];
+then
+	sudo apt update
+	sudo apt upgrade
+fi
+
+echo ""
+echo -n "Do you want to remove unused packages and autoclean the system? (y/N) "
+read answer
+if [ "$answer" == "y" ];
+then
+	sudo apt autoremove
+	sudo apt autoclean
+fi
+
+echo ""
 echo "DONE"
 echo "Enjoy your new life, David!"
 
