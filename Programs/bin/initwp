@@ -21,3 +21,21 @@ docker-compose exec wordpress wp plugin delete akismet hello
 docker-compose exec wordpress wp theme activate twentynineteen
 docker-compose exec wordpress wp theme delete twentyfifteen twentysixteen twentyseventeen
 
+
+# Activate current plugin or theme
+
+volume=`grep volumes -A 1 docker-compose.yml | tail -n1`
+
+if [ `echo "$volume" | grep "wp-content/plugins" | wc -l` -eq 1 ];
+then
+	plugin=`echo "$volume" | cut -d: -f2`
+	plugin=`basename "$plugin"`
+	docker-compose exec wordpress wp plugin activate $plugin
+fi
+
+if [ `echo "$volume" | grep "wp-content/themes" | wc -l` -eq 1 ];
+then
+	theme=`echo "$volume" | cut -d: -f2`
+	theme=`basename "$theme"`
+	docker-compose exec wordpress wp theme activate $theme
+fi
