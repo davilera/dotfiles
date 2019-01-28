@@ -98,10 +98,12 @@ then
 fi
 
 echo ""
-echo -n "Do you want to install YouCompleteMe in vim? (y/N) "
+echo -n "Do you want to install vim packages? (y/N) "
 read answer
 if [ "$answer" == "y" ];
 then
+
+	# YouCompleteMe...
 	sudo apt install build-essential cmake python2.7-dev python3-dev
 	cd ~/.vim/bundle
 	if [ -d YouCompleteMe ];
@@ -114,6 +116,10 @@ then
 	git submodule update --init --recursive
 	./install.sh
 	sudo apt remove build-essential cmake python2.7-dev python3-dev
+
+	# Other packages
+	vim +PluginInstall +qall
+
 fi
 
 echo ""
