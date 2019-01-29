@@ -22,7 +22,7 @@ source $BASH_IT/bash_it.sh
 # Add custom stuff
 # -----------------------------------------------------------------------------------
 
-PATH="./node_modules/.bin:~/Programs/bin:$PATH"
+PATH="./node_modules/.bin:./vendor/bin:~/Programs/bin:$PATH"
 
 function bb {
 	ddccontrol dev:/dev/i2c-7 -r 0x10 -w $1 >/dev/null 2>/dev/null

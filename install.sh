@@ -94,7 +94,7 @@ read answer
 if [ "$answer" == "y" ];
 then
 	echo "Installing development packages..."
-	sudo apt install fasd tree meld docker.io docker-compose vim ruby subversion composer
+	sudo apt install fasd tree meld docker.io docker-compose vim ruby subversion composer php7.2-xml
 	update-alternatives --set editor /usr/bin/vim.basic
 fi
 
