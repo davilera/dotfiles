@@ -160,23 +160,8 @@ let g:gitgutter_eager = 0
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
+let g:syntastic_check_on_wq = 1
 let g:syntastic_javascript_checkers = ['eslint']
-" let g:syntastic_php_checkers = ['/home/david/Programs/bin/phpcs']
-
-" Manage errors
-map <F6> :w<CR>:Phpcs<CR>
-map <F7> :w<CR>:Phpmd<CR>
-map <F8> :call ToggleErrors()<CR>
-
-function! ToggleErrors()
-	let old_last_winnr = winnr('$')
-	lclose
-	if old_last_winnr == winnr('$')
-		" Nothing was closed, open syntastic error location
-		" panel
-		lopen
-	endif
-endfunction
+let g:syntastic_php_phpcs_args = '--standard=phpcs.ruleset.xml'
 
 " }}}
