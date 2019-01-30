@@ -1,0 +1,31 @@
+#!/bin/bash
+
+args="$@"
+
+if [ "$1" == "i18n" ];
+then
+
+	dir=`cat docker-compose.yml | grep volumes -A 1 | tail -n1 | cut -d: -f2 | sed -e "s/\//\\\\\\\\\//g"`
+	if [ "$dir" != "" ];
+	then
+		args=`echo "$@" | sed -e "s/ . / $dir /" | sed -e "s/ languages/ $dir\/languages/"`
+	fi
+
+	rm languages/*.pot
+	chmod o+w languages
+
+fi
+
+$HOME/Programs/bin/docker-compose exec wordpress sudo -E -u www-data php -d memory_limit=128M /bin/wp-cli.phar $args
+
+if [ "$1" == "i18n" ];
+then
+	file=`ls languages/*.pot`
+	mv "$file" .tmp.pot -f
+	cp .tmp.pot "$file" -f
+	rm .tmp.pot -f
+	chmod ug+w "$file"
+	chmod o-w "$file"
+	chmod o-w languages
+fi
+
