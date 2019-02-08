@@ -29,9 +29,9 @@ do
 	rm ~/.$file 2>/dev/null >&2
 	ln -s $SRC_DIR/$file ~/.$file
 done
+
+
 echo ""
-
-
 echo "========="
 echo "QTERMINAL"
 echo "========="
@@ -44,9 +44,9 @@ do
 	rm -rf ~/.$file 2>/dev/null >&2
 	ln -s $SRC_DIR/$file ~/.$file
 done
+
+
 echo ""
-
-
 echo "========"
 echo "CINNAMON"
 echo "========"
@@ -70,24 +70,28 @@ do
 	rm -rf ~/.$file 2>/dev/null >&2
 	ln -s $SRC_DIR/$file ~/.$file
 done
+
+
 echo ""
-
-
 echo "=============="
 echo "CUSTOM SCRIPTS"
 echo "=============="
+
+echo "Creating development directories..."
+mkdir -p ~/Programs/bin 2>/dev/null
+mkdir -p ~/Programs/dev/plugins 2>/dev/null
+mkdir -p ~/Programs/dev/themes 2>/dev/null
+mkdir -p ~/Programs/dev/wordpress.org 2>/dev/null
 
 mkdir -p ~/Programs/dev
 echo "Adding local-by-nelio..."
 rm -rf ~/Programs/dev/local-by-nelio
 ln -s $SRC_DIR/Programs/dev/local-by-nelio ~/Programs/dev/
-echo ""
 
 mkdir -p ~/Programs
 echo "Adding scripts..."
 rm -rf ~/Programs/bin
 ln -s $SRC_DIR/Programs/bin ~/Programs/
-echo ""
 
 
 echo ""
@@ -99,6 +103,7 @@ echo "Let's perform some system changes..."
 sudo ls >/dev/null 2>&1
 
 echo ""
+
 echo "Installing dev packages..."
 sudo apt-get -qq install fasd tree meld docker.io docker-compose vim ruby subversion composer php7.2-xml
 sudo update-alternatives --set editor /usr/bin/vim.basic
@@ -108,11 +113,13 @@ sudo apt-get -qq install inkscape gimp filezilla
 
 echo "Updating apt packages..."
 sudo apt-get -qq update
+
 echo "Upgrading system..."
 sudo apt-get -qq upgrade
+
 echo "Cleaning unnecessary packages..."
-sudo apt-get -qq autoremove
-sudo apt-get -qq autoclean
+sudo apt-get -qq autoremove >/dev/null 2>&1
+sudo apt-get -qq autoclean >/dev/null 2>&1
 
 
 echo ""
@@ -127,21 +134,34 @@ if [ "$answer" == "y" ];
 then
 
 	# YouCompleteMe...
-	sudo apt-get -qq install build-essential cmake python2.7-dev python3-dev
-	cd ~/.vim/bundle
+	echo "Building YouCompleteMe..."
+
+	echo "  - Installing packages..."
+	sudo apt-get -qq install build-essential cmake python2.7-dev python3-dev >/dev/null 2>&1
+	mkdir -p ~/.vim/bundle >/dev/null 2>&1
+	cd ~/.vim/bundle >/dev/null 2>&1
 	if [ -d YouCompleteMe ];
 	then
-		rm -rf YouCompleteMe 2>&1 >/dev/null
+		rm -rf YouCompleteMe
 	fi
-	git clone https://github.com/Valloric/YouCompleteMe
+
+	echo "  - Cloning github project..."
+	git clone https://github.com/Valloric/YouCompleteMe >/dev/null 2>&1
 	cd YouCompleteMe
-	git pull
-	git submodule update --init --recursive
-	./install.sh
-	sudo apt-get -qq remove build-essential cmake python2.7-dev python3-dev
+	git pull >/dev/null 2>&1
+
+	echo "  - Cloning submodules..."
+	git submodule update --init --recursive >/dev/null 2>&1
+
+	echo "  - Compiling and installing..."
+	./install.sh >/dev/null 2>&1
+
+	echo "  - Cleaning..."
+	sudo apt-get -qq remove build-essential cmake python2.7-dev python3-dev >/dev/null 2>&1
 
 	# Other packages
-	vim +PluginInstall +qall
+	echo "Installing VIM packages..."
+	vim +PluginInstall +qall >/dev/null 2>&1
 
 fi
 
