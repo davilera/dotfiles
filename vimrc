@@ -46,6 +46,7 @@ Plugin 'airblade/vim-gitgutter'
 Plugin 'StanAngeloff/php.vim'
 Plugin 'shawncplus/phpcomplete.vim'
 Plugin 'joonty/vim-phpqa.git'
+Plugin 'beanworks/vim-phpfmt'
 Plugin 'tpope/vim-markdown'
 Plugin 'mattn/emmet-vim'
 Plugin 'dsawardekar/wordpress.vim'
@@ -163,5 +164,9 @@ let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 1
 let g:syntastic_javascript_checkers = ['eslint']
 let g:syntastic_php_phpcs_args = '--standard=phpcs.ruleset.xml'
+
+" PHP Format (phpcbf)
+let g:phpfmt_command = './vendor/bin/phpcbf'
+let g:phpfmt_standard = 'phpcs.ruleset.xml'
 
 " }}}
