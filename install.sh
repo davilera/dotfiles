@@ -105,7 +105,7 @@ sudo ls >/dev/null 2>&1
 echo ""
 
 echo "Installing dev packages..."
-sudo apt-get -qq install fasd tree meld docker.io docker-compose vim ruby subversion composer php7.2-xml
+sudo apt-get -qq install fasd tree meld docker.io docker-compose vim ruby subversion composer php7.2-xml poedit
 sudo update-alternatives --set editor /usr/bin/vim.basic
 
 echo "Installing utilities..."
