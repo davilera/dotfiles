@@ -152,6 +152,10 @@ echo "Cleaning unnecessary packages..."
 sudo apt-get -qq autoremove >/dev/null 2>&1
 sudo apt-get -qq autoclean >/dev/null 2>&1
 
+echo "Configuring docker..."
+sudo groupadd docker >/dev/null 2>&1
+sudo usermod -aG docker $USER
+
 
 echo ""
 echo "==="
