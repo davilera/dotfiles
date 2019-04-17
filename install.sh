@@ -1,4 +1,4 @@
- !/bin/bash
+#!/bin/bash
 ############################
 # install.sh
 # This script creates symlinks from the home directory to any desired dotfiles in ~/Programs/dotfiles
@@ -45,6 +45,17 @@ do
 	ln -s $SRC_DIR/$file ~/.$file
 done
 
+echo "Adding qterminal ini file..."
+rm -f ~/.config/qterminal.org/qterminal.ini
+ln -s $SRC_DIR/config/qterminal.org/qterminal.ini ~/.config/qterminal.org/qterminal.ini
+
+echo "Installing FiraCode..."
+mkdir -p ~/.local/share/fonts/
+cd ~/.local/share/fonts/
+wget --quiet https://github.com/tonsky/FiraCode/raw/master/distr/ttf/FiraCode-Light.ttf
+wget --quiet https://github.com/tonsky/FiraCode/raw/master/distr/ttf/FiraCode-Regular.ttf
+wget --quiet https://github.com/tonsky/FiraCode/raw/master/distr/ttf/FiraCode-Medium.ttf
+wget --quiet https://github.com/tonsky/FiraCode/raw/master/distr/ttf/FiraCode-Bold.ttf
 
 echo ""
 echo "========"
@@ -109,7 +120,7 @@ sudo apt-get -qq install fasd tree meld docker.io docker-compose vim ruby subver
 sudo update-alternatives --set editor /usr/bin/vim.basic
 
 echo "Installing utilities..."
-sudo apt-get -qq install inkscape gimp filezilla
+sudo apt-get -qq install inkscape gimp filezilla qterminal tmux
 
 echo "Updating apt packages..."
 sudo apt-get -qq update
