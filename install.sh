@@ -87,6 +87,8 @@ panels-enabled=['1:0:left', '2:0:top']
 panels-height=['1:40', '2:24', '3:40']
 EOF
 
+dconf write /org/cinnamon/desktop/wm/preferences/button-layout "'close,minimize,maximize:'"
+
 ln -s $SRC_DIR/cinnamon/configs/* ~/.cinnamon/configs/
 
 # EXTENSIONS
