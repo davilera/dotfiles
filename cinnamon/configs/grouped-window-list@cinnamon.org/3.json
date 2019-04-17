@@ -169,7 +169,7 @@
         ],
         "value": [
             "firefox.desktop",
-            "org.gnome.Terminal.desktop",
+            "qterminal.desktop",
             "nemo.desktop"
         ]
     },

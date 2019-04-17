@@ -88,6 +88,8 @@ panels-height=['1:40', '2:24', '3:40']
 EOF
 
 dconf write /org/cinnamon/desktop/wm/preferences/button-layout "'close,minimize,maximize:'"
+dconf write /org/cinnamon/desktop/wm/preferences/theme "'Mint-Y-Darker'"
+dconf write /org/cinnamon/desktop/interface/gtk-theme "'Mint-Y-Darker'"
 
 ln -s $SRC_DIR/cinnamon/configs/* ~/.cinnamon/configs/
 
