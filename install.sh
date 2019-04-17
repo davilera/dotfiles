@@ -74,24 +74,22 @@ do
 done
 
 echo "Loading setup..."
-cat <<EOF | dconf load /org/cinnamon/
-panels-autohide=['1:false', '2:false', '3:false']
-panels-show-delay=['1:0', '2:0', '3:0']
-panels-hide-delay=['1:0', '2:0', '3:0']
-enabled-extensions=['!cinnamon-maximus@fmete', 'transparent-panels@germanfr']
-panel-edit-mode=false
-enabled-applets=['panel2:right:1:systray@cinnamon.org:0', 'panel1:left:0:menu@cinnamon.org:1', 'panel1:left:1:grouped-window-list@cinnamon.org:3', 'panel2:right:3:keyboard@cinnamon.org:4', 'panel2:right:8:notifications@cinnamon.org:5', 'panel2:right:4:removable-drives@cinnamon.org:6', 'panel2:right:7:network@cinnamon.org:8', 'panel2:right:6:sound@cinnamon.org:9', 'panel2:right:2:power@cinnamon.org:10', 'panel2:right:9:calendar@cinnamon.org:11', 'panel2:left:0:window-buttons-with-title@fmete:18', 'panel2:right:0:trash@cinnamon.org:19']
-next-applet-id=20
-no-adjacent-panel-barriers=true
-panel-zone-icon-sizes='[{"panelId":1,"left":0,"center":0,"right":24},{"panelId":2,"left":0,"center":0,"right":0}]'
-panels-enabled=['1:0:left', '2:0:top']
-panels-height=['1:40', '2:24', '3:40']
-EOF
-
+dconf write /org/cinnamon/panels-autohide "['1:false', '2:false', '3:false']"
+dconf write /org/cinnamon/panels-show-delay "['1:0', '2:0', '3:0']"
+dconf write /org/cinnamon/panels-hide-delay "['1:0', '2:0', '3:0']"
+dconf write /org/cinnamon/enabled-extensions "['!cinnamon-maximus@fmete', 'transparent-panels@germanfr']"
+dconf write /org/cinnamon/panel-edit-mode "false"
+dconf write /org/cinnamon/enabled-applets "['panel2:right:1:systray@cinnamon.org:0', 'panel1:left:0:menu@cinnamon.org:1', 'panel1:left:1:grouped-window-list@cinnamon.org:3', 'panel2:right:3:keyboard@cinnamon.org:4', 'panel2:right:8:notifications@cinnamon.org:5', 'panel2:right:4:removable-drives@cinnamon.org:6', 'panel2:right:7:network@cinnamon.org:8', 'panel2:right:6:sound@cinnamon.org:9', 'panel2:right:2:power@cinnamon.org:10', 'panel2:right:9:calendar@cinnamon.org:11', 'panel2:left:0:window-buttons-with-title@fmete:18', 'panel2:right:0:trash@cinnamon.org:19']"
+dconf write /org/cinnamon/next-applet-id 20
+dconf write /org/cinnamon/no-adjacent-panel-barriers "true"
+dconf write /org/cinnamon/panel-zone-icon-sizes "'[{\"panelId\":1,\"left\":0,\"center\":0,\"right\":24},{\"panelId\":2,\"left\":0,\"center\":0,\"right\":0}]'"
+dconf write /org/cinnamon/panels-enabled "['1:0:left', '2:0:top']"
+dconf write /org/cinnamon/panels-height "['1:40', '2:24', '3:40']"
 dconf write /org/cinnamon/desktop/wm/preferences/button-layout "'close,minimize,maximize:'"
 dconf write /org/cinnamon/desktop/wm/preferences/theme "'Mint-Y-Darker'"
 dconf write /org/cinnamon/desktop/interface/gtk-theme "'Mint-Y-Darker'"
 
+rm -rf ~/.cinnamon/configs/* >/dev/null 2>&1
 ln -s $SRC_DIR/cinnamon/configs/* ~/.cinnamon/configs/
 
 # EXTENSIONS
