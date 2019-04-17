@@ -4,7 +4,8 @@
 # This script creates symlinks from the home directory to any desired dotfiles in ~/Programs/dotfiles
 ############################
 
-SRC_DIR=~/Programs/dotfiles
+cd "`dirname $0`"
+SRC_DIR=`pwd`
 export DEBIAN_FRONTEND="noninteractive"
 
 
