@@ -48,7 +48,7 @@ done
 
 echo "Adding qterminal ini file..."
 rm -f ~/.config/qterminal.org/qterminal.ini
-ln -s $SRC_DIR/config/qterminal.org/qterminal.ini ~/.config/qterminal.org/qterminal.ini
+cp $SRC_DIR/config/qterminal.org/qterminal.ini ~/.config/qterminal.org/qterminal.ini
 
 echo "Installing FiraCode..."
 mkdir -p ~/.local/share/fonts/
@@ -86,8 +86,10 @@ dconf write /org/cinnamon/panel-zone-icon-sizes "'[{\"panelId\":1,\"left\":0,\"c
 dconf write /org/cinnamon/panels-enabled "['1:0:left', '2:0:top']"
 dconf write /org/cinnamon/panels-height "['1:40', '2:24', '3:40']"
 dconf write /org/cinnamon/desktop/wm/preferences/button-layout "'close,minimize,maximize:'"
-dconf write /org/cinnamon/desktop/wm/preferences/theme "'Mint-Y-Darker'"
+dconf write /org/cinnamon/desktop/wm/preferences/theme "'Mint-Y-Dark'"
 dconf write /org/cinnamon/desktop/interface/gtk-theme "'Mint-Y-Darker'"
+dconf write /org/nemo/desktop/home-icon-visible "false"
+dconf write /org/nemo/desktop/computer-icon-visible "false"
 
 rm -rf ~/.cinnamon/configs/* >/dev/null 2>&1
 ln -s $SRC_DIR/cinnamon/configs/* ~/.cinnamon/configs/
