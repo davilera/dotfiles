@@ -163,6 +163,8 @@ let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 1
 let g:syntastic_javascript_checkers = ['eslint']
+let g:syntastic_css_checkers = ['stylelint']
+let g:syntastic_scss_checkers = ['stylelint']
 let g:syntastic_php_phpcs_args = '--standard=phpcs.ruleset.xml'
 
 " PHP Format (phpcbf)
