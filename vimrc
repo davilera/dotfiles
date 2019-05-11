@@ -36,6 +36,7 @@ Plugin 'Valloric/YouCompleteMe'
 Plugin 'kien/ctrlp.vim'
 Plugin 'majutsushi/tagbar'
 Plugin 'scrooloose/syntastic'
+Plugin 'davilera/syntastic-wp-scripts'
 
 Plugin 'tpope/vim-surround'
 Plugin 'junegunn/vim-easy-align'
@@ -162,9 +163,9 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 1
-let g:syntastic_javascript_checkers = ['eslint']
-let g:syntastic_css_checkers = ['stylelint']
-let g:syntastic_scss_checkers = ['stylelint']
+let g:syntastic_javascript_checkers = ['wpscripts']
+let g:syntastic_css_checkers = ['wpscripts']
+let g:syntastic_scss_checkers = ['wpscripts']
 let g:syntastic_php_phpcs_args = '--standard=phpcs.ruleset.xml'
 
 " PHP Format (phpcbf)
