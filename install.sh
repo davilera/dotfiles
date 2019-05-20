@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/zsh
 ############################
 # install.sh
 # This script creates symlinks from the home directory to any desired dotfiles in ~/Programs/dotfiles
@@ -8,20 +8,20 @@ cd "`dirname $0`"
 SRC_DIR=`pwd`
 export DEBIAN_FRONTEND="noninteractive"
 
-
 echo "=================="
 echo "BASIC CONFIG FILES"
 echo "=================="
 
-echo "Configuring Bash it..."
-if [ ! -d ~/.bash_it ];
-then
-	git clone --depth=1 https://github.com/Bash-it/bash-it.git ~/.bash_it 2>&1 >/dev/null
-else
-	cd ~/.bash_it 2>&1 >/dev/null
-	git up 2>&1 >/dev/null
-fi
-~/.bash_it/install.sh --no-modify-config --silent >/dev/null 2>&1
+echo "Installing Oh My Zsh..."
+rm -rf ~/.oh-my-zsh 2>&1 >/dev/null
+git clone --quiet https://github.com/robbyrussell/oh-my-zsh ~/.oh-my-zsh
+rm -f ~/.zshrc.pre-oh-my-zsh
+
+echo "Adding syntax highlighting plugin..."
+git clone --quiet https://github.com/zsh-users/zsh-syntax-highlighting ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+
+echo "Adding powerlevel9k theme..."
+git clone --quiet https://github.com/bhilburn/powerlevel9k.git ~/.oh-my-zsh/custom/themes/powerlevel9k
 
 cd $SRC_DIR
 for file in `ls -p | grep -v / | grep -v "install.sh\|README.md\|LICENSE"`;
@@ -30,7 +30,6 @@ do
 	rm ~/.$file 2>/dev/null >&2
 	ln -s $SRC_DIR/$file ~/.$file
 done
-
 
 echo ""
 echo "========="

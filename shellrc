@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+
+# -----------------------------------------------------------------------------------
+# Add custom stuff
+# -----------------------------------------------------------------------------------
+
+PATH="./node_modules/.bin:./vendor/bin:~/Programs/bin:$PATH"
+
+# fasd aliases
+# ------------
+eval "$(fasd --init auto)"
+alias j="fasd_cd -d"
+
+# NVM
+# ---
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+
+# Aliases
+# ------------
+alias ccat="pygmentize -f terminal256 -O style=native -g"
+alias colorize="ccze -A"
+alias grep="grep --color --exclude-dir=vendor --exclude-dir=node_modules --exclude-dir=e2e-tests --exclude-dir=build --exclude-dir=dist --exclude-dir=build-module --exclude=*.min --exclude=*.min.* --exclude=*.md --exclude=*.map --exclude-dir=.git"
+alias ls="ls --color --group-directories-first"
+alias tree="tree -C"
+alias eog="xviewer"
+
+alias gs="git status"
+alias gd="git diff"
+alias gc="git commit"
+alias gg="git pull"
+alias gp="git push"
+alias gco="git checkout"
