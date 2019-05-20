@@ -125,6 +125,10 @@ echo "Adding scripts..."
 rm -rf ~/Programs/bin
 ln -s $SRC_DIR/Programs/bin ~/Programs/
 
+cd ~/Programs/bin/git
+git clone --quiet https://github.com/denilsonsa/prettyping
+git clone --quiet https://github.com/so-fancy/diff-so-fancy
+
 
 echo ""
 echo "======"
@@ -156,6 +160,11 @@ sudo apt-get -qq autoclean >/dev/null 2>&1
 echo "Configuring docker..."
 sudo groupadd docker >/dev/null 2>&1
 sudo usermod -aG docker $USER
+
+echo "Installing bat..."
+cd /tmp
+wget --quiet https://github.com/sharkdp/bat/releases/download/v0.11.0/bat-musl_0.11.0_amd64.deb
+sudo dpkg -i bat-musl_0.11.0_amd64.deb
 
 
 echo ""

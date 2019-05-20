@@ -4,7 +4,7 @@
 # Add custom stuff
 # -----------------------------------------------------------------------------------
 
-PATH="./node_modules/.bin:./vendor/bin:~/Programs/bin:$PATH"
+PATH="./node_modules/.bin:./vendor/bin:$HOME/Programs/bin:$PATH"
 
 # fasd aliases
 # ------------
@@ -18,16 +18,19 @@ export NVM_DIR="$HOME/.nvm"
 
 # Aliases
 # ------------
-alias ccat="pygmentize -f terminal256 -O style=native -g"
+alias cat="bat"
 alias colorize="ccze -A"
 alias grep="grep --color --exclude-dir=vendor --exclude-dir=node_modules --exclude-dir=e2e-tests --exclude-dir=build --exclude-dir=dist --exclude-dir=build-module --exclude=*.min --exclude=*.min.* --exclude=*.md --exclude=*.map --exclude-dir=.git"
 alias ls="ls --color --group-directories-first"
 alias tree="tree -C"
 alias eog="xviewer"
 
-alias gs="git status"
-alias gd="git diff"
+alias ga="git add"
 alias gc="git commit"
+alias gco="git checkout"
+alias gd="git dsf"
 alias gg="git pull"
 alias gp="git push"
-alias gco="git checkout"
+alias gs="git status"
+
+alias ping="~/Programs/bin/git/prettyping/prettyping"
