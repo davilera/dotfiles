@@ -41,7 +41,6 @@ Plugin 'davilera/syntastic-wp-scripts'
 Plugin 'tpope/vim-surround'
 Plugin 'junegunn/vim-easy-align'
 Plugin 'kshenoy/vim-signature'
-Plugin 'airblade/vim-gitgutter'
 
 " Web Development
 Plugin 'StanAngeloff/php.vim'
@@ -51,8 +50,6 @@ Plugin 'beanworks/vim-phpfmt'
 Plugin 'tpope/vim-markdown'
 Plugin 'mattn/emmet-vim'
 Plugin 'dsawardekar/wordpress.vim'
-Plugin 'tobyS/vmustache'
-Plugin 'tobyS/pdv'
 Plugin 'pangloss/vim-javascript'
 Plugin 'mxw/vim-jsx'
 
@@ -154,15 +151,11 @@ let g:user_emmet_install_global = 0
 autocmd FileType html,css,php EmmetInstall
 
 " Functions {{{1
-" Configure GIT
-let g:gitgutter_realtime = 0
-let g:gitgutter_eager = 0
-
 " Syntastic
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 1
+let g:syntastic_check_on_open = 0
+let g:syntastic_check_on_wq = 0
 let g:syntastic_javascript_checkers = ['wpscripts']
 let g:syntastic_css_checkers = ['wpscripts']
 let g:syntastic_scss_checkers = ['wpscripts']
