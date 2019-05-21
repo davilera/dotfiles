@@ -10,7 +10,7 @@ export ZSH=$HOME/.oh-my-zsh
 unset MAILCHECK
 
 # Configure oh-my-zsh
-ZSH_THEME="powerlevel9k/powerlevel9k"
+ZSH_THEME="aphrodite/aphrodite"
 POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=()
 plugins=(
 	zsh-syntax-highlighting

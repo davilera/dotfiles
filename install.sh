@@ -17,11 +17,12 @@ rm -rf ~/.oh-my-zsh 2>&1 >/dev/null
 git clone --quiet https://github.com/robbyrussell/oh-my-zsh ~/.oh-my-zsh
 rm -f ~/.zshrc.pre-oh-my-zsh
 
-echo "Adding syntax highlighting plugin..."
+echo "Adding zsh plugins..."
 git clone --quiet https://github.com/zsh-users/zsh-syntax-highlighting ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
 
-echo "Adding powerlevel9k theme..."
-git clone --quiet https://github.com/bhilburn/powerlevel9k.git ~/.oh-my-zsh/custom/themes/powerlevel9k
+echo "Adding zsh themes..."
+git clone --quiet https://github.com/bhilburn/powerlevel9k ~/.oh-my-zsh/custom/themes/powerlevel9k
+git clone --quiet https://github.com/win0err/aphrodite-terminal-theme ~/.oh-my-zsh/custom/themes/aphrodite
 
 cd $SRC_DIR
 for file in `ls -p | grep -v / | grep -v "install.sh\|README.md\|LICENSE"`;
