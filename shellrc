@@ -4,7 +4,7 @@
 # Add custom stuff
 # -----------------------------------------------------------------------------------
 
-PATH="./node_modules/.bin:./vendor/bin:$HOME/Programs/bin:$PATH"
+PATH="./node_modules/.bin:./vendor/bin:$HOME/Programs/bin:$HOME/.local/bin:$PATH"
 
 # fasd aliases
 # ------------
@@ -23,6 +23,7 @@ alias colorize="ccze -A"
 alias grep="grep --color --exclude-dir=vendor --exclude-dir=node_modules --exclude-dir=e2e-tests --exclude-dir=build --exclude-dir=dist --exclude-dir=build-module --exclude=*.min --exclude=*.min.* --exclude=*.md --exclude=*.map --exclude-dir=.git"
 alias less="less --tabs=3 -iRFX"
 alias ls="ls --color --group-directories-first"
+alias top="htop"
 alias tree="tree -C"
 alias eog="xviewer"
 
@@ -35,3 +36,4 @@ alias gp="git push"
 alias gs="git status"
 
 alias ping="~/Programs/bin/git/prettyping/prettyping"
+alias pip="pip3"
