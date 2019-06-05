@@ -24,7 +24,7 @@
         "indent": true,
         "dependency": "use-custom-format",
         "tooltip": "Set your custom format here.",
-        "value": "%B %d, %Y | %H:%M"
+        "value": " \ud83d\udcc5  %B %d, %Y - %H:%M"
     },
     "format-button": {
         "type": "button",
