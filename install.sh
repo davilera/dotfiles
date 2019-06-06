@@ -178,7 +178,7 @@ echo "==="
 echo ""
 echo -n "Do you want to install vim packages? (y/N) "
 read answer
-if [ "$answer" == "y" ];
+if [ "$answer" = "y" ];
 then
 
 	# YouCompleteMe...
