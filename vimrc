@@ -2,24 +2,11 @@
 set nocompatible
 filetype off
 
-let plugins_dir_name   = '.vim/bundle'
 let vimrc_path         = '/home/david/.vimrc'
 let vimrc_dir          = '/home/david'
+let plugins_dir_name   = '.vim/bundle'
 let plugins_dir        = '/home/david/' . plugins_dir_name
-let plugins_dir_exists = isdirectory(plugins_dir)
 let vundle_dir         = plugins_dir . '/' . 'vundle'
-let vundle_dir_exists  = isdirectory(vundle_dir)
-
-if !vundle_dir_exists
-	call mkdir(vundle_dir, 'p')
-	let install_cmds = []
-
-	call add(install_cmds, 'echo "Installing Vundle ..."')
-	call add(install_cmds, 'git clone https://github.com/gmarik/vundle.git ' . vundle_dir)
-
-	let install_cmd = ":silent !" . join(install_cmds, '  &&  ')
-	execute install_cmd
-endif
 
 filetype off
 set rtp+=~/.vim/bundle/vundle/
