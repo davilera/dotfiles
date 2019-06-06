@@ -126,6 +126,8 @@ echo "Adding scripts..."
 rm -rf ~/Programs/bin
 ln -s $SRC_DIR/Programs/bin ~/Programs/
 
+rm -rf ~/Programs/bin/git
+mkdir ~/Programs/bin/git
 cd ~/Programs/bin/git
 git clone --quiet https://github.com/denilsonsa/prettyping
 git clone --quiet https://github.com/so-fancy/diff-so-fancy
