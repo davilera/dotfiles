@@ -150,7 +150,7 @@ sudo apt-get -qq install fasd tree meld docker.io docker-compose vim ruby subver
 sudo update-alternatives --set editor /usr/bin/vim.basic
 
 echo "Installing utilities..."
-sudo apt-get -qq install inkscape gimp filezilla qterminal tmux htop
+sudo apt-get -qq install inkscape gimp filezilla qterminal tmux htop imagemagick
 
 echo "Updating apt packages..."
 sudo apt-get -qq update
