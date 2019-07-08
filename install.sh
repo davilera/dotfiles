@@ -90,6 +90,8 @@ dconf write /org/cinnamon/desktop/wm/preferences/theme "'Mint-Y-Dark'"
 dconf write /org/cinnamon/desktop/interface/gtk-theme "'Mint-Y-Darker'"
 dconf write /org/nemo/desktop/home-icon-visible "false"
 dconf write /org/nemo/desktop/computer-icon-visible "false"
+dconf write /org/cinnamon/desktop/sound/volume-sound-file "/usr/share/mint-artwork/sounds/logout.ogg"
+dconf write /org/cinnamon/desktop/sound/event-sounds "false"
 
 rm -rf ~/.cinnamon/configs/* >/dev/null 2>&1
 ln -s $SRC_DIR/cinnamon/configs/* ~/.cinnamon/configs/
@@ -148,7 +150,7 @@ sudo apt-get -qq install fasd tree meld docker.io docker-compose vim ruby subver
 sudo update-alternatives --set editor /usr/bin/vim.basic
 
 echo "Installing utilities..."
-sudo apt-get -qq install inkscape gimp filezilla qterminal tmux htop
+sudo apt-get -qq install inkscape gimp filezilla qterminal tmux htop imagemagick
 
 echo "Updating apt packages..."
 sudo apt-get -qq update
