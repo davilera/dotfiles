@@ -1,41 +1,43 @@
 #!/bin/bash
 
-if [ ! -f docker-compose.yml ];
+if [ ! -f .lando.yml ];
 then
-	echo "The current directory doesn't contain a docker-compose.yml file" >&2
+	echo "The current directory doesn't contain a ‘.lando.yml’ file" >&2
 	exit 1
 fi
 
-if [ $# -ne 1 ];
+PROJECT_NAME=`grep name .lando.yml | cut -d: -f2 | xargs`
+SITE_NAME=`echo "$PROJECT_NAME" | sed -e "s/-/ /g" | sed "s/\b[a-z]/\u&/g"`
+DIRNAME=`basename "$(pwd)"`
+
+echo "Removing old image (if any)..."
+echo 'y' | lando destroy >/dev/null 2>&1
+rm -rf .lando >/dev/null 2>&1
+
+echo "Creating environment..."
+mkdir -p .lando/wordpress
+echo "html_errors = 1" > .lando/php.ini
+lando start >/dev/null 2>&1
+
+echo "Initializing WordPress..."
+echo "  - Downloading WP..."
+lando wp core download --path=.lando/wordpress >/dev/null 2>&1
+
+echo "  - Creating ‘wp-config.php’..."
+lando wp config create --dbname=wordpress --dbuser=wordpress --dbpass=wordpress --dbhost="database.$PROJECT_NAME.internal" --path=.lando/wordpress >/dev/null 2>&1
+
+echo "  - Installing WP..."
+lando wp core install --url="http://$PROJECT_NAME.lndo.site" --title="$SITE_NAME" --admin_user=admin --admin_password=password --admin_email="admin@$PROJECT_NAME.lndo.site" --path=.lando/wordpress >/dev/null 2>&1
+
+echo "Adding current project in WordPress installation..."
+if [ `pwd | grep "/themes/" | wc -l` -eq 1 ];
 then
-	echo "Usage: initwp [SITE NAME]"
-	exit 2
+	cd .lando/wordpress/wp-content/themes
+	ln -s ../../../../ $DIRNAME
+else
+	cd .lando/wordpress/wp-content/plugins
+	ln -s ../../../../ $DIRNAME
 fi
 
-URL=`grep VIRTUAL_HOST docker-compose.yml | cut -d: -f2 | awk '{$1=$1;print}'`
-SITE=`echo "$1" | awk '{$1=$1;print}'`
-
-docker-compose exec wordpress wp core install --url=$URL --admin_user=admin --admin_password=password --admin_email=admin@$URL --title="$SITE"
-docker-compose exec wordpress wp core update
-docker-compose exec wordpress wp plugin delete akismet hello
-docker-compose exec wordpress wp theme activate twentynineteen
-docker-compose exec wordpress wp theme delete twentyfifteen twentysixteen twentyseventeen
-
-
-# Activate current plugin or theme
-
-volume=`grep volumes -A 1 docker-compose.yml | tail -n1`
-
-if [ `echo "$volume" | grep "wp-content/plugins" | wc -l` -eq 1 ];
-then
-	plugin=`echo "$volume" | cut -d: -f2`
-	plugin=`basename "$plugin"`
-	docker-compose exec wordpress wp plugin activate $plugin
-fi
-
-if [ `echo "$volume" | grep "wp-content/themes" | wc -l` -eq 1 ];
-then
-	theme=`echo "$volume" | cut -d: -f2`
-	theme=`basename "$theme"`
-	docker-compose exec wordpress wp theme activate $theme
-fi
+echo "Done."
+echo "It’s hammer time! (⌐■_■)"
