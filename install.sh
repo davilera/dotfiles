@@ -118,11 +118,6 @@ mkdir -p ~/Programs/dev/plugins 2>/dev/null
 mkdir -p ~/Programs/dev/themes 2>/dev/null
 mkdir -p ~/Programs/dev/wordpress.org 2>/dev/null
 
-mkdir -p ~/Programs/dev
-echo "Adding local-by-nelio..."
-rm -rf ~/Programs/dev/local-by-nelio
-ln -s $SRC_DIR/Programs/dev/local-by-nelio ~/Programs/dev/
-
 mkdir -p ~/Programs
 echo "Adding scripts..."
 rm -rf ~/Programs/bin
@@ -146,11 +141,18 @@ sudo ls >/dev/null 2>&1
 echo ""
 
 echo "Installing dev packages..."
-sudo apt-get -qq install fasd tree meld docker.io docker-compose vim ruby subversion composer php7.2-xml poedit myspell-es aspell-es npm
+sudo apt-get -qq install fasd tree meld jq vim ruby subversion composer php7.2-xml poedit myspell-es aspell-es npm
 sudo update-alternatives --set editor /usr/bin/vim.basic
 
+echo "Installing Docker and Lando..."
+wget -q https://get.docker.com/ -O /tmp/id.sh && echo "yes"
+bash /tmp/id.sh
+wget -q https://github.com/lando/lando/releases/download/v3.0.0-rc.17/lando-v3.0.0-rc.17.deb -O /tmp/lando.deb
+sudo dpkg -i /tmp/lando.deb
+sudo usermod -aG docker david
+
 echo "Installing utilities..."
-sudo apt-get -qq install inkscape gimp filezilla qterminal tmux htop imagemagick
+sudo apt-get -qq install inkscape gimp filezilla qterminal tmux htop imagemagick libimage-exiftool-perl
 
 echo "Updating apt packages..."
 sudo apt-get -qq update
