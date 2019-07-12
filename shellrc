@@ -18,6 +18,11 @@ export NVM_DIR="$HOME/.nvm"
 
 # Aliases
 # ------------
+wp() {
+	[ ! -e .lando.yml ] && echo "This doesn't look like a WordPress installation. Bye!" >&2 && return
+	lando wp $@ --path=`grep webroot .lando.yml | cut -d: -f2 | xargs`
+}
+
 alias cat="bat"
 alias colorize="ccze -A"
 alias grep="grep --color --exclude-dir=vendor --exclude-dir=node_modules --exclude-dir=e2e-tests --exclude-dir=build --exclude-dir=dist --exclude-dir=build-module --exclude=\"*.min.*\" --exclude=\"*.md\" --exclude=\"*.map\" --exclude-dir=\".git\""
