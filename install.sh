@@ -141,11 +141,18 @@ sudo ls >/dev/null 2>&1
 echo ""
 
 echo "Installing dev packages..."
-sudo apt-get -qq install fasd tree meld jq vim ruby subversion composer php7.2-xml poedit myspell-es aspell-es npm
+sudo apt-get -qq install fasd tree meld jq vim ruby subversion composer php7.2-xml poedit myspell-es aspell-es
 sudo update-alternatives --set editor /usr/bin/vim.basic
 
+echo "Installing nvm, node.js, and npm"
+rm -rf ~/.nvm >/dev/null 2>&1
+mkdir ~/.nvm
+wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash >/dev/null 2>&1
+bash -c "nvm install node"
+
+
 echo "Installing Docker and Lando..."
-wget -q https://get.docker.com/ -O /tmp/id.sh && echo "yes"
+wget -q https://get.docker.com/ -O /tmp/id.sh
 bash /tmp/id.sh
 wget -q https://github.com/lando/lando/releases/download/v3.0.0-rc.17/lando-v3.0.0-rc.17.deb -O /tmp/lando.deb
 sudo dpkg -i /tmp/lando.deb
