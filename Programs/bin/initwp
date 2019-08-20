@@ -57,6 +57,11 @@ echo "  - Cleaning default plugins..."
 # -----------------------------------
 lando wp plugin delete akismet hello --path=$WEBROOT >/dev/null 2>&1
 
+# -----------------------------------
+echo "  - Fixing setup..."
+# -----------------------------------
+lando wp option update permalink_structure "/%postname%/"
+
 # ========================================================
 echo "Adding current project in WordPress installation..."
 # ========================================================
