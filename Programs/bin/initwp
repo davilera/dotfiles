@@ -69,10 +69,10 @@ echo "Adding current project in WordPress installation..."
 DIRNAME=`basename "$(pwd)"`
 if [ `pwd | grep "/themes/" | wc -l` -eq 1 ];
 then
-	cd .lando/wordpress/wp-content/themes
+	cd $WEBROOT/wp-content/themes
 	ln -s ../../../../ $DIRNAME
 else
-	cd .lando/wordpress/wp-content/plugins
+	cd $WEBROOT/wp-content/plugins
 	ln -s ../../../../ $DIRNAME
 fi
 
