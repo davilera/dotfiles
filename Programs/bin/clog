@@ -1,0 +1,7 @@
+#!/bin/sh
+
+file=`lando info --service appserver --deep | grep LogPath | cut -d"'" -f2`
+echo "Cleaning $file..."
+sudo su -c "echo '' > $file"
+echo "Done!"
+
