@@ -35,6 +35,11 @@ echo "Setting up WordPress..."
 echo "  - Downloading WordPress..."
 # -----------------------------------
 lando wp core download --path=$WEBROOT >/dev/null 2>&1
+if [ ! -d $WEBROOT ];
+then
+	echo "WordPress couldn’t be downloaded :-("
+	exit
+fi
 
 # -----------------------------------
 echo "  - Creating “wp-config.php”..."

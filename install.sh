@@ -161,6 +161,12 @@ sudo usermod -aG docker david
 echo "Installing utilities..."
 sudo apt-get -qq install inkscape gimp filezilla qterminal tmux htop imagemagick libimage-exiftool-perl
 
+echo "Configuring inkscape..."
+mkdir -p ~/.config/inkscape/extensions >/dev/null 2>&1
+cd ~/.config/inkscape/extensions >/dev/null 2>&1
+wget https://raw.githubusercontent.com/Klowner/inkscape-applytransforms/master/applytransform.py >/dev/null 2>&1
+cd - >/dev/null 2>&1
+
 echo "Updating apt packages..."
 sudo apt-get -qq update
 
