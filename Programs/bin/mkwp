@@ -1,0 +1,84 @@
+#!/bin/sh
+
+if [ $# -ne 2 ];
+then
+	echo "Usage: mkwp NAME TITLE"
+	echo "Example: mkwp testing \"Nelio A/B Testing\""
+	exit 1
+fi
+
+DIR=$1
+TITLE=$2
+
+if [ -e "$DIR" ];
+then
+	echo "Directory “$DIR” already exists. Please use a non-existing name."
+	exit 2
+fi
+
+
+# Create the directory
+# --------------------------------------------------
+
+mkdir "$DIR"
+cd "$DIR"
+
+
+# ========================================================
+echo "Initializing Lando..."
+# ========================================================
+
+lando init \
+	--recipe wordpress \
+	--source remote \
+	--remote-url https://wordpress.org/latest.tar.gz \
+	--webroot . \
+	--name "$NAME"
+
+cat > .lando.yml <<EOF
+name: `basename "$DIR"`
+recipe: wordpress
+config:
+  webroot: .
+EOF
+
+mv wordpress/* .
+rmdir wordpress
+
+lando start
+
+
+# ========================================================
+echo "Setting up WordPress..."
+# ========================================================
+
+# -----------------------------------
+echo "  - Creating “wp-config.php”..."
+# -----------------------------------
+DBNAME=`lando info --service database --format json | jq -r ".[0].creds.database"`
+DBUSER=`lando info --service database --format json | jq -r ".[0].creds.user"`
+DBPASS=`lando info --service database --format json | jq -r ".[0].creds.password"`
+DBHOST=`lando info --service database --format json | jq -r ".[0].hostnames[0]"`
+lando wp config create --dbname=$DBNAME --dbuser=$DBUSER --dbpass=$DBPASS --dbhost=$DBHOST --path=. >/dev/null 2>&1
+
+
+# -----------------------------------
+echo "  - Installing WordPress..."
+# -----------------------------------
+URL=`lando info --service appserver --format json | jq -r ".[0].urls" | grep -vw localhost | grep http: | cut -d'"' -f2`
+DOMAIN=`echo "$URL" | sed -e "s/^http:\/\///"`
+lando wp core install --url=$URL --title="$TITLE" --admin_user=admin --admin_password=password --admin_email=admin@$DOMAIN --path=. >/dev/null 2>&1
+
+
+# -----------------------------------
+echo "  - Cleaning default plugins..."
+# -----------------------------------
+lando wp plugin delete akismet hello --path=. >/dev/null 2>&1
+
+
+# -----------------------------------
+echo "  - Fixing setup..."
+# -----------------------------------
+lando wp option update permalink_structure "/%postname%/" --path=. >/dev/null 2>&1
+lando wp rewrite structure --path=. >/dev/null 2>&1
+
