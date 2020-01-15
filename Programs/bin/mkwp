@@ -79,6 +79,6 @@ lando wp plugin delete akismet hello --path=. >/dev/null 2>&1
 # -----------------------------------
 echo "  - Fixing setup..."
 # -----------------------------------
-lando wp option update permalink_structure "/%postname%/" --path=. >/dev/null 2>&1
-lando wp rewrite structure --path=. >/dev/null 2>&1
+lando wp rewrite structure "/%postname%/" --path=. >/dev/null 2>&1
+lando wp rewrite flush --path=. >/dev/null 2>&1
 
