@@ -141,7 +141,7 @@ sudo ls >/dev/null 2>&1
 echo ""
 
 echo "Installing dev packages..."
-sudo apt-get -qq install fasd tree meld jq vim ruby subversion composer php7.2-xml poedit myspell-es aspell-es
+sudo apt-get -qq install fasd tree meld jq vim ruby subversion composer php7.2-xml poedit myspell-es aspell-es awscli
 sudo update-alternatives --set editor /usr/bin/vim.basic
 
 echo "Installing nvm, node.js, and npm..."
@@ -150,12 +150,8 @@ mkdir ~/.nvm
 wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash >/dev/null 2>&1
 bash -c "nvm install node"
 
-echo "Installing elm 0.19.1..."
-curl -L -o elm.gz https://github.com/elm/compiler/releases/download/0.19.1/binary-for-linux-64-bit.gz >/dev/null 2>&1
-gunzip elm.gz >/dev/null 2>&1
-chmod a+x elm >/dev/null 2>&1
-sudo mv elm /usr/local/bin/ >/dev/null 2>&1
-rm binary-for-linux-64-bit.gz >/dev/null 2>&1
+echo "Installing elm..."
+npm install -g elm elm-test elm-oracle elm-format >/dev/null 2>&1
 
 echo "Installing Docker and Lando..."
 wget -q https://get.docker.com/ -O /tmp/id.sh

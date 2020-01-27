@@ -37,6 +37,7 @@ Plugin 'mattn/emmet-vim'
 Plugin 'dsawardekar/wordpress.vim'
 Plugin 'pangloss/vim-javascript'
 Plugin 'mxw/vim-jsx'
+Plugin 'ElmCast/elm-vim'
 
 filetype plugin indent on
 syntax enable

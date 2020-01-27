@@ -2,21 +2,11 @@
 
 [[ "$TMUX" == "" ]] && TERM=screen-256color-bce tmux && exit
 
-# Path to the bash it configuration
-export BASH_IT="/home/david/.bash_it"
-
-# Lock and Load a custom theme file
-# location /.bash_it/themes/
-export BASH_IT_THEME='dulcie'
-
 # Don't check mail when opening terminal.
 unset MAILCHECK
 
 # Set this to false to turn off version control status checking within the prompt for all themes
 export SCM_CHECK=false
-
-# Load Bash It
-source $BASH_IT/bash_it.sh
 
 # -----------------------------------------------------------------------------------
 # Add custom stuff
