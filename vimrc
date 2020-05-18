@@ -25,6 +25,7 @@ Plugin 'majutsushi/tagbar'
 Plugin 'scrooloose/syntastic'
 Plugin 'davilera/syntastic-wp-scripts'
 
+Plugin 'nicwest/vim-camelsnek'
 Plugin 'tpope/vim-surround'
 Plugin 'junegunn/vim-easy-align'
 Plugin 'kshenoy/vim-signature'
@@ -38,6 +39,7 @@ Plugin 'dsawardekar/wordpress.vim'
 Plugin 'pangloss/vim-javascript'
 Plugin 'mxw/vim-jsx'
 Plugin 'ElmCast/elm-vim'
+Plugin 'prettier/vim-prettier'
 
 filetype plugin indent on
 syntax enable
@@ -59,7 +61,7 @@ set ignorecase
 set incsearch
 set laststatus=2
 set list
-set listchars=tab:▸\ ,eol:¬
+set listchars=tab:▸\ ,eol:¬,space:·
 set modelines=0
 set noequalalways
 set nomodeline
@@ -123,6 +125,9 @@ augroup end
 " easy-align {{{2
 vmap <C-a> <Plug>(EasyAlign)
 
+" Capitalization
+let g:camelsnek_alternative_camel_commands = 1
+
 " vim-surround {{{2
 let g:surround_42 = "**\r**"
 nnoremap ** :exe "norm v$hS*"<cr>
@@ -135,6 +140,9 @@ vmap <leader>l <Plug>VSurround]%a(<C-r><C-p>+)<Esc>
 let g:user_emmet_mode='a'
 let g:user_emmet_install_global = 0
 autocmd FileType html,css,php EmmetInstall
+
+" WordPress
+let g:wordpress_vim_wordpress_path = './.lando/wordpress'
 
 " Functions {{{1
 " Syntastic
