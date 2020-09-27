@@ -6,9 +6,10 @@ syntax on
 " Settings {{{
 set backspace=indent,eol,start    " Prefer backspace to cover several files
 set backupdir=/tmp                " Location of swap files
+set cursorline                    " Highlight current line
 set grepprg=LC_ALL=C\ grep\ -rns  " Faster ASCII-based grep
 set hidden                        " Prefer hiding over unloading buffers
-set path=.,,**                    " Search relative to current file + directory
+set path=.,**/*                   " Search relative to current file + directory
 set shiftwidth=2                  " Indentation defaults (<< / >> / == / auto)
 set tabstop=2                     " Tab characters take two spaces only
 set undolevels=100                " Number of undo levels

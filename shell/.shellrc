@@ -1,7 +1,7 @@
 # Basic settings
 # --------------
 unset MAILCHECK
-PATH="./node_modules/.bin:./vendor/bin:$HOME/Programs/bin:$HOME/.local/bin:$PATH"
+PATH="./node_modules/.bin:./vendor/bin:$HOME/.bin:$HOME/.local/bin:$PATH"
 
 # fasd aliases
 # ------------
