@@ -7,10 +7,11 @@ syntax on
 set backspace=indent,eol,start    " Prefer backspace to cover several files
 set backupdir=/tmp                " Location of swap files
 set cursorline                    " Highlight current line
-set grepprg=LC_ALL=C\ grep\ -rns  " Faster ASCII-based grep
 set hidden                        " Prefer hiding over unloading buffers
 set path=.,**/*                   " Search relative to current file + directory
 set shiftwidth=2                  " Indentation defaults (<< / >> / == / auto)
+set splitbelow                    " Prefer new horizontal split below
+set splitright                    " Prefer new vertical split to the right
 set tabstop=2                     " Tab characters take two spaces only
 set undolevels=100                " Number of undo levels
 set wildignore+=.svn,.git,node_modules,*.o,*.a,*.class,*.mo,*.la,*.so,*.obj,*.swp,*.jpg,*.png,*.xpm,*.gif,*.pdf,*.bak,*.beam,*.pyc,*.min.css,*.min.js
@@ -20,4 +21,9 @@ set wildignore+=.svn,.git,node_modules,*.o,*.a,*.class,*.mo,*.la,*.so,*.obj,*.sw
 silent! colorscheme hybrid
 silent! set background=dark
 let g:airline_theme='hybrid'
+" }}}
+
+" EasyAlign {{{
+xmap ga <Plug>(EasyAlign)
+nmap ga <Plug>(EasyAlign)
 " }}}
