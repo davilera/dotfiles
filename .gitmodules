@@ -16,9 +16,6 @@
 [submodule "vim/.vim/pack/plugins/start/vim-surround"]
 	path = vim/.vim/pack/plugins/start/vim-surround
 	url = https://github.com/tpope/vim-surround
-[submodule "vim/.vim/pack/plugins/opt/wordpress"]
-	path = vim/.vim/pack/plugins/opt/wordpress
-	url = https://github.com/dsawardekar/wordpress.vim
 [submodule "vim/.vim/pack/plugins/start/php"]
 	path = vim/.vim/pack/plugins/start/php
 	url = https://github.com/StanAngeloff/php.vim
