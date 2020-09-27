@@ -1,0 +1,49 @@
+# Basic settings
+# --------------
+unset MAILCHECK
+PATH="./node_modules/.bin:./vendor/bin:$HOME/Programs/bin:$HOME/.local/bin:$PATH"
+
+# fasd aliases
+# ------------
+eval "$(fasd --init auto)"
+alias j="fasd_cd -d"
+
+# NVM
+# ---
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+
+# Aliases
+# ------------
+wp() {
+	[ ! -e .lando.yml ] && echo "This doesn't look like a WordPress installation. Bye!" >&2 && return
+	lando wp $@ --path=`grep webroot .lando.yml | cut -d: -f2 | xargs`
+}
+
+alias cat="bat"
+alias colorize="ccze -A"
+alias grep="grep --color --exclude-dir=vendor --exclude-dir=node_modules --exclude-dir=e2e-tests --exclude-dir=build --exclude-dir=dist --exclude-dir=build-module --exclude=\"*.min.*\" --exclude=\"*.map\" --exclude-dir=\".git\""
+alias less="less --tabs=3 -iRFX"
+alias top="htop"
+alias tree="tree -C"
+
+alias ga="git add"
+alias gc="git commit"
+alias gco="git checkout"
+alias gd="git dsf"
+alias gg="git pull"
+alias gp="git push"
+alias gs="git status"
+
+alias ping="~/Programs/bin/git/prettyping/prettyping"
+alias pip="pip3"
+
+if [ -d "/Users" ]
+then
+	export LSCOLORS="ExGxBxDxCxEgEdxbxgxcxd"
+	alias ls="ls -G"
+	alias eog="open -a Firefox"
+else
+	alias ls="ls --color --group-directories-first"
+	alias eog="xviewer"
+fi
