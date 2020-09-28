@@ -4,16 +4,18 @@ syntax on
 " }}}
 
 " Settings {{{
-set backspace=indent,eol,start    " Prefer backspace to cover several files
-set backupdir=/tmp                " Location of swap files
-set cursorline                    " Highlight current line
-set hidden                        " Prefer hiding over unloading buffers
-set path=.,**/*                   " Search relative to current file + directory
-set shiftwidth=2                  " Indentation defaults (<< / >> / == / auto)
-set splitbelow                    " Prefer new horizontal split below
-set splitright                    " Prefer new vertical split to the right
-set tabstop=2                     " Tab characters take two spaces only
-set undolevels=100                " Number of undo levels
+set backspace=indent,eol,start      " Prefer backspace to cover several files
+set backupdir=/tmp                  " Location of swap files
+set cursorline                      " Highlight current line
+set hidden                          " Prefer hiding over unloading buffers
+set list                            " Show invisible characters
+set listchars=tab:▸\ ,eol:¬,space:· " Invisible characters
+set path=.,**/*                     " Search relative to current file + directory
+set shiftwidth=2                    " Indentation defaults (<< / >> / == / auto)
+set splitbelow                      " Prefer new horizontal split below
+set splitright                      " Prefer new vertical split to the right
+set tabstop=2                       " Tab characters take two spaces only
+set undolevels=100                  " Number of undo levels
 set wildignore+=.svn,.git,node_modules,*.o,*.a,*.class,*.mo,*.la,*.so,*.obj,*.swp,*.jpg,*.png,*.xpm,*.gif,*.pdf,*.bak,*.beam,*.pyc,*.min.css,*.min.js
 " }}}
 
