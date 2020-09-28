@@ -25,3 +25,9 @@
 [submodule "vim/.vim/pack/plugins/start/vim-jsx-pretty"]
 	path = vim/.vim/pack/plugins/start/vim-jsx-pretty
 	url = https://github.com/MaxMEllon/vim-jsx-pretty
+[submodule "programs/.bin/git/prettyping"]
+	path = programs/.bin/git/prettyping
+	url = https://github.com/denilsonsa/prettyping
+[submodule "programs/.bin/git/diff-so-fancy"]
+	path = programs/.bin/git/diff-so-fancy
+	url = https://github.com/so-fancy/diff-so-fancy

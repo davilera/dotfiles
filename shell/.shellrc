@@ -35,7 +35,7 @@ alias gg="git pull"
 alias gp="git push"
 alias gs="git status"
 
-alias ping="~/Programs/bin/git/prettyping/prettyping"
+alias ping="~/.bin/git/prettyping/prettyping"
 alias pip="pip3"
 
 if [ -d "/Users" ]
