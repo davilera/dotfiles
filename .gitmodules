@@ -22,3 +22,6 @@
 [submodule "vim/.vim/pack/plugins/start/easy-align"]
 	path = vim/.vim/pack/plugins/start/easy-align
 	url = https://github.com/junegunn/vim-easy-align
+[submodule "vim/.vim/pack/plugins/start/vim-jsx-pretty"]
+	path = vim/.vim/pack/plugins/start/vim-jsx-pretty
+	url = https://github.com/MaxMEllon/vim-jsx-pretty
