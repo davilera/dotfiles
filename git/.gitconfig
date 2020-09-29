@@ -1,28 +1,38 @@
 [push]
-  default = simple
+default = simple
 [color]
-  ui = auto
+ ui = auto
 [alias]
-  aa = add --all
-  ap = add --patch
-  ca = commit --amend
-  ci = commit -v
-  co = checkout
-  mkb = !sh -c 'git push origin HEAD:refs/heads/$1 && git fetch origin && git branch --track $1 origin/$1 && cd . && git checkout $1' -
-  rmb = !sh -c 'git push origin :refs/heads/$1 && git remote prune origin && git branch -D $1' -
-  mergebr = !git checkout master && git merge @{-1}
-  pr = !hub pull-request
-  st = status
-  up = !git fetch origin && git rebase origin/master
+	aa = add --all
+	ap = add --patch
+	ca = commit --amend
+	ci = commit -v
+	co = checkout
+	mkb = !sh -c 'git push origin HEAD:refs/heads/$1 && git fetch origin && git branch --track $1 origin/$1 && cd . && git checkout $1' -
+	rmb = !sh -c 'git push origin :refs/heads/$1 && git remote prune origin && git branch -D $1' -
+	mergebr = !git checkout master && git merge @{-1}
+	pr = !hub pull-request
+	st = status
+	up = !git fetch origin && git rebase origin/master
 [core]
-  excludesfile = ~/.gitignore
-  autocrlf = input
+	excludesfile = ~/.gitignore
+	autocrlf = input
 [merge]
-  ff = only
+	ff = only
 [user]
-  name = David Aguilera
-  email = david.aguilera@neliosoftware.com
+	name = David Aguilera
+	email = david.aguilera@neliosoftware.com
 [url "https://github.com"]
 	insteadOf = git://github.com
 [credential]
 	helper = cache --timeout 3600
+[diff]
+	tool = kitty
+	guitool = kitty.gui
+[difftool]
+	prompt = false
+	trustExitCode = true
+[difftool "kitty"]
+	cmd = kitty +kitten diff $LOCAL $REMOTE
+[difftool "kitty.gui"]
+	cmd = kitty kitty +kitten diff $LOCAL $REMOTE
