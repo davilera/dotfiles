@@ -47,3 +47,9 @@ else
 	alias ls="ls --color --group-directories-first"
 	alias eog="xviewer"
 fi
+
+if [ "$TERM" = 'xterm-kitty' ];
+then
+	alias eog="kitty +kitten icat"
+	alias icat="kitty +kitten icat"
+fi
