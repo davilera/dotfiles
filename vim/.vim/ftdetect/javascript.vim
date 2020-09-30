@@ -1,0 +1,1 @@
+../pack/plugins/opt/vim-javascript/ftdetect/javascript.vim

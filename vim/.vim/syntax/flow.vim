@@ -1,0 +1,1 @@
+../pack/plugins/opt/vim-javascript/syntax/flow.vim

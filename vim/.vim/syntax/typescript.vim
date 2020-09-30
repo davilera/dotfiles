@@ -1,0 +1,1 @@
+../pack/plugins/opt/typescript-vim/syntax/typescript.vim
