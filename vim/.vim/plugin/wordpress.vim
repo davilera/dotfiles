@@ -4,8 +4,8 @@ function WordPress()
 		return
 	endif
 
-	let recipe = trim( system( "grep 'recipe: wordpress' .lando.yml" ) )
-	if recipe != "recipe: wordpress"
+	let recipe = get( systemlist( "grep 'recipe:.*wordpress' .lando.yml" ), 0, '' )
+	if recipe != "recipe:wordpress"
 		return
 	endif
 
