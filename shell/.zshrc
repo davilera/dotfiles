@@ -16,6 +16,11 @@ then
 	ZSH_DISABLE_COMPFIX=true
 fi
 
+# Completion for kitty
+autoload -Uz compinit
+compinit
+kitty + complete setup zsh | source /dev/stdin
+
 # Load customizations
 source $ZSH/oh-my-zsh.sh
 source ~/.shellrc
