@@ -16,6 +16,28 @@ then
 	ZSH_DISABLE_COMPFIX=true
 fi
 
+# Set custom window title
+DISABLE_AUTO_TITLE="true"
+function basepwd() {
+	if [ "${PWD}" = "${HOME}" ];
+	then
+		echo "~"
+	else
+		echo `basename ${PWD}`
+	fi
+}
+
+function preexec() {
+	name=`basepwd`
+	cmd=`echo "$1" | awk '{ print $1 }'`
+	echo -ne "\033]0;${cmd} (${name})\007"
+}
+
+function precmd() {
+	name=`basepwd`
+	echo -ne "\033]0;${name}\007"
+}
+
 # Completion for kitty
 autoload -Uz compinit
 compinit
