@@ -5,6 +5,7 @@ function WordPress()
 	endif
 
 	let recipe = get( systemlist( "grep 'recipe:.*wordpress' .lando.yml" ), 0, '' )
+	let recipe = substitute( recipe, '\s', '', 'g' )
 	if recipe != "recipe:wordpress"
 		return
 	endif
