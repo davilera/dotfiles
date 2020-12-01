@@ -1,1 +1,0 @@
-../pack/plugins/opt/vim-javascript/ftdetect/flow.vim
