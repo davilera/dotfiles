@@ -11,34 +11,48 @@ WEBROOT=`grep webroot .lando.yml | cut -d: -f2 | xargs`
 SITE_NAME=`echo "$PROJECT_NAME" | sed -e "s/-/ /g" | sed "s/\b[a-z]/\u&/g"`
 
 
-# ========================================================
-echo "Removing old image (if any)..."
-# ========================================================
+echo "Remove old image and init lando? (y/N)"
+read answer
+if [ 'y' == "$answer" ];
+then
+	# ========================================================
+	echo "Removing old image (if any)..."
+	# ========================================================
 
-echo 'y' | lando destroy >/dev/null 2>&1
-rm -rf $WEBROOT >/dev/null 2>&1
+	echo 'y' | lando destroy >/dev/null 2>&1
+	rm -rf $WEBROOT >/dev/null 2>&1
 
 
-# ========================================================
-echo "Creating environment..."
-# ========================================================
+	# ========================================================
+	echo "Creating environment..."
+	# ========================================================
 
-mkdir -p $WEBROOT
-lando start >/dev/null 2>&1
+	mkdir -p $WEBROOT
+	lando start >/dev/null 2>&1
+else
+	echo ""
+fi
 
+if [ ! -d $WEBROOT ];
+then
+	mkdir -p $WEBROOT
+fi
 
 # ========================================================
 echo "Setting up WordPress..."
 # ========================================================
 
-# -----------------------------------
-echo "  - Downloading WordPress..."
-# -----------------------------------
-lando wp core download --path=$WEBROOT >/dev/null 2>&1
-if [ ! -d $WEBROOT ];
+if [ ! -d $WEBROOT/wp-config.php ];
 then
-	echo "WordPress couldn’t be downloaded :-("
-	exit
+	# -----------------------------------
+	echo "  - Downloading WordPress..."
+	# -----------------------------------
+	lando wp core download --path=$WEBROOT >/dev/null 2>&1
+	if [ ! -d $WEBROOT ];
+	then
+		echo "WordPress couldn’t be downloaded :-("
+		exit
+	fi
 fi
 
 # -----------------------------------
@@ -86,4 +100,3 @@ fi
 echo "Done."
 echo "It’s hammer time! (⌐■_■)"
 # ========================================================
-
