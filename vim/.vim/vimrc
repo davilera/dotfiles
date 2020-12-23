@@ -9,6 +9,7 @@ set backupdir=/tmp                  " Location of swap files
 set cursorline                      " Highlight current line
 set encoding=utf-8                  " Fix encoding
 set hidden                          " Prefer hiding over unloading buffers
+set hlsearch                        " Highlight search
 set list                            " Show invisible characters
 set listchars=tab:▸\ ,eol:¬,space:· " Invisible characters
 set nocursorline                    " Don't highlight current line
