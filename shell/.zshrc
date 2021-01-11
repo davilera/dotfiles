@@ -41,7 +41,7 @@ function precmd() {
 # Completion for kitty
 autoload -Uz compinit
 compinit
-kitty + complete setup zsh | source /dev/stdin
+[ -x kitty ] && kitty + complete setup zsh | source /dev/stdin
 
 # Load customizations
 source $ZSH/oh-my-zsh.sh
