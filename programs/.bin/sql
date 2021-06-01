@@ -1,0 +1,28 @@
+#!/bin/bash
+
+if [ ! -e .lando.yml ];
+then
+	echo "Lando file not found."
+	exit 1
+fi
+
+if [ -e .lando.yml ];
+then
+	if [ `cat .lando.yml | grep webroot | wc -l` -eq 1 ];
+	then
+		path=`cat .lando.yml | grep webroot | cut -d: -f2 | xargs`
+		name=`lando wp option get blogname --path="$path"`
+	else
+		name=`lando wp option get blogname`
+	fi
+	port=`lando info --service database --format json 2>/dev/null | jq ".[0].external_connection.port" | sed -e "s/[^0-9]//g"`
+	host=$(basename `pwd`)
+	if [ "$port" == "" ] || [ "$host" == "" ];
+	then
+		echo "Unable to retrieve database info."
+		exit 2
+	fi
+	echo "{\"objects\":[{\"id\":\"f3c87330-65a0-4430-b002-40eb5fc02a92\",\"name\":\"${name}\",\"color\":\"rgb(239,41,41)\",\"db-driver\":\"MySQL\",\"db-host\":\"127.0.0.1\",\"db-port\":\"${port}\",\"db-user\":\"wordpress\",\"db-name\":\"wordpress\",\"db-path\":\"\",\"ssh-host\":\"\",\"ssh-port\":\"\",\"ssh-user\":\"\",\"ssh-key-path\":\"\",\"ssl-key-path-1\":\"\",\"ssl-key-path-1-pass\":\"\",\"ssl-key-path-2\":\"\",\"ssl-key-path-3\":\"\",\"selected-schema\":\"wordpress\"}]}" > ~/.tableplus/settings/connections.json
+fi
+
+tableplus >/dev/null 2>&1 &
