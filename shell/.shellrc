@@ -15,7 +15,10 @@ export NVM_DIR="$HOME/.nvm"
 
 # Brew
 # ----
-eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
+if [ -d /home/linuxbrew/.linuxbew ];
+then
+	eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
+fi
 
 # Aliases
 # ------------
@@ -64,4 +67,9 @@ if [ "$TERM" = 'xterm-kitty' ];
 then
 	alias eog="kitty +kitten icat"
 	alias icat="kitty +kitten icat"
+fi
+
+if [ `grep microsoft /proc/version | wc -l` -gt 0 ];
+then
+	cd ~
 fi
