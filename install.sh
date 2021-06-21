@@ -10,6 +10,10 @@ export DEBIAN_FRONTEND="noninteractive"
 echo "Updating apt packages..."
 sudo apt-get -qq update
 
+echo "Installing Kitty..."
+curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin
+cp ~/.local/kitty.app/share/applications/kitty.desktop ~/.local/share/applications/
+
 echo ""
 echo "=================="
 echo "BASIC CONFIG FILES"
