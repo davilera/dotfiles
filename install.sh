@@ -20,20 +20,32 @@ sudo apt-get -qq install stow
 cd $SRC_DIR 2>/dev/null
 rm -rf ~/.git ~/.bash* ~/.vim 2>/dev/null
 stow git
-# TODO. This doesn't work as expected...
-# stow kitty
-# stow mint
 stow programs
 stow shell
 stow tmux
 stow vim
 cd - 2>/dev/null
 
+find kitty -type f | while read file;
+do
+	file=`echo $file | sed -e "s/kitty\///"`
+	mkdir -p ~/`dirname $file` 2>/dev/null
+	rm ~/$file 2>/dev/null
+	ln -s kitty/$file ~/$file
+done
+
+find mint -type f | while read file;
+do
+	file=`echo $file | sed -e "s/mint\///"`
+	mkdir -p ~/`dirname $file` 2>/dev/null
+	rm ~/$file 2>/dev/null
+	ln -s mint/$file ~/$file
+done
+
 echo "Installing git dependencies..."
 cd $SRC_DIR 2>/dev/null
-git submodule update --init --recursive
+git submodule update --init --recursive 2>/dev/null
 cd - 2>/dev/null
-exit
 
 echo "Creating development directories..."
 mkdir -p ~/Programs/dev/plugins 2>/dev/null
@@ -82,7 +94,7 @@ then
 	# APPLETS
 	mkdir -p ~/.local/share/cinnamon/applets
 	cd $SRC_DIR
-	for file in `ls -d local/share/cinnamon/applets/*`;
+	for file in `ls -d $SRC_DIR/mint/local/share/cinnamon/applets/*`;
 	do
 		echo "Adding applet `basename $file`..."
 		rm -rf ~/.$file 2>/dev/null >&2
@@ -110,11 +122,11 @@ then
 	dconf write /org/cinnamon/desktop/sound/event-sounds "false"
 
 	rm -rf ~/.cinnamon/configs/* >/dev/null 2>&1
-	ln -s $SRC_DIR/cinnamon/configs/* ~/.cinnamon/configs/
+	ln -s $SRC_DIR/mint/cinnamon/configs/* ~/.cinnamon/configs/
 
 	# EXTENSIONS
 	mkdir -p ~/.local/share/cinnamon/extensions
-	cd $SRC_DIR
+	cd $SRC_DIR/mint
 	for file in `ls -d local/share/cinnamon/extensions/*`;
 	do
 		echo "Adding extension `basename $file`..."
