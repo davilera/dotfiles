@@ -151,7 +151,7 @@ sudo ls >/dev/null 2>&1
 echo ""
 
 echo "Installing dev packages..."
-sudo apt-get -qq install fasd tree meld jq vim ruby subversion composer php-xml poedit myspell-es aspell-es awscli curl
+sudo apt-get -qq install fasd tree meld jq vim ruby subversion composer php-xml poedit myspell-es aspell-es awscli curl g++ build-essential
 sudo update-alternatives --set editor /usr/bin/vim.basic
 
 echo "Installing nvm, node.js, and npm..."
