@@ -67,7 +67,7 @@ echo "  - Installing WordPress..."
 # -----------------------------------
 URL=`lando info --service appserver --format json | jq -r ".[0].urls" | grep -vw localhost | grep http: | cut -d'"' -f2`
 DOMAIN=`echo "$URL" | sed -e "s/^http:\/\///"`
-lando wp core install --url=$URL --title="$TITLE" --admin_user=admin --admin_password=password --admin_email=admin@$DOMAIN --path=. >/dev/null 2>&1
+lando wp core install --url="$URL" --title="$TITLE" --admin_user=admin --admin_password=password --admin_email="admin@$DOMAIN" --path=. >/dev/null 2>&1
 
 
 # -----------------------------------

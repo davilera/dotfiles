@@ -164,7 +164,7 @@
         ],
         "value": [
             "firefox.desktop",
-            "qterminal.desktop",
+            "kitty.desktop",
             "nemo.desktop"
         ]
     },

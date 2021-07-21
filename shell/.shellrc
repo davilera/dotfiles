@@ -7,11 +7,19 @@ PATH="./node_modules/.bin:./vendor/bin:$HOME/.bin:$HOME/.local/bin:$PATH"
 # ------------
 eval "$(fasd --init auto)"
 alias j="fasd_cd -d"
+alias kitty="LIBGL_ALWAYS_SOFTWARE=true GALLIUM_DRIVER=llvmpipe kitty"
 
 # NVM
 # ---
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+
+# Brew
+# ----
+if [ -d /home/linuxbrew/.linuxbew ];
+then
+	eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
+fi
 
 # Aliases
 # ------------
@@ -60,4 +68,9 @@ if [ "$TERM" = 'xterm-kitty' ];
 then
 	alias eog="kitty +kitten icat"
 	alias icat="kitty +kitten icat"
+fi
+
+if [ `grep microsoft /proc/version | wc -l` -gt 0 ];
+then
+	cd ~
 fi
