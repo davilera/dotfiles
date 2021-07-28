@@ -42,7 +42,7 @@ fi
 echo "Setting up WordPress..."
 # ========================================================
 
-if [ ! -d $WEBROOT/wp-config.php ];
+if [ ! -e $WEBROOT/wp-config.php ];
 then
 	# -----------------------------------
 	echo "  - Downloading WordPress..."

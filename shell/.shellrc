@@ -21,6 +21,10 @@ then
 	eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
 fi
 
+# Haskell
+# ------------
+[ -f "/Users/david/.ghcup/env" ] && source "/Users/david/.ghcup/env"
+
 # Aliases
 # ------------
 wp() {
