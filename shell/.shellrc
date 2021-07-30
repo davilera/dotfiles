@@ -74,7 +74,7 @@ then
 	alias icat="kitty +kitten icat"
 fi
 
-if [ `grep microsoft /proc/version | wc -l` -gt 0 ];
+if [ -e /proc/version ] && [ `grep microsoft /proc/version | wc -l` -gt 0 ];
 then
 	cd ~
 fi
