@@ -21,6 +21,10 @@ then
 	eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
 fi
 
+# Haskell
+# ------------
+[ -f "/Users/david/.ghcup/env" ] && source "/Users/david/.ghcup/env"
+
 # Aliases
 # ------------
 wp() {
@@ -70,7 +74,7 @@ then
 	alias icat="kitty +kitten icat"
 fi
 
-if [ `grep microsoft /proc/version | wc -l` -gt 0 ];
+if [ -e /proc/version ] && [ `grep microsoft /proc/version | wc -l` -gt 0 ];
 then
 	cd ~
 fi

@@ -1,4 +1,4 @@
-let b:ale_linters = [ 'eslint' ]
+let b:ale_linters = [ 'tsserver', 'eslint' ]
 let b:ale_fixers = [ 'prettier', 'eslint' ]
 
 if filereadable('.eslintrc') || filereadable('.eslintrc.js')
