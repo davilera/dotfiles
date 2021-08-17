@@ -3,9 +3,9 @@ import { select, dispatch } from '@wordpress/data';
 import { STORE } from './config';
 import { awaitPromise } from './controls';
 
-export type SideEffect = ResetAllCheckerInstances;
+export type SideEffect = DoSomething;
 
-type ResetAllCheckerInstances = {
+type DoSomething = {
 	readonly type: 'AFTER_SIDE_EFFECTS__DO_SOMETHING';
 };
 
