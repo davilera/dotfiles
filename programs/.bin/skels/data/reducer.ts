@@ -2,13 +2,11 @@ import type { State } from './types';
 import { Action as ActualAction } from './actions';
 import type { SideEffect } from './side-effects';
 
+import { INIT_STATE } from './config';
+
 type Action = ActualAction | SideEffect;
 type AnyAction = {
 	readonly type: string;
-};
-
-const INIT_STATE: State = {
-	value: '',
 };
 
 export function reducer( state: State = INIT_STATE, action: AnyAction ): State {
