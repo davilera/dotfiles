@@ -35,7 +35,7 @@ do
 	file=`echo $file | sed -e "s/kitty\///"`
 	mkdir -p ~/`dirname $file` 2>/dev/null
 	rm ~/$file 2>/dev/null
-	ln -s kitty/$file ~/$file
+	ln -s $SRC_DIR/kitty/$file ~/$file
 done
 
 find mint -type f | while read file;
@@ -43,7 +43,7 @@ do
 	file=`echo $file | sed -e "s/mint\///"`
 	mkdir -p ~/`dirname $file` 2>/dev/null
 	rm ~/$file 2>/dev/null
-	ln -s mint/$file ~/$file
+	ln -s $SRC_DIR/mint/$file ~/$file
 done
 
 echo "Installing git dependencies..."
