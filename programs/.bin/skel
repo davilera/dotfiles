@@ -5,29 +5,27 @@ SRC=`dirname $0`
 if [ $# -lt 1 ];
 then
 	echo "Missing skel name."
-	echo "Usage: skel [NAME] [...]"
+	echo "Usage: skel [SKEL] [TARGET_FOLDER]"
 	exit 1
 fi
 
-if [ $1 == "data" ];
+if [ $# -lt 2 ];
 then
-	if [ $# -ne 3 ];
-	then
-		echo "Usage: skel data [STORE_NAME] [STORE_FOLDER]"
-		exit 1
-	fi
-
-	name="$2"
-	folder="$3"
-
-	if [ -e "$folder" ];
-	then
-		echo "'$folder' already exists."
-		exit 1
-	else
-		mkdir -p "$folder"
-	fi
-
-	cp "$SRC"/skels/data/* "$folder"
-	echo "export const STORE = '$name';" > "$folder/config.ts"
+	echo "Missing skel name."
+	echo "Usage: skel [SKEL] [TARGET_FOLDER]"
+	exit 1
 fi
+
+
+name="$1"
+folder="$2"
+
+if [ -e "$folder" ];
+then
+	echo "'$folder' already exists."
+	exit 1
+else
+	mkdir -p "$folder"
+fi
+
+cp -r "$SRC"/skels/$name/* "$folder"
