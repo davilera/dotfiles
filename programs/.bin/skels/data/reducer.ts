@@ -1,10 +1,8 @@
 import type { State } from './types';
-import { Action as ActualAction } from './actions';
-import type { SideEffect } from './side-effects';
+import { Action } from './actions';
 
 import { INIT_STATE } from './config';
 
-type Action = ActualAction | SideEffect;
 type AnyAction = {
 	readonly type: string;
 };
@@ -20,8 +18,5 @@ function actualReducer( state: State, action: Action ): State {
 				...state,
 				value: action.value,
 			};
-
-		case 'AFTER_SIDE_EFFECTS__DO_SOMETHING':
-			return state;
 	} //end switch
 } //end actualReducer()
