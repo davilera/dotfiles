@@ -48,11 +48,12 @@ fi
 # -----------------------------------
 echo "  - Creating “wp-config.php”..."
 # -----------------------------------
+rm -f $WEBROOT/wp-config.php 2>/dev/null
 DBNAME=`lando info --service database --format json | jq -r ".[0].creds.database"`
 DBUSER=`lando info --service database --format json | jq -r ".[0].creds.user"`
 DBPASS=`lando info --service database --format json | jq -r ".[0].creds.password"`
 DBHOST=`lando info --service database --format json | jq -r ".[0].hostnames[0]"`
-lando wp config create --dbname=$DBNAME --dbuser=$DBUSER --dbpass=$DBPASS --dbhost=$DBHOST --path=$WEBROOT >/dev/null 2>&1
+lando wp config create --dbname=$DBNAME --dbuser=$DBUSER --dbpass=$DBPASS --dbhost=$DBHOST --path=$WEBROOT
 
 # -----------------------------------
 echo "  - Enabling debug options..."
@@ -85,9 +86,11 @@ DIRNAME=`basename "$(pwd)"`
 if [ `pwd | grep "/themes/" | wc -l` -eq 1 ];
 then
 	cd $WEBROOT/wp-content/themes
+	rm -f $DIRNAME
 	ln -s ../../../../ $DIRNAME
 else
 	cd $WEBROOT/wp-content/plugins
+	rm -f $DIRNAME
 	ln -s ../../../../ $DIRNAME
 fi
 
