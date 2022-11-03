@@ -34,3 +34,6 @@
 [submodule "vim/.vim/pack/plugins/start/vim-javascript"]
 	path = vim/.vim/pack/plugins/start/vim-javascript
 	url = https://github.com/pangloss/vim-javascript
+[submodule "vim/.vim/pack/plugins/start/vim-elm-syntax"]
+	path = vim/.vim/pack/plugins/start/vim-elm-syntax
+	url = https://github.com/andys8/vim-elm-syntax
