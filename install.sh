@@ -75,10 +75,9 @@ done
 echo "Installing FiraCode..."
 mkdir -p ~/.local/share/fonts/
 cd ~/.local/share/fonts/
-wget --quiet https://github.com/tonsky/FiraCode/raw/master/distr/ttf/FiraCode-Light.ttf
-wget --quiet https://github.com/tonsky/FiraCode/raw/master/distr/ttf/FiraCode-Regular.ttf
-wget --quiet https://github.com/tonsky/FiraCode/raw/master/distr/ttf/FiraCode-Medium.ttf
-wget --quiet https://github.com/tonsky/FiraCode/raw/master/distr/ttf/FiraCode-Bold.ttf
+wget --quiet https://github.com/ryanoasis/nerd-fonts/releases/download/v2.2.2/FiraCode.zip
+unzip FiraCode.zip >/dev/null 2>&1
+rm -f FiraCode.zip >/dev/null 2>&1
 
 echo ""
 echo "======"
@@ -99,7 +98,7 @@ sudo dpkg -i /tmp/ripgrep_13.0.0_amd64.deb
 echo "Installing nvm, node.js, and npm..."
 rm -rf ~/.nvm >/dev/null 2>&1
 mkdir ~/.nvm
-wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash >/dev/null 2>&1
+wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.2/install.sh | bash >/dev/null 2>&1
 bash -c "nvm install node"
 
 echo "Installing elm..."
@@ -122,7 +121,7 @@ then
 fi
 
 echo "Installing utilities..."
-sudo apt-get -qq install filezilla htop imagemagick libimage-exiftool-perl python-lxml
+sudo apt-get -qq install filezilla htop imagemagick libimage-exiftool-perl
 
 echo ""
 echo -n "Do you want to install Inkscape and Gimp? (y/N) "
