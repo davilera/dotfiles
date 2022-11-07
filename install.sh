@@ -12,12 +12,6 @@ sudo apt-get -qq update
 sudo apt-get -qq upgrade
 sudo apt-get -qq install curl zsh
 
-echo "Installing Neovim..."
-curl -L https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
-chmod u+x nvim.appimage
-mkdir -p ~/.local/programs
-mv nvim.appimage ~/.local/programs/nvim
-
 echo ""
 echo "=================="
 echo "BASIC CONFIG FILES"
@@ -32,6 +26,7 @@ stow programs
 stow shell
 stow tmux
 stow vim
+stow nvim
 cd - 2>/dev/null
 
 find kitty -type f | while read file;
@@ -79,6 +74,12 @@ wget --quiet https://github.com/ryanoasis/nerd-fonts/releases/download/v2.2.2/Fi
 unzip FiraCode.zip >/dev/null 2>&1
 rm -f FiraCode.zip >/dev/null 2>&1
 
+echo "Installing Neovim..."
+curl -L https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
+chmod u+x nvim.appimage
+mkdir -p ~/.local/programs
+mv nvim.appimage ~/.local/programs/nvim
+
 echo ""
 echo "======"
 echo "SYSTEM"
@@ -102,7 +103,15 @@ wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.2/install.sh | bash
 bash -c "nvm install node"
 
 echo "Installing elm..."
-npm install -g elm elm-test elm-oracle elm-format >/dev/null 2>&1
+npm install -g elm elm-test elm-format elm-oracle >/dev/null 2>&1
+
+echo "Installing Neovim TLS servers..."
+npm install -g typescript typescript-language-server >/dev/null 2>&1
+npm install -g @elm-tooling/elm-language-server >/dev/null 2>&1
+npm install -g emmet-ls >/dev/null 2>&1
+npm install -g intelephense >/dev/null 2>&1
+npm install -g vscode-langservers-extracted >/dev/null 2>&1
+composer global require php-stubs/wordpress-globals php-stubs/wordpress-stubs php-stubs/woocommerce-stubs
 
 echo ""
 echo -n "Do you want to install Docker and Lando? (y/N) "
