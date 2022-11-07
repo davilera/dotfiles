@@ -73,6 +73,10 @@ M.on_attach = function( client, bufnr )
 		client.server_capabilities.documentFormattingProvider = false
 	end
 
+	if client.name == 'tsserver' then
+		client.server_capabilities.documentFormattingProvider = false
+	end
+
 	lsp_keymaps( bufnr )
 
 	local ok, illuminate = pcall( require, 'illuminate' )
