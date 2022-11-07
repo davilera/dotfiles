@@ -43,9 +43,10 @@ packer.init {
 return packer.startup(
 function( use )
 	-- Generic plugins
-	use 'wbthomason/packer.nvim' -- Have packer manage itself
-	use 'nvim-lua/popup.nvim'		 -- An implementation of the Popup API from vim in Neovim
-	use 'nvim-lua/plenary.nvim'	 -- Useful lua functions used ny lots of plugins
+	use 'wbthomason/packer.nvim'   -- Have packer manage itself
+	use 'nvim-lua/popup.nvim'		   -- An implementation of the Popup API from vim in Neovim
+	use 'nvim-lua/plenary.nvim'	   -- Useful lua functions used ny lots of plugins
+	use 'lewis6991/impatient.nvim' -- Speed up loading Lua modules
 
 	-- Nice utilities
 	use 'NTBBloodbath/color-converter.nvim'  -- HEX to RGB to HSL converter
@@ -72,6 +73,7 @@ function( use )
 	use 'neovim/nvim-lspconfig'
 	use 'williamboman/mason.nvim'
 	use 'williamboman/mason-lspconfig.nvim'
+	use 'jose-elias-alvarez/null-ls.nvim'
 
 	-- Telescope?
 
@@ -83,6 +85,7 @@ function( use )
 	use 'kyazdani42/nvim-tree.lua'     -- File explorer
 	use 'kyazdani42/nvim-web-devicons' -- File explorer icons
 	use 'akinsho/bufferline.nvim'      -- Tabs
+	use 'moll/vim-bbye'                -- Close tabs
 
 	-- Automatically set up your configuration after cloning packer.nvim
 	if PACKER_BOOTSTRAP then

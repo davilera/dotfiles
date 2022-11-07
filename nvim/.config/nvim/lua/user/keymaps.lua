@@ -11,6 +11,11 @@ vim.g.maplocalleader = ' '
 -- NORMAL
 -- ------
 
+-- Navigate buffers
+keymap( 'n', '<S-l>', ':bnext<CR>', opts )
+keymap( 'n', '<S-h>', ':bprevious<CR>', opts )
+keymap( 'n', '_', ':Bdelete!<CR>', opts )
+
 -- Switch windows faster
 keymap( 'n', '<C-h>', '<C-w>h', opts )
 keymap( 'n', '<C-j>', '<C-w>j', opts )
@@ -32,7 +37,7 @@ keymap( 'n', '<A-j>', ':move .+1<CR>==', opts )
 keymap( 'n', '<A-k>', ':move .-2<CR>==', opts )
 
 -- Nvimtree
-keymap( 'n', '<Leader-e>', ':NvimTreeToggle<CR>', opts )
+keymap( 'n', '<Leader>e', ':NvimTreeToggle<CR>', opts )
 
 
 -- ------
@@ -44,5 +49,5 @@ keymap( 'v', '<', '<gv', opts )
 keymap( 'v', '>', '>gv', opts )
 
 -- Move text up and down
-keymap( 'v', '<A-j>', ":move '>+1<CR>gv=gv", opts )
-keymap( 'v', '<A-k>', ":move '<-2<CR>gv=gv", opts )
+keymap( 'v', '<A-j>', ':move \'>+1<CR>gv=gv', opts )
+keymap( 'v', '<A-k>', ':move \'<-2<CR>gv=gv', opts )

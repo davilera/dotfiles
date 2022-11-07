@@ -64,6 +64,8 @@ local function lsp_keymaps( bufnr )
 	keymap( bufnr, '<Leader>h', 'lua vim.diagnostic.open_float()' ) -- [H]elp with current error
 	keymap( bufnr, '<Leader>n', 'lua vim.diagnostic.goto_next()' )  -- (j) Next error
 	keymap( bufnr, '<Leader>p', 'lua vim.diagnostic.goto_prev()' )  -- (k) Prev error
+
+	keymap( bufnr, '<Leader>f', 'lua vim.lsp.buf.formatting_sync()' )  -- [F]ormat code
 end
 
 M.on_attach = function( client, bufnr )
