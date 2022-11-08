@@ -61,12 +61,11 @@ local function lsp_keymaps(bufnr)
 end
 
 M.on_attach = function(client, bufnr)
-	if client.name == 'sumneko_lua' then
-		client.server_capabilities.documentFormattingProvider = false
-	end
-
-	if client.name == 'tsserver' then
-		client.server_capabilities.documentFormattingProvider = false
+	local ignored_formatters = { 'sumneko_lua', 'tsserver', 'intelephense' }
+	for _, formatter in ipairs(ignored_formatters) do
+		if formatter == client.name then
+			client.server_capabilities.documentFormattingProvider = false
+		end
 	end
 
 	lsp_keymaps(bufnr)
