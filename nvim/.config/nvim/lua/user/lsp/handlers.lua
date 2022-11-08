@@ -51,15 +51,13 @@ end
 
 local function lsp_keymaps(bufnr)
 	keymap(bufnr, '<Leader>i', 'lua vim.lsp.buf.hover()') -- [I]nformation
-	keymap(bufnr, '<Leader>g', 'lua vim.lsp.buf.declaration()') -- [G]o to declaration
-	keymap(bufnr, '<Leader>r', 'lua vim.lsp.buf.hover()') -- [R]eferences
+	keymap(bufnr, '<Leader>v', 'lua vim.lsp.buf.declaration()') -- [V]iew declaration
+	keymap(bufnr, '<Leader>r', 'lua vim.lsp.buf.references()') -- [R]eferences
 	keymap(bufnr, '<Leader>j', 'lua vim.lsp.buf.definition()') -- [J]ump to file
 
 	keymap(bufnr, '<Leader>h', 'lua vim.diagnostic.open_float()') -- [H]elp with current error
 	keymap(bufnr, '<Leader>n', 'lua vim.diagnostic.goto_next()') -- (j) Next error
 	keymap(bufnr, '<Leader>p', 'lua vim.diagnostic.goto_prev()') -- (k) Prev error
-
-	keymap(bufnr, '<Leader>f', 'lua vim.lsp.buf.formatting_sync()') -- [F]ormat code
 end
 
 M.on_attach = function(client, bufnr)

@@ -35,8 +35,10 @@ keymap('n', '<C-n>', ':bnext<CR>', opts)
 keymap('n', '<A-j>', ':move .+1<CR>==', opts)
 keymap('n', '<A-k>', ':move .-2<CR>==', opts)
 
--- Nvimtree
+-- Nvimtree and Telescope
 keymap('n', '<Leader>e', ':NvimTreeToggle<CR>', opts)
+keymap('n', '<Leader>f', ':Telescope find_files<CR>', opts) -- [F]ind (F)ile
+keymap('n', '<Leader>g', ':Telescope live_grep<CR>', opts) -- [G]rep
 
 -- ------
 -- VISUAL

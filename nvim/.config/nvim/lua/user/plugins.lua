@@ -74,7 +74,8 @@ return packer.startup(function(use)
 	use('williamboman/mason-lspconfig.nvim')
 	use('jose-elias-alvarez/null-ls.nvim')
 
-	-- Telescope?
+	-- Telescope
+	use('nvim-telescope/telescope.nvim')
 
 	-- Treesitter
 	use({ 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' })
