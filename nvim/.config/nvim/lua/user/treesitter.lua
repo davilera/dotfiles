@@ -1,23 +1,23 @@
-local ok, configs = pcall( require, 'nvim-treesitter.configs' )
+local ok, configs = pcall(require, 'nvim-treesitter.configs')
 if not ok then
 	return
 end
 
-configs.setup( {
+configs.setup({
 	ensure_installed = 'all',
-	sync_install     = false,
-	ignore_install   = {},
+	sync_install = false,
+	ignore_install = {},
 	highlight = {
-		enable  = true,
+		enable = true,
 		disable = {},
 		additional_vim_regex_highlighting = true,
 	},
 	indent = {
-		enable  = true,
+		enable = true,
 		disable = { 'yaml' },
 	},
 	context_commentstring = {
-		enable         = true,
+		enable = true,
 		enable_autocmd = false,
 	},
-} )
+})

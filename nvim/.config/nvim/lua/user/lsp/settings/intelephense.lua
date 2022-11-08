@@ -57,5 +57,5 @@ return {
 		files = {
 			maxSize = 5000000,
 		},
-	}
+	},
 }

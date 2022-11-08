@@ -1,9 +1,9 @@
-local status_ok, bufferline = pcall( require, 'bufferline' )
+local status_ok, bufferline = pcall(require, 'bufferline')
 if not status_ok then
 	return
 end
 
-bufferline.setup( {
+bufferline.setup({
 	options = {
 		numbers = 'none',
 		close_command = 'Bdelete! %d',
@@ -12,7 +12,7 @@ bufferline.setup( {
 		middle_mouse_command = nil,
 		indicator = {
 			style = 'icon',
-			icon  = '▎',
+			icon = '▎',
 		},
 		modified_icon = '●',
 		left_trunc_marker = '',
@@ -122,4 +122,4 @@ bufferline.setup( {
 			bg = { attribute = 'bg', highlight = 'Normal' },
 		},
 	},
-} )
+})
