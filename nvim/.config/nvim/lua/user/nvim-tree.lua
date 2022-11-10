@@ -10,12 +10,19 @@ end
 
 local tree_cb = nvim_tree_config.nvim_tree_callback
 nvim_tree.setup({
+	actions = {
+		change_dir = { restrict_above_cwd = true },
+	},
+	filters = {
+		custom = { '.git', '.lando', 'node_modules', 'vendor', 'build' },
+	},
 	update_focused_file = {
 		enable = true,
 		update_cwd = true,
 	},
 	renderer = {
 		root_folder_modifier = ':t',
+		group_empty = true,
 		icons = {
 			glyphs = {
 				default = '',
@@ -60,8 +67,23 @@ nvim_tree.setup({
 				{ key = 'l', cb = tree_cb('edit') },
 				{ key = { '.', 'h' }, cb = tree_cb('close_node') },
 				{ key = 'v', cb = tree_cb('vsplit') },
-				{ key = 'o', cb = tree_cb('split') },
+				{ key = 's', cb = tree_cb('split') },
 			},
 		},
 	},
 })
+
+-- -------
+-- HELPERS
+-- -------
+
+vim.api.nvim_create_user_command('NvimTreeSmartToggle', function()
+	local name = vim.api.nvim_buf_get_name(0)
+	if string.find(name, 'NvimTree_1') then
+		vim.notify('we’re in tree; close - ' .. name)
+		nvim_tree.toggle()
+	else
+		vim.notify('open tree - ' .. name)
+		nvim_tree.open()
+	end
+end, {})

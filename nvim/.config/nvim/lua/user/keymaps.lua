@@ -10,10 +10,9 @@ vim.g.maplocalleader = ' '
 -- NORMAL
 -- ------
 
--- Navigate buffers
-keymap('n', '<S-l>', ':bnext<CR>', opts)
-keymap('n', '<S-h>', ':bprevious<CR>', opts)
-keymap('n', '_', ':Bdelete!<CR>', opts)
+-- Helpers
+keymap('n', '<Leader>w', ':w!<CR>', opts)
+keymap('n', '<Leader>q', ':q<CR>', opts)
 
 -- Switch windows faster
 keymap('n', '<C-h>', '<C-w>h', opts)
@@ -27,18 +26,19 @@ keymap('n', '<C-Right>', ':vertical resize +2<CR>', opts)
 keymap('n', '<C-Down>', ':resize -2<CR>', opts)
 keymap('n', '<C-Left>', ':vertical resize -2<CR>', opts)
 
--- Switch buffers
-keymap('n', '<C-p>', ':bprev<CR>', opts)
-keymap('n', '<C-n>', ':bnext<CR>', opts)
+-- Navigate buffers
+keymap('n', '<S-l>', ':bnext<CR>', opts)
+keymap('n', '<S-h>', ':bprevious<CR>', opts)
+keymap('n', '_', ':Bdelete!<CR>', opts)
 
 -- Move text up and down
 keymap('n', '<A-j>', ':move .+1<CR>==', opts)
 keymap('n', '<A-k>', ':move .-2<CR>==', opts)
 
 -- Nvimtree and Telescope
-keymap('n', '<Leader>e', ':NvimTreeToggle<CR>', opts)
-keymap('n', '<Leader>f', ':Telescope find_files<CR>', opts) -- [F]ind (F)ile
-keymap('n', '<Leader>g', ':Telescope live_grep<CR>', opts) -- [G]rep
+keymap('n', '<Leader>e', ':NvimTreeSmartToggle<CR>', {})
+keymap('n', '<Leader>f', ':Telescope find_files<CR>', opts) -- [F]ind file
+keymap('n', '<Leader>t', ':Telescope live_grep<CR>', opts) -- Grep [T]ext
 
 -- ------
 -- VISUAL

@@ -50,14 +50,14 @@ local function keymap(bufnr, shortcut, command)
 end
 
 local function lsp_keymaps(bufnr)
-	keymap(bufnr, '<Leader>i', 'lua vim.lsp.buf.hover()') -- [I]nformation
-	keymap(bufnr, '<Leader>v', 'lua vim.lsp.buf.declaration()') -- [V]iew declaration
-	keymap(bufnr, '<Leader>r', 'lua vim.lsp.buf.references()') -- [R]eferences
-	keymap(bufnr, '<Leader>j', 'lua vim.lsp.buf.definition()') -- [J]ump to file
-
-	keymap(bufnr, '<Leader>h', 'lua vim.diagnostic.open_float()') -- [H]elp with current error
-	keymap(bufnr, '<Leader>n', 'lua vim.diagnostic.goto_next()') -- (j) Next error
-	keymap(bufnr, '<Leader>p', 'lua vim.diagnostic.goto_prev()') -- (k) Prev error
+	keymap(bufnr, '<leader>la', 'lua vim.lsp.buf.code_action()') -- Code action
+	keymap(bufnr, '<leader>ld', 'Telescope diagnostics bufnr=0') -- Document diagnostics
+	keymap(bufnr, '<leader>lf', 'lua vim.lsp.buf.format({ async = true })') -- Format
+	keymap(bufnr, '<leader>li', 'LspInfo') -- LSP Info
+	keymap(bufnr, '<leader>lI', 'LspInstallInfo') -- LSP Installer Info
+	keymap(bufnr, '<leader>lj', 'lua vim.diagnostic.goto_next()') -- Next diagnostic
+	keymap(bufnr, '<leader>lk', 'lua vim.diagnostic.goto_prev()') -- Prev diagnostic
+	keymap(bufnr, '<leader>lr', 'lua vim.lsp.buf.rename()') -- Rename
 end
 
 M.on_attach = function(client, bufnr)

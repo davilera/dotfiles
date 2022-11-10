@@ -52,6 +52,7 @@ return packer.startup(function(use)
 	use('brenoprata10/nvim-highlight-colors') -- Color preview
 	use('numToStr/Comment.nvim') -- Easily comment stuff
 	use('lewis6991/gitsigns.nvim') -- Git
+	use('folke/which-key.nvim') -- Show Leader keymaps
 
 	-- Colorschemes
 	use('folke/tokyonight.nvim')
