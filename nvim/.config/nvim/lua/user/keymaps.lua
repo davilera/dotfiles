@@ -29,7 +29,7 @@ keymap('n', '<C-Left>', ':vertical resize -2<CR>', opts)
 -- Navigate buffers
 keymap('n', '<S-l>', ':bnext<CR>', opts)
 keymap('n', '<S-h>', ':bprevious<CR>', opts)
-keymap('n', '_', ':Bdelete!<CR>', opts)
+keymap('n', '_', ':BdeleteSmart<CR>', opts)
 
 -- Move text up and down
 keymap('n', '<A-j>', ':move .+1<CR>==', opts)

@@ -22,6 +22,7 @@ nvim_tree.setup({
 	},
 	renderer = {
 		root_folder_modifier = ':t',
+		add_root_updir = false,
 		group_empty = true,
 		icons = {
 			glyphs = {
@@ -80,10 +81,8 @@ nvim_tree.setup({
 vim.api.nvim_create_user_command('NvimTreeSmartToggle', function()
 	local name = vim.api.nvim_buf_get_name(0)
 	if string.find(name, 'NvimTree_1') then
-		vim.notify('we’re in tree; close - ' .. name)
 		nvim_tree.toggle()
 	else
-		vim.notify('open tree - ' .. name)
 		nvim_tree.open()
 	end
 end, {})

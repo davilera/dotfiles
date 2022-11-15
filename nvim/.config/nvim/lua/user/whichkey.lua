@@ -115,11 +115,15 @@ local mappings = {
 		a = { '<cmd>lua vim.lsp.buf.code_action()<cr>', 'Code action' },
 		d = { '<cmd>Telescope diagnostics bufnr=0<cr>', 'Document diagnostics' },
 		f = { '<cmd>lua vim.lsp.buf.format({ async = true })<cr>', 'Format' },
-		i = { '<cmd>LspInfo<cr>', 'LSP Info' },
-		I = { '<cmd>LspInstallInfo<cr>', 'LSP Installer Info' },
+		g = { '<cmd>lua vim.lsp.buf.declaration()<cr>', 'Go to declaration' },
+		h = { '<cmd>lua vim.lsp.buf.open_float()<cr>', 'Help with error' },
+		i = { '<cmd>lua vim.lsp.buf.hover()<cr>', 'Information' },
 		j = { '<cmd>lua vim.diagnostic.goto_next()<cr>', 'Next diagnostic' },
 		k = { '<cmd>lua vim.diagnostic.goto_prev()<cr>', 'Prev diagnostic' },
+		l = { '<cmd>LspInfo<cr>', 'LSP Info' },
+		L = { '<cmd>LspInstallInfo<cr>', 'LSP Installer Info' },
 		r = { '<cmd>lua vim.lsp.buf.rename()<cr>', 'Rename' },
+		v = { '<cmd>lua vim.lsp.buf.references()<cr>', 'View references' },
 	},
 }
 

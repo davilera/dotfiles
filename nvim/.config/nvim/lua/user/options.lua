@@ -12,6 +12,7 @@ local options = {
 	pumheight = 10, -- popup menu height
 	relativenumber = true, -- show relative numbers
 	scrolloff = 8, -- keep some context around current line
+	sidescrolloff = 8, -- keep some context around current line
 	shiftwidth = 2, -- indentation defaults (<< / >> / == / auto)
 	smartindent = true, -- try to guess current indentation level
 	splitbelow = true, -- prefer new horizontal split below

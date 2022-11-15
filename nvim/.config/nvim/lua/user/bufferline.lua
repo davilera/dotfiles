@@ -123,3 +123,16 @@ bufferline.setup({
 		},
 	},
 })
+
+-- -------
+-- HELPERS
+-- -------
+
+vim.api.nvim_create_user_command('BdeleteSmart', function()
+	vim.cmd('Bdelete!')
+	local name = vim.api.nvim_buf_get_name(0)
+	local nvim_tree_ok, nvim_tree = pcall(require, 'nvim-tree')
+	if nvim_tree_ok and name == '' then
+		nvim_tree.open()
+	end
+end, {})
