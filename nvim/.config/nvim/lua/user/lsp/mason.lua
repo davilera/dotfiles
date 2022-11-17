@@ -1,5 +1,6 @@
 local servers = {
 	'cssls', -- CSS
+	'elmls', -- Elm
 	'emmet_ls', -- HTML autocompletes
 	'intelephense', -- PHP
 	'jsonls', -- JSON magic
