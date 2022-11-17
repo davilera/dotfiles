@@ -116,7 +116,7 @@ local mappings = {
 		d = { '<cmd>Telescope diagnostics bufnr=0<cr>', 'Document diagnostics' },
 		f = { '<cmd>lua vim.lsp.buf.format({ async = true })<cr>', 'Format' },
 		g = { '<cmd>lua vim.lsp.buf.declaration()<cr>', 'Go to declaration' },
-		h = { '<cmd>lua vim.lsp.buf.open_float()<cr>', 'Help with error' },
+		h = { '<cmd>lua vim.diagnostic.open_float()<cr>', 'Help with error' },
 		i = { '<cmd>lua vim.lsp.buf.hover()<cr>', 'Information' },
 		j = { '<cmd>lua vim.diagnostic.goto_next()<cr>', 'Next diagnostic' },
 		k = { '<cmd>lua vim.diagnostic.goto_prev()<cr>', 'Prev diagnostic' },

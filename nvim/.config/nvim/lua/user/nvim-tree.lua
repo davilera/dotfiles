@@ -22,7 +22,7 @@ nvim_tree.setup({
 	},
 	renderer = {
 		root_folder_modifier = ':t',
-		add_root_updir = false,
+		-- add_root_updir = false,
 		group_empty = true,
 		icons = {
 			glyphs = {
