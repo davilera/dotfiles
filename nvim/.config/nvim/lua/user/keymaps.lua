@@ -14,6 +14,9 @@ vim.g.maplocalleader = ' '
 keymap('n', '<Leader>w', ':w!<CR>', opts)
 keymap('n', '<Leader>q', ':q<CR>', opts)
 
+-- Comment
+keymap('n', '<Leader>/', 'gcc', { silent = true })
+
 -- Switch windows faster
 keymap('n', '<C-h>', '<C-w>h', opts)
 keymap('n', '<C-j>', '<C-w>j', opts)
@@ -36,13 +39,16 @@ keymap('n', '<A-j>', ':move .+1<CR>==', opts)
 keymap('n', '<A-k>', ':move .-2<CR>==', opts)
 
 -- Nvimtree and Telescope
-keymap('n', '<Leader>e', ':NvimTreeSmartToggle<CR>', {})
+keymap('n', '<Leader>e', ':NvimTreeSmartToggle<CR>', { silent = true })
 keymap('n', '<Leader>f', ':Telescope find_files<CR>', opts) -- [F]ind file
 keymap('n', '<Leader>t', ':Telescope live_grep<CR>', opts) -- Grep [T]ext
 
 -- ------
 -- VISUAL
 -- ------
+
+-- Comment
+keymap('v', '<Leader>/', 'gc', { silent = true })
 
 -- Stay in indent mode
 keymap('v', '<', '<gv', opts)

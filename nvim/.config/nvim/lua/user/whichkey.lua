@@ -129,3 +129,7 @@ local mappings = {
 
 which_key.setup(setup)
 which_key.register(mappings, opts)
+
+-- Extra keymaps
+opts.noremap = false
+which_key.register({ ['/'] = { 'gcc', 'Comment' } }, opts)
