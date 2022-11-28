@@ -21,8 +21,7 @@ nvim_tree.setup({
 		update_cwd = true,
 	},
 	renderer = {
-		root_folder_modifier = ':t',
-		-- add_root_updir = false,
+		root_folder_label = ':t',
 		group_empty = true,
 		icons = {
 			glyphs = {

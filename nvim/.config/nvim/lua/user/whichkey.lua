@@ -112,7 +112,7 @@ local mappings = {
 
 	l = {
 		name = 'LSP',
-		a = { '<cmd>lua vim.lsp.buf.code_action()<cr>', 'Code action' },
+		a = { '<cmd>lua vim.lsp.buf.code_action()<cr>', 'Action(s) to fix' },
 		d = { '<cmd>Telescope diagnostics bufnr=0<cr>', 'Document diagnostics' },
 		f = { '<cmd>lua vim.lsp.buf.format({ async = true })<cr>', 'Format' },
 		g = { '<cmd>lua vim.lsp.buf.declaration()<cr>', 'Go to declaration' },

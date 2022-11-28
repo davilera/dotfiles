@@ -50,10 +50,6 @@ keymap('n', '<Leader>t', ':Telescope live_grep<CR>', opts) -- Grep [T]ext
 -- Comment
 keymap('v', '<Leader>/', 'gc', { silent = true })
 
--- Stay in indent mode
-keymap('v', '<', '<gv', opts)
-keymap('v', '>', '>gv', opts)
-
 -- Move text up and down
 keymap('v', '<A-j>', ":move '>+1<CR>gv=gv", opts)
 keymap('v', '<A-k>', ":move '<-2<CR>gv=gv", opts)
