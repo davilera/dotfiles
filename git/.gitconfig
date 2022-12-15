@@ -25,7 +25,7 @@ default = simple
 [url "https://github.com"]
 	insteadOf = git://github.com
 [credential]
-	helper = cache --timeout 3600
+	helper = store
 [diff]
 	tool = kitty
 	guitool = kitty.gui

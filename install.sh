@@ -9,10 +9,8 @@ export DEBIAN_FRONTEND="noninteractive"
 
 echo "Updating apt packages..."
 sudo apt-get -qq update
-
-echo "Installing Kitty..."
-curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin
-cp ~/.local/kitty.app/share/applications/kitty.desktop ~/.local/share/applications/
+sudo apt-get -qq upgrade
+sudo apt-get -qq install curl zsh
 
 echo ""
 echo "=================="
@@ -28,6 +26,7 @@ stow programs
 stow shell
 stow tmux
 stow vim
+stow nvim
 cd - 2>/dev/null
 
 find kitty -type f | while read file;
@@ -36,14 +35,6 @@ do
 	mkdir -p ~/`dirname $file` 2>/dev/null
 	rm ~/$file 2>/dev/null
 	ln -s $SRC_DIR/kitty/$file ~/$file
-done
-
-find mint -type f | while read file;
-do
-	file=`echo $file | sed -e "s/mint\///"`
-	mkdir -p ~/`dirname $file` 2>/dev/null
-	rm ~/$file 2>/dev/null
-	ln -s $SRC_DIR/mint/$file ~/$file
 done
 
 echo "Installing git dependencies..."
@@ -79,66 +70,15 @@ done
 echo "Installing FiraCode..."
 mkdir -p ~/.local/share/fonts/
 cd ~/.local/share/fonts/
-wget --quiet https://github.com/tonsky/FiraCode/raw/master/distr/ttf/FiraCode-Light.ttf
-wget --quiet https://github.com/tonsky/FiraCode/raw/master/distr/ttf/FiraCode-Regular.ttf
-wget --quiet https://github.com/tonsky/FiraCode/raw/master/distr/ttf/FiraCode-Medium.ttf
-wget --quiet https://github.com/tonsky/FiraCode/raw/master/distr/ttf/FiraCode-Bold.ttf
+wget --quiet https://github.com/ryanoasis/nerd-fonts/releases/download/v2.2.2/FiraCode.zip
+unzip FiraCode.zip >/dev/null 2>&1
+rm -f FiraCode.zip >/dev/null 2>&1
 
-echo ""
-echo "========"
-echo "CINNAMON"
-echo "========"
-
-echo ""
-echo -n "Do you want to set it up? (y/N) "
-read answer
-if [ "$answer" = "y" ];
-then
-
-	# APPLETS
-	mkdir -p ~/.local/share/cinnamon/applets
-	cd $SRC_DIR
-	for file in `ls -d $SRC_DIR/mint/local/share/cinnamon/applets/*`;
-	do
-		echo "Adding applet `basename $file`..."
-		rm -rf ~/.$file 2>/dev/null >&2
-		ln -s $SRC_DIR/$file ~/.$file
-	done
-
-	echo "Loading setup..."
-	dconf write /org/cinnamon/panels-autohide "['1:false', '2:false', '3:false']"
-	dconf write /org/cinnamon/panels-show-delay "['1:0', '2:0', '3:0']"
-	dconf write /org/cinnamon/panels-hide-delay "['1:0', '2:0', '3:0']"
-	dconf write /org/cinnamon/enabled-extensions "['!cinnamon-maximus@fmete', 'transparent-panels@germanfr']"
-	dconf write /org/cinnamon/panel-edit-mode "false"
-	dconf write /org/cinnamon/enabled-applets "['panel2:right:1:systray@cinnamon.org:0', 'panel1:left:0:menu@cinnamon.org:1', 'panel1:left:1:grouped-window-list@cinnamon.org:3', 'panel2:right:3:keyboard@cinnamon.org:4', 'panel2:right:8:notifications@cinnamon.org:5', 'panel2:right:4:removable-drives@cinnamon.org:6', 'panel2:right:7:network@cinnamon.org:8', 'panel2:right:6:sound@cinnamon.org:9', 'panel2:right:2:power@cinnamon.org:10', 'panel2:right:9:calendar@cinnamon.org:11', 'panel2:left:0:window-buttons-with-title@fmete:18', 'panel2:right:0:trash@cinnamon.org:19']"
-	dconf write /org/cinnamon/next-applet-id 20
-	dconf write /org/cinnamon/no-adjacent-panel-barriers "true"
-	dconf write /org/cinnamon/panel-zone-icon-sizes "'[{\"panelId\":1,\"left\":0,\"center\":0,\"right\":24},{\"panelId\":2,\"left\":0,\"center\":0,\"right\":0}]'"
-	dconf write /org/cinnamon/panels-enabled "['1:0:left', '2:0:top']"
-	dconf write /org/cinnamon/panels-height "['1:40', '2:24', '3:40']"
-	dconf write /org/cinnamon/desktop/wm/preferences/button-layout "'close,minimize,maximize:'"
-	dconf write /org/cinnamon/desktop/wm/preferences/theme "'Mint-Y-Dark'"
-	dconf write /org/cinnamon/desktop/interface/gtk-theme "'Mint-Y-Darker'"
-	dconf write /org/nemo/desktop/home-icon-visible "false"
-	dconf write /org/nemo/desktop/computer-icon-visible "false"
-	dconf write /org/cinnamon/desktop/sound/volume-sound-file "/usr/share/mint-artwork/sounds/logout.ogg"
-	dconf write /org/cinnamon/desktop/sound/event-sounds "false"
-
-	rm -rf ~/.cinnamon/configs/* >/dev/null 2>&1
-	ln -s $SRC_DIR/mint/cinnamon/configs/* ~/.cinnamon/configs/
-
-	# EXTENSIONS
-	mkdir -p ~/.local/share/cinnamon/extensions
-	cd $SRC_DIR/mint
-	for file in `ls -d local/share/cinnamon/extensions/*`;
-	do
-		echo "Adding extension `basename $file`..."
-		rm -rf ~/.$file 2>/dev/null >&2
-		ln -s $SRC_DIR/$file ~/.$file
-	done
-fi
-
+echo "Installing Neovim..."
+curl -L https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
+chmod u+x nvim.appimage
+mkdir -p ~/.local/programs
+mv nvim.appimage ~/.local/programs/nvim
 
 echo ""
 echo "======"
@@ -151,7 +91,7 @@ sudo ls >/dev/null 2>&1
 echo ""
 
 echo "Installing dev packages..."
-sudo apt-get -qq install fasd tree meld jq vim ruby subversion composer php-xml poedit myspell-es aspell-es awscli curl g++ build-essential
+sudo apt-get -qq install fasd tree meld jq vim ruby subversion composer php-xml poedit myspell-es aspell-es awscli curl g++ build-essential kitty openjdk-17-jdk openjdk-17-jre python python3-pip julia golang cargo luarocks
 sudo update-alternatives --set editor /usr/bin/vim.basic
 wget https://github.com/BurntSushi/ripgrep/releases/download/13.0.0/ripgrep_13.0.0_amd64.deb -P /tmp 2>/dev/null
 sudo dpkg -i /tmp/ripgrep_13.0.0_amd64.deb
@@ -159,11 +99,19 @@ sudo dpkg -i /tmp/ripgrep_13.0.0_amd64.deb
 echo "Installing nvm, node.js, and npm..."
 rm -rf ~/.nvm >/dev/null 2>&1
 mkdir ~/.nvm
-wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash >/dev/null 2>&1
+wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.2/install.sh | bash >/dev/null 2>&1
 bash -c "nvm install node"
 
 echo "Installing elm..."
-npm install -g elm elm-test elm-oracle elm-format >/dev/null 2>&1
+npm install -g elm elm-test elm-format elm-oracle >/dev/null 2>&1
+
+echo "Installing Neovim TLS servers..."
+npm install -g typescript typescript-language-server >/dev/null 2>&1
+npm install -g @elm-tooling/elm-language-server >/dev/null 2>&1
+npm install -g emmet-ls >/dev/null 2>&1
+npm install -g intelephense >/dev/null 2>&1
+npm install -g vscode-langservers-extracted >/dev/null 2>&1
+composer global require php-stubs/wordpress-globals php-stubs/wordpress-stubs php-stubs/woocommerce-stubs
 
 echo ""
 echo -n "Do you want to install Docker and Lando? (y/N) "
@@ -182,7 +130,7 @@ then
 fi
 
 echo "Installing utilities..."
-sudo apt-get -qq install filezilla htop imagemagick libimage-exiftool-perl python-lxml
+sudo apt-get -qq install filezilla htop imagemagick libimage-exiftool-perl
 
 echo ""
 echo -n "Do you want to install Inkscape and Gimp? (y/N) "

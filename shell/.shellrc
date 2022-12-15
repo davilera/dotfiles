@@ -40,6 +40,9 @@ gc() {
 	[ -e "tsconfig.json" ] && gcl $@ || git commit $@
 }
 
+alias ovim="/usr/bin/vim"
+alias vi="nvim"
+alias vim="nvim"
 alias cat="bat"
 alias colorize="ccze -A"
 alias grep="grep --color --exclude-dir=vendor --exclude-dir=node_modules --exclude-dir=e2e-tests --exclude-dir=build --exclude-dir=dist --exclude-dir=build-module --exclude=\"*.min.*\" --exclude=\"*.map\" --exclude-dir=\".git\""
