@@ -4,6 +4,7 @@ require('user.autocommands')
 
 require('user.plugins')
 require('user.impatient')
+require('user.tabs')
 
 require('user.colorscheme')
 require('user.highlight-colors')

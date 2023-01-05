@@ -46,6 +46,7 @@ return packer.startup(function(use)
 	use('nvim-lua/popup.nvim') -- An implementation of the Popup API from vim in Neovim
 	use('nvim-lua/plenary.nvim') -- Useful lua functions used ny lots of plugins
 	use('lewis6991/impatient.nvim') -- Speed up loading Lua modules
+	use('FotiadisM/tabset.nvim') -- Set tab behavior per file type
 
 	-- Nice utilities
 	use('NTBBloodbath/color-converter.nvim') -- HEX to RGB to HSL converter
