@@ -50,18 +50,18 @@ local function keymap(bufnr, shortcut, command)
 end
 
 local function lsp_keymaps(bufnr)
-	keymap(bufnr, '<leader>la', 'lua vim.lsp.buf.code_action()') -- Code action
-	keymap(bufnr, '<leader>ld', 'Telescope diagnostics bufnr=0') -- Document diagnostics
-	keymap(bufnr, '<leader>lf', 'lua vim.lsp.buf.format({ async = true })') -- Format
-	keymap(bufnr, '<leader>lg', 'lua vim.lsp.buf.declaration()') -- Go to declaration
-	keymap(bufnr, '<leader>lh', 'lua vim.diagnostic.open_float()') -- Help with error
-	keymap(bufnr, '<leader>li', 'lua vim.lsp.buf.hover()') -- Information
-	keymap(bufnr, '<leader>lj', 'lua vim.diagnostic.goto_next()') -- Next diagnostic
-	keymap(bufnr, '<leader>lk', 'lua vim.diagnostic.goto_prev()') -- Prev diagnostic
-	keymap(bufnr, '<leader>ll', 'LspInfo') -- LSP Info
-	keymap(bufnr, '<leader>lL', 'LspInstallInfo') -- LSP Installer Info
-	keymap(bufnr, '<leader>lr', 'lua vim.lsp.buf.rename()') -- Rename
-	keymap(bufnr, '<leader>lv', 'lua vim.lsp.buf.references()') -- View references
+	keymap(bufnr, '<Leader>la', 'lua vim.lsp.buf.code_action()') -- Code action
+	keymap(bufnr, '<Leader>ld', 'Telescope diagnostics bufnr=0') -- Document diagnostics
+	keymap(bufnr, '<Leader>lf', 'lua vim.lsp.buf.format({ async = true })') -- Format
+	keymap(bufnr, '<Leader>lg', 'lua vim.lsp.buf.declaration()') -- Go to declaration
+	keymap(bufnr, '<Leader>lh', 'lua vim.diagnostic.open_float()') -- Help with error
+	keymap(bufnr, '<Leader>li', 'lua vim.lsp.buf.hover()') -- Information
+	keymap(bufnr, '<Leader>lj', 'lua vim.diagnostic.goto_next()') -- Next diagnostic
+	keymap(bufnr, '<Leader>lk', 'lua vim.diagnostic.goto_prev()') -- Prev diagnostic
+	keymap(bufnr, '<Leader>ll', 'LspInfo') -- LSP Info
+	keymap(bufnr, '<Leader>lL', 'LspInstallInfo') -- LSP Installer Info
+	keymap(bufnr, '<Leader>lr', 'lua vim.lsp.buf.rename()') -- Rename
+	keymap(bufnr, '<Leader>lv', 'lua vim.lsp.buf.references()') -- View references
 
 	vim.api.nvim_buf_set_keymap(bufnr, 'i', '<C-h>', '<cmd>lua vim.diagnostic.open_float()<CR>', { noremap = true, silent = true })
 end

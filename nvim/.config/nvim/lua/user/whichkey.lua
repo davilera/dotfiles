@@ -35,7 +35,7 @@ local setup = {
 	},
 	icons = {
 		breadcrumb = '»', -- symbol used in the command line area that shows your active key combo
-		separator = '➜', -- symbol used between a key and it's label
+		separator = '➜', -- symbol used between a key and its label
 		group = '+', -- symbol prepended to a group
 	},
 	popup_mappings = {
@@ -59,7 +59,7 @@ local setup = {
 	hidden = { '<silent>', '<cmd>', '<cr>', 'call', 'lua', '^:', '^ ' }, -- hide mapping boilerplate
 	show_help = true, -- show help message on the command line when the popup is visible
 	triggers = 'auto', -- automatically setup triggers
-	-- triggers = {"<leader>"} -- or specify a list manually
+	-- triggers = {"<Leader>"} -- or specify a list manually
 	triggers_blacklist = {
 		-- list of mode / prefixes that should never be hooked by WhichKey
 		-- this is mostly relevant for key maps that start with a native binding
@@ -71,14 +71,14 @@ local setup = {
 
 local opts = {
 	mode = 'n', -- NORMAL mode
-	prefix = '<leader>',
+	prefix = '<Leader>',
 	buffer = nil, -- Global mappings. Specify a buffer number for buffer local mappings
 	silent = true, -- use `silent` when creating keymaps
 	noremap = true, -- use `noremap` when creating keymaps
 	nowait = true, -- use `nowait` when creating keymaps
 }
 
-local mappings = {
+local normal_mappings = {
 	['e'] = { '<cmd>NvimTreeSmartToggle<cr>', 'Explorer' },
 	['w'] = { '<cmd>w!<cr>', 'Save' },
 	['q'] = { '<cmd>q<cr>', 'Quit' },
@@ -87,6 +87,18 @@ local mappings = {
 		'Find files',
 	},
 	['t'] = { '<cmd>Telescope live_grep theme=ivy <cr>', 'Grep files' },
+
+	c = {
+		name = 'Case',
+		['.'] = { "<cmd>lua require('textcase').current_word('to_dot_case')<cr>", 'Dot case' },
+		['-'] = { "<cmd>lua require('textcase').current_word('to_dash_case')<cr>", 'Dash case' },
+		['_'] = { "<cmd>lua require('textcase').current_word('to_snake_case')<cr>", 'Snake case' },
+		c = { "<cmd>lua require('textcase').current_word('to_camel_case')<cr>", 'Camel case' },
+		k = { "<cmd>lua require('textcase').current_word('to_constant_case')<cr>", 'Constant case' },
+		l = { "<cmd>lua require('textcase').current_word('to_lower_case')<cr>", 'Lower case' },
+		p = { "<cmd>lua require('textcase').current_word('to_pascal_case')<cr>", 'Pascal case' },
+		u = { "<cmd>lua require('textcase').current_word('to_upper_case')<cr>", 'Upper case' },
+	},
 
 	p = {
 		name = 'Packer',
@@ -127,9 +139,26 @@ local mappings = {
 	},
 }
 
-which_key.setup(setup)
-which_key.register(mappings, opts)
+local visual_mappings = {
+	c = {
+		name = 'Case',
+		['.'] = { "<cmd>lua require('textcase').operator('to_dot_case')<cr>", 'Dot case' },
+		['-'] = { "<cmd>lua require('textcase').operator('to_dash_case')<cr>", 'Dash case' },
+		['_'] = { "<cmd>lua require('textcase').operator('to_snake_case')<cr>", 'Snake case' },
+		c = { "<cmd>lua require('textcase').operator('to_camel_case')<cr>", 'Camel case' },
+		k = { "<cmd>lua require('textcase').operator('to_constant_case')<cr>", 'Constant case' },
+		l = { "<cmd>lua require('textcase').operator('to_lower_case')<cr>", 'Lower case' },
+		p = { "<cmd>lua require('textcase').operator('to_pascal_case')<cr>", 'Pascal case' },
+		u = { "<cmd>lua require('textcase').operator('to_upper_case')<cr>", 'Upper case' },
+	},
+}
 
--- Extra keymaps
-opts.noremap = false
-which_key.register({ ['/'] = { 'gcc', 'Comment' } }, opts)
+-- Register keymaps
+which_key.setup(setup)
+which_key.register(normal_mappings, opts)
+which_key.register(visual_mappings, vim.tbl_deep_extend('force', opts, { mode = 'v' }))
+
+-- Other keymaps
+which_key.register({
+	['/'] = { 'gcc', 'Comment' },
+}, vim.tbl_deep_extend('force', opts, { noremap = false }))
