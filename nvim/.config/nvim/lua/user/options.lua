@@ -3,6 +3,7 @@ local options = {
 	cmdheight = 2, -- more space in neovim’s command line for displaying messages
 	completeopt = { 'menuone', 'noselect' }, -- show matching options and force the user to select one
 	cursorline = true, -- highlight current line
+	cursorlineopt = 'both', -- highlight current line
 	encoding = 'utf-8', -- fix encoding
 	hidden = true, -- prefer hiding over unloading buffers
 	hlsearch = true, -- highlight search

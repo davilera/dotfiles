@@ -3,6 +3,7 @@ require('user.keymaps')
 require('user.autocommands')
 
 require('user.plugins')
+require('user.cursorline')
 require('user.impatient')
 require('user.tabs')
 
