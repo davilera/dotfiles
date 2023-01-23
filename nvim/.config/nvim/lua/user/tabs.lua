@@ -3,7 +3,6 @@ if not status_ok then
 	return
 end
 
-vim.notify('gogogo')
 tabset.setup({
 	defaults = {
 		tabwidth = 2,
