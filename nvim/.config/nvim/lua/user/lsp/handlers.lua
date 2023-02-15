@@ -63,11 +63,12 @@ local function lsp_keymaps(bufnr)
 	keymap(bufnr, '<Leader>lr', 'lua vim.lsp.buf.rename()') -- Rename
 	keymap(bufnr, '<Leader>lv', 'lua vim.lsp.buf.references()') -- View references
 
-	vim.api.nvim_buf_set_keymap(bufnr, 'i', '<C-h>', '<cmd>lua vim.diagnostic.open_float()<CR>', { noremap = true, silent = true })
+	vim.api.nvim_buf_set_keymap(bufnr, 'i', '<C-h>', '<cmd>lua vim.diagnostic.open_float()<CR>',
+		{ noremap = true, silent = true })
 end
 
 M.on_attach = function(client, bufnr)
-	local ignored_formatters = { 'sumneko_lua', 'tsserver', 'intelephense' }
+	local ignored_formatters = { 'tsserver', 'intelephense' }
 	for _, formatter in ipairs(ignored_formatters) do
 		if formatter == client.name then
 			client.server_capabilities.documentFormattingProvider = false

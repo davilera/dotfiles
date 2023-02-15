@@ -4,7 +4,6 @@ local servers = {
 	'emmet_ls', -- HTML autocompletes
 	'intelephense', -- PHP
 	'jsonls', -- JSON magic
-	'sumneko_lua', -- Neovim config files
 	'tsserver', -- TypeScript
 }
 
