@@ -26,7 +26,7 @@ stow programs
 stow shell
 stow tmux
 stow vim
-stow nvim
+stow lvim
 cd - 2>/dev/null
 
 find kitty -type f | while read file;
@@ -70,15 +70,20 @@ done
 echo "Installing FiraCode..."
 mkdir -p ~/.local/share/fonts/
 cd ~/.local/share/fonts/
-wget --quiet https://github.com/ryanoasis/nerd-fonts/releases/download/v2.2.2/FiraCode.zip
+wget --quiet https://github.com/ryanoasis/nerd-fonts/releases/latest/download/FiraCode.zip
 unzip FiraCode.zip >/dev/null 2>&1
+mv FiraCodeNerdFontMono-Regular.ttf tmp.ttf >/dev/nul 2>&1
+rm FiraCode* >/dev/null 2>&1
+mv tmp.ttf "FiraCode Nerd Font Mono.ttf" >/dev/nul 2>&1
 rm -f FiraCode.zip >/dev/null 2>&1
 
-echo "Installing Neovim..."
-curl -L https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
-chmod u+x nvim.appimage
-mkdir -p ~/.local/programs
-mv nvim.appimage ~/.local/programs/nvim
+echo "Installing LunarVim..."
+echo "Nope!
+# TODO
+# curl -L https://github.com/neovim/neovim/releases/latest/download/nvim.appimage --output nvim.appimage
+# chmod u+x nvim.appimage
+# mkdir -p ~/.local/programs
+# mv nvim.appimage ~/.local/programs/nvim
 
 echo ""
 echo "======"

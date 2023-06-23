@@ -1,6 +1,6 @@
 #!/bin/sh
 
-file=`lando info --service appserver --deep | grep LogPath | cut -d"'" -f2`
+file=`lando info --service appserver --deep | grep LogPath -A1 | grep "'" | head -n1 | cut -d"'" -f2`
 
 if [ "$file" = "" ]
 then

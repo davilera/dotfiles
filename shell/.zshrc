@@ -8,6 +8,8 @@ unset MAILCHECK
 ZSH_THEME="aphrodite/aphrodite"
 POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=()
 plugins=(
+	thefuck
+	yarn
 	zsh-syntax-highlighting
 )
 
