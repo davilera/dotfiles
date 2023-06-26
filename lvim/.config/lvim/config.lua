@@ -3,6 +3,19 @@
 -- Forum: https://www.reddit.com/r/lunarvim/
 -- Discord: https://discord.com/invite/Xb9B4Ny
 
+-- =======================================================
+--   BASIC SETUP
+-- =======================================================
+
+lvim.colorscheme = 'tokyonight-night'
+lvim.format_on_save.enabled = true
+lvim.format_on_save.timeout = 5000
+
+lvim.builtin.autopairs.active = false
+lvim.builtin.bufferline.options.show_buffer_close_icons = false
+lvim.builtin.indentlines.active = false
+lvim.builtin.project.manual_mode = true
+
 local options = {
   backupdir = '/tmp',     -- location of swap files
   clipboard = '',         -- disable integration with system clipboard
@@ -33,18 +46,89 @@ for k, v in pairs(options) do
   vim.opt[k] = v
 end
 
-lvim.colorscheme = 'tokyonight-night'
-lvim.format_on_save.enabled = true
-lvim.format_on_save.timeout = 5000
 
-lvim.builtin.autopairs.active = false
-lvim.builtin.bufferline.options.show_buffer_close_icons = false
-lvim.builtin.indentlines.active = false
-lvim.builtin.project.manual_mode = true
+-- =======================================================
+--   CUSTOM PLUGINS
+-- =======================================================
 
+lvim.init = {
+  -- Tab/space behavior
+  {
+    'FotiadisM/tabset.nvim',
+    setup = {
+      defaults = {
+        tabwidth = 2,
+        expandtab = false,
+      },
+      languages = {
+        elm = {
+          tabwidth = 4,
+          expandtab = true,
+        },
+        haskell = {
+          tabwidth = 4,
+          expandtab = true,
+        },
+        markdown = {
+          tabwidth = 2,
+          expandtab = true,
+        },
+        yaml = {
+          tabwidth = 4,
+          expandtab = true,
+        },
+      },
+    },
+  },
+
+  -- Colors preview
+  { 'brenoprata10/nvim-highlight-colors' },
+
+  -- Show marks
+  {
+    'chentoast/marks.nvim',
+    config = {
+      default_mappings = true,
+      signs = true,
+      mappings = {},
+    }
+  },
+
+  -- Text case conversions
+  { 'johmsalas/text-case.nvim' },
+}
+
+-- Remove marks when opening file
+vim.api.nvim_create_autocmd({ "BufRead" }, { command = ":delm a-zA-Z0-9", })
+
+
+-- =======================================================
+--   SHORTCUTS
+-- =======================================================
+
+--------------------------------
+---- Tab Movement --------------
+--------------------------------
 lvim.keys.normal_mode['L'] = ':bnext<cr>';
 lvim.keys.normal_mode['H'] = ':bprev<cr>';
 
+--------------------------------
+---- Find/Grep files -----------
+--------------------------------
+lvim.builtin.which_key.mappings['f'] = lvim.builtin.which_key.mappings['s']['f']
+lvim.builtin.which_key.mappings['t'] = lvim.builtin.which_key.mappings['s']['t']
+
+--------------------------------
+---- Save ----------------------
+--------------------------------
+lvim.builtin.which_key.mappings['S'] = lvim.builtin.which_key.mappings['s']
+lvim.builtin.which_key.mappings['s'] = lvim.builtin.which_key.mappings['w']
+lvim.builtin.which_key.mappings['b']['s'] = lvim.builtin.which_key.mappings['b']['W']
+lvim.builtin.which_key.mappings['b']['W'] = nil
+
+--------------------------------
+---- Close app/tab -------------
+--------------------------------
 local function closeTabAndSplit()
   vim.cmd(':BufferKill');
   local splits = #vim.api.nvim_tabpage_list_wins(0);
@@ -53,15 +137,14 @@ local function closeTabAndSplit()
   end
 end
 
-lvim.builtin.which_key.mappings['f'] = lvim.builtin.which_key.mappings['s']['f']
-lvim.builtin.which_key.mappings['t'] = lvim.builtin.which_key.mappings['s']['t']
+lvim.builtin.which_key.mappings['Q'] = { ':confirm qall<cr>', 'Force quit' }
+lvim.builtin.which_key.mappings['w'] = { closeTabAndSplit, 'Close tab' }
+lvim.builtin.which_key.mappings['W'] = { ':BufferKill<cr>', 'Close tab (keep split)' }
+lvim.builtin.which_key.mappings['F'] = lvim.builtin.which_key.mappings['b']['W']
 
-lvim.builtin.which_key.mappings['k'] = lvim.builtin.which_key.mappings['q']
-lvim.builtin.which_key.mappings['K'] = { ':confirm qall<cr>', 'Force quit' }
-lvim.builtin.which_key.mappings['q'] = { closeTabAndSplit, 'Close tab' }
-lvim.builtin.which_key.mappings['Q'] = { ':BufferKill<cr>', 'Close tab (keep split)' }
-lvim.builtin.which_key.mappings['W'] = lvim.builtin.which_key.mappings['b']['W']
-
+--------------------------------
+---- Configure smart case ------
+--------------------------------
 lvim.builtin.which_key.mappings['c'] = {
   name = 'Case',
   ['.'] = { "<cmd>lua require('textcase').current_word('to_dot_case')<cr>", 'Dot case' },
@@ -85,6 +168,9 @@ lvim.builtin.which_key.vmappings['c'] = {
   u = { "<cmd>lua require('textcase').operator('to_upper_case')<cr>", 'Upper case' },
 }
 
+--------------------------------
+---- Remap LSP shortcuts -------
+--------------------------------
 lvim.builtin.which_key.mappings['l']['M'] = lvim.builtin.which_key.mappings['l']['I']
 lvim.builtin.which_key.mappings['l']['L'] = {
   lvim.builtin.which_key.mappings['l']['i'][1],
@@ -95,8 +181,18 @@ lvim.builtin.which_key.mappings['l']['i'] = {
   '<cmd>lua vim.lsp.buf.hover()<cr>', 'Information'
 }
 
+
+-- =======================================================
+--   LINTERS/FORMATTERS
+-- =======================================================
+
 local formatters = require 'lvim.lsp.null-ls.formatters'
 formatters.setup({
+  {
+    name = 'phpcbf',
+    command = './vendor/bin/phpcbf',
+    args = { '-q', '--stdin-path=$FILENAME', '--standard=phpcs.ruleset.xml', '-' },
+  },
   {
     name = 'prettier',
     filetypes = { 'javascript', 'typescript', 'typescriptreact' },
