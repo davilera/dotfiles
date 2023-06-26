@@ -82,8 +82,8 @@ echo "Nope!
 # TODO
 # curl -L https://github.com/neovim/neovim/releases/latest/download/nvim.appimage --output nvim.appimage
 # chmod u+x nvim.appimage
-# mkdir -p ~/.local/programs
-# mv nvim.appimage ~/.local/programs/nvim
+# mkdir -p ~/.local/bin
+# mv nvim.appimage ~/.local/bin/nvim
 
 echo ""
 echo "======"
