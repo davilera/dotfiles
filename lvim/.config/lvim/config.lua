@@ -16,6 +16,17 @@ lvim.builtin.bufferline.options.show_buffer_close_icons = false
 lvim.builtin.indentlines.active = false
 lvim.builtin.project.manual_mode = true
 
+lvim.builtin.lualine.sections.lualine_x = {
+	{
+		'lsp_progress',
+		display_components = { 'spinner' },
+		spinner_symbols = { '⣾', '⣽', '⣻', '⢿', '⡿', '⣟', '⣯', '⣷' },
+	},
+	require('lvim.core.lualine.components').diagnostics,
+	require('lvim.core.lualine.components').lsp,
+	require('lvim.core.lualine.components').filetype,
+}
+
 local options = {
 	backupdir = '/tmp',    -- location of swap files
 	clipboard = '',        -- disable integration with system clipboard
@@ -102,6 +113,9 @@ lvim.plugins = {
 
 	-- Text case conversions
 	{ 'johmsalas/text-case.nvim' },
+
+	-- LSP status
+	{ 'arkav/lualine-lsp-progress' }
 }
 
 -- Remove marks when opening file
