@@ -17,6 +17,7 @@ default = simple
 [core]
 	excludesfile = ~/.gitignore
 	autocrlf = input
+	editor = ~/.local/bin/lvim
 [merge]
 	ff = only
 [user]

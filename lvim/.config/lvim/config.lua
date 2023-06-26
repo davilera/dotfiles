@@ -136,11 +136,12 @@ lvim.builtin.which_key.mappings['b']['W'] = nil
 ---- Close app/tab -------------
 --------------------------------
 local function closeTabAndSplit()
-	vim.cmd(':BufferKill');
 	local files = #vim.fn.getbufinfo({ buflisted = 1 })
-	local splits = #vim.api.nvim_tabpage_list_wins(0);
+	local splits = #vim.api.nvim_tabpage_list_wins(0)
+
+	vim.cmd(':BufferKill');
 	local dirty = 1 == vim.fn.getbufinfo()[vim.fn.bufnr()].changed
-	if files == 1 then
+	if 1 == files then
 		if not dirty then
 			vim.cmd(':q')
 		end
