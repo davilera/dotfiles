@@ -67,7 +67,7 @@ function M.run(_trigger, _mode, _buf)
 				key = key,
 				label = labels[key] or "",
 				value = type .. value,
-				highlights = { { 1, 2, "Number" } }
+				highlights = { { 1, 2, "String" } }
 			})
 		end
 	end
