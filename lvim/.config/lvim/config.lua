@@ -172,7 +172,6 @@ end
 lvim.builtin.which_key.mappings['Q'] = { ':confirm qall<cr>', 'Force quit' }
 lvim.builtin.which_key.mappings['w'] = { closeTabAndSplit, 'Close tab' }
 lvim.builtin.which_key.mappings['W'] = { ':BufferKill<cr>', 'Close tab (keep split)' }
-lvim.builtin.which_key.mappings['F'] = lvim.builtin.which_key.mappings['b']['W']
 
 --------------------------------
 ---- Configure smart case ------
