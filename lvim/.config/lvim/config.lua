@@ -15,6 +15,7 @@ lvim.builtin.autopairs.active = false
 lvim.builtin.bufferline.options.show_buffer_close_icons = false
 lvim.builtin.indentlines.active = false
 lvim.builtin.project.manual_mode = true
+lvim.builtin.which_key.setup.plugins['better-registers'] = true
 
 lvim.builtin.lualine.sections.lualine_x = {
 	{
@@ -131,6 +132,7 @@ vim.api.nvim_create_autocmd({ "BufRead" }, { command = ":delm a-zA-Z0-9", })
 --------------------------------
 lvim.keys.normal_mode['L'] = ':bnext<cr>';
 lvim.keys.normal_mode['H'] = ':bprev<cr>';
+lvim.builtin.which_key.mappings['j'] = lvim.builtin.which_key.mappings['b']['j']
 
 --------------------------------
 ---- Find/Grep files -----------
@@ -206,6 +208,10 @@ lvim.builtin.which_key.mappings['l']['L'] = {
 lvim.builtin.which_key.mappings['l']['I'] = nil
 lvim.builtin.which_key.mappings['l']['i'] = {
 	'<cmd>lua vim.lsp.buf.hover()<cr>', 'Information'
+}
+lvim.builtin.which_key.mappings['l']['Q'] = lvim.builtin.which_key.mappings['l']['d']
+lvim.builtin.which_key.mappings['l']['d'] = {
+	'<cmd>lua vim.lsp.buf.definition()<cr>', 'Go to definition'
 }
 
 
