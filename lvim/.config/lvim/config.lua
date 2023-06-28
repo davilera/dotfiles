@@ -152,26 +152,14 @@ lvim.builtin.which_key.mappings['b']['W'] = nil
 --------------------------------
 ---- Close app/tab -------------
 --------------------------------
-local function closeTabAndSplit()
-	local files = #vim.fn.getbufinfo({ buflisted = 1 })
-	local splits = #vim.api.nvim_tabpage_list_wins(0)
-
-	vim.cmd(':BufferKill');
-	local buffer = vim.fn.getbufinfo()[vim.fn.bufnr()] or {}
-	local dirty = 1 == buffer.changed
-
-	if 1 == files then
-		if not dirty then
-			vim.cmd(':q')
-		end
-	elseif not dirty and splits > 1 then
-		vim.cmd(':q')
-	end
-end
-
 lvim.builtin.which_key.mappings['Q'] = { ':confirm qall<cr>', 'Force quit' }
-lvim.builtin.which_key.mappings['w'] = { closeTabAndSplit, 'Close tab' }
-lvim.builtin.which_key.mappings['W'] = { ':BufferKill<cr>', 'Close tab (keep split)' }
+lvim.builtin.which_key.mappings['w'] = { ':confirm bdelete<cr>', 'Close tab' }
+
+--------------------------------
+---- Splits --------------------
+--------------------------------
+lvim.builtin.which_key.mappings['v'] = { ':vs<cr>', 'Vertical split' }
+lvim.builtin.which_key.mappings['x'] = { ':sp<cr>', 'Horizontal split' }
 
 --------------------------------
 ---- Configure smart case ------
