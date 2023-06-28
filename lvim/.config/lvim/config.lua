@@ -15,6 +15,7 @@ lvim.builtin.autopairs.active = false
 lvim.builtin.bufferline.options.show_buffer_close_icons = false
 lvim.builtin.indentlines.active = false
 lvim.builtin.project.manual_mode = true
+lvim.builtin.which_key.setup.plugins.marks = true
 lvim.builtin.which_key.setup.plugins['better-registers'] = true
 
 lvim.builtin.lualine.sections.lualine_x = {
@@ -156,7 +157,9 @@ local function closeTabAndSplit()
 	local splits = #vim.api.nvim_tabpage_list_wins(0)
 
 	vim.cmd(':BufferKill');
-	local dirty = 1 == vim.fn.getbufinfo()[vim.fn.bufnr()].changed
+	local buffer = vim.fn.getbufinfo()[vim.fn.bufnr()] or {}
+	local dirty = 1 == buffer.changed
+
 	if 1 == files then
 		if not dirty then
 			vim.cmd(':q')
