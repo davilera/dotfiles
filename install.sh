@@ -96,7 +96,7 @@ sudo ls >/dev/null 2>&1
 echo ""
 
 echo "Installing dev packages…"
-sudo apt-get -qq install fasd tree meld jq vim ruby subversion composer php-xml poedit myspell-es aspell-es awscli curl g++ build-essential kitty openjdk-17-jdk openjdk-17-jre python python3-pip julia golang cargo luarocks markdown
+sudo apt-get -qq install fasd tree meld jq vim ruby subversion composer php-xml poedit myspell-es aspell-es awscli curl g++ build-essential kitty openjdk-17-jdk openjdk-17-jre python python3-pip julia golang cargo luarocks markdown silversearcher-ag
 sudo update-alternatives --set editor /usr/bin/vim.basic
 wget https://github.com/BurntSushi/ripgrep/releases/download/13.0.0/ripgrep_13.0.0_amd64.deb -P /tmp 2>/dev/null
 sudo dpkg -i /tmp/ripgrep_13.0.0_amd64.deb
