@@ -15,7 +15,7 @@ lvim.builtin.autopairs.active = false
 lvim.builtin.bufferline.options.show_buffer_close_icons = false
 lvim.builtin.indentlines.active = false
 lvim.builtin.project.manual_mode = true
-lvim.builtin.which_key.setup.plugins.marks = true
+lvim.builtin.which_key.setup.plugins['better-marks'] = true
 lvim.builtin.which_key.setup.plugins['better-registers'] = true
 
 lvim.builtin.lualine.sections.lualine_x = {
@@ -129,31 +129,44 @@ vim.api.nvim_create_autocmd({ "BufRead" }, { command = ":delm a-zA-Z0-9", })
 -- =======================================================
 
 --------------------------------
+---- Git -----------------------
+--------------------------------
+lvim.builtin.which_key.mappings['G'] = lvim.builtin.which_key.mappings['g']
+
+--------------------------------
 ---- Tab Movement --------------
 --------------------------------
 lvim.keys.normal_mode['L'] = ':bnext<cr>';
 lvim.keys.normal_mode['H'] = ':bprev<cr>';
-lvim.builtin.which_key.mappings['j'] = lvim.builtin.which_key.mappings['b']['j']
+lvim.builtin.which_key.mappings['t'] = {
+	lvim.builtin.which_key.mappings['b']['j'][1],
+	'Select tab'
+}
 
 --------------------------------
 ---- Find/Grep files -----------
 --------------------------------
-lvim.builtin.which_key.mappings['f'] = lvim.builtin.which_key.mappings['s']['f']
-lvim.builtin.which_key.mappings['t'] = lvim.builtin.which_key.mappings['s']['t']
+lvim.builtin.which_key.mappings['f'] = {
+	lvim.builtin.which_key.mappings['s']['f'][1],
+	'Find files'
+}
+lvim.builtin.which_key.mappings['g'] = {
+	lvim.builtin.which_key.mappings['s']['t'][1],
+	'Grep files'
+}
 
 --------------------------------
 ---- Save ----------------------
 --------------------------------
-lvim.builtin.which_key.mappings['S'] = lvim.builtin.which_key.mappings['s']
-lvim.builtin.which_key.mappings['s'] = lvim.builtin.which_key.mappings['w']
-lvim.builtin.which_key.mappings['b']['s'] = lvim.builtin.which_key.mappings['b']['W']
-lvim.builtin.which_key.mappings['b']['W'] = nil
+lvim.builtin.which_key.mappings['w'] = { ':w<cr>', 'Save' }
+lvim.builtin.which_key.mappings['W'] = { ':wall<cr>', 'Save all' }
 
 --------------------------------
 ---- Close app/tab -------------
 --------------------------------
+lvim.keys.normal_mode['_'] = ':confirm bdelete<cr>';
 lvim.builtin.which_key.mappings['Q'] = { ':confirm qall<cr>', 'Force quit' }
-lvim.builtin.which_key.mappings['w'] = { ':confirm bdelete<cr>', 'Close tab' }
+lvim.builtin.which_key.mappings['_'] = { ':confirm bdelete<cr>', 'Close tab' }
 
 --------------------------------
 ---- Splits --------------------
@@ -166,25 +179,25 @@ lvim.builtin.which_key.mappings['x'] = { ':sp<cr>', 'Horizontal split' }
 --------------------------------
 lvim.builtin.which_key.mappings['c'] = {
 	name = 'Case',
-	['.'] = { "<cmd>lua require('textcase').current_word('to_dot_case')<cr>", 'Dot case' },
-	['-'] = { "<cmd>lua require('textcase').current_word('to_dash_case')<cr>", 'Dash case' },
-	['_'] = { "<cmd>lua require('textcase').current_word('to_snake_case')<cr>", 'Snake case' },
-	c = { "<cmd>lua require('textcase').current_word('to_camel_case')<cr>", 'Camel case' },
-	k = { "<cmd>lua require('textcase').current_word('to_constant_case')<cr>", 'Constant case' },
-	l = { "<cmd>lua require('textcase').current_word('to_lower_case')<cr>", 'Lower case' },
-	p = { "<cmd>lua require('textcase').current_word('to_pascal_case')<cr>", 'Pascal case' },
-	u = { "<cmd>lua require('textcase').current_word('to_upper_case')<cr>", 'Upper case' },
+	['.'] = { ":lua require('textcase').current_word('to_dot_case')<cr>", 'Dot case' },
+	['-'] = { ":lua require('textcase').current_word('to_dash_case')<cr>", 'Dash case' },
+	['_'] = { ":lua require('textcase').current_word('to_snake_case')<cr>", 'Snake case' },
+	c = { ":lua require('textcase').current_word('to_camel_case')<cr>", 'Camel case' },
+	k = { ":lua require('textcase').current_word('to_constant_case')<cr>", 'Constant case' },
+	l = { ":lua require('textcase').current_word('to_lower_case')<cr>", 'Lower case' },
+	p = { ":lua require('textcase').current_word('to_pascal_case')<cr>", 'Pascal case' },
+	u = { ":lua require('textcase').current_word('to_upper_case')<cr>", 'Upper case' },
 }
 lvim.builtin.which_key.vmappings['c'] = {
 	name = 'Case',
-	['.'] = { "<cmd>lua require('textcase').operator('to_dot_case')<cr>", 'Dot case' },
-	['-'] = { "<cmd>lua require('textcase').operator('to_dash_case')<cr>", 'Dash case' },
-	['_'] = { "<cmd>lua require('textcase').operator('to_snake_case')<cr>", 'Snake case' },
-	c = { "<cmd>lua require('textcase').operator('to_camel_case')<cr>", 'Camel case' },
-	k = { "<cmd>lua require('textcase').operator('to_constant_case')<cr>", 'Constant case' },
-	l = { "<cmd>lua require('textcase').operator('to_lower_case')<cr>", 'Lower case' },
-	p = { "<cmd>lua require('textcase').operator('to_pascal_case')<cr>", 'Pascal case' },
-	u = { "<cmd>lua require('textcase').operator('to_upper_case')<cr>", 'Upper case' },
+	['.'] = { ":lua require('textcase').operator('to_dot_case')<cr>", 'Dot case' },
+	['-'] = { ":lua require('textcase').operator('to_dash_case')<cr>", 'Dash case' },
+	['_'] = { ":lua require('textcase').operator('to_snake_case')<cr>", 'Snake case' },
+	c = { ":lua require('textcase').operator('to_camel_case')<cr>", 'Camel case' },
+	k = { ":lua require('textcase').operator('to_constant_case')<cr>", 'Constant case' },
+	l = { ":lua require('textcase').operator('to_lower_case')<cr>", 'Lower case' },
+	p = { ":lua require('textcase').operator('to_pascal_case')<cr>", 'Pascal case' },
+	u = { ":lua require('textcase').operator('to_upper_case')<cr>", 'Upper case' },
 }
 
 --------------------------------
@@ -197,11 +210,15 @@ lvim.builtin.which_key.mappings['l']['L'] = {
 }
 lvim.builtin.which_key.mappings['l']['I'] = nil
 lvim.builtin.which_key.mappings['l']['i'] = {
-	'<cmd>lua vim.lsp.buf.hover()<cr>', 'Information'
+	':lua vim.lsp.buf.hover()<cr>', 'Information'
 }
 lvim.builtin.which_key.mappings['l']['Q'] = lvim.builtin.which_key.mappings['l']['d']
+
 lvim.builtin.which_key.mappings['l']['d'] = {
-	'<cmd>lua vim.lsp.buf.definition()<cr>', 'Go to definition'
+	':lua vim.lsp.buf.definition()<cr>', 'Go to definition'
+}
+lvim.builtin.which_key.mappings['j'] = {
+	':lua vim.lsp.buf.definition()<cr>', 'Jump to definition'
 }
 
 
