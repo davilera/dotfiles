@@ -1,7 +1,7 @@
 # Basic settings
 # --------------
 unset MAILCHECK
-PATH="./node_modules/.bin:./vendor/bin:$HOME/.bin:$HOME/.local/bin:$PATH"
+PATH="./node_modules/.bin:./vendor/bin:$HOME/.local/bin:$PATH"
 
 # fasd aliases
 # ------------
@@ -36,7 +36,7 @@ wp() {
 alias ovim="/usr/bin/vim"
 alias vi="lvim"
 alias vim="lvim"
-alias cat="bat"
+alias cat="bat --theme=ansi"
 alias colorize="ccze -A"
 # alias grep="grep --color --exclude-dir=vendor --exclude-dir=node_modules --exclude-dir=e2e-tests --exclude-dir=build --exclude-dir=dist --exclude-dir=build-module --exclude=\"*.min.*\" --exclude=\"*.map\" --exclude-dir=\".git\""
 alias grep="ag --norecurse --noheading --nobreak --ignore node_modules --ignore vendor --ignore e2e-tests --ignore build --ignore dist --ignore build-module --ignore .lando"
@@ -56,7 +56,7 @@ alias yi="yarn install"
 alias yr="yarn run"
 alias ry="yarn run"
 
-alias ping="~/.bin/git/prettyping/prettyping"
+alias ping="~/.local/share/prettyping/prettyping"
 alias pip="pip3"
 
 if [ -d "/Users" ]

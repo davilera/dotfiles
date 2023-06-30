@@ -1,7 +1,7 @@
 [push]
-default = simple
+	default = simple
 [color]
- ui = auto
+	ui = auto
 [alias]
 	aa = add --all
 	ap = add --patch

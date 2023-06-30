@@ -1,0 +1,9 @@
+#!/bin/sh
+
+f() {
+	[ -z "$GIT_PREFIX" ] || \
+		cd "$GIT_PREFIX" && \
+			git diff --color "$@" | $HOME/.local/share/diff-so-fancy/diff-so-fancy | less --tabs=3 -iRFX
+}
+
+f "$@"

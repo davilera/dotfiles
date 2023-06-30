@@ -1,39 +1,6 @@
-[submodule "vim/.vim/pack/plugins/start/vim-hybrid"]
-	path = vim/.vim/pack/plugins/start/vim-hybrid
-	url = https://github.com/w0ng/vim-hybrid
-[submodule "vim/.vim/pack/plugins/start/vim-airline"]
-	path = vim/.vim/pack/plugins/start/vim-airline
-	url = https://github.com/bling/vim-airline
-[submodule "vim/.vim/pack/plugins/start/vim-airline-themes"]
-	path = vim/.vim/pack/plugins/start/vim-airline-themes
-	url = https://github.com/vim-airline/vim-airline-themes
-[submodule "vim/.vim/pack/plugins/start/ale"]
-	path = vim/.vim/pack/plugins/start/ale
-	url = https://github.com/dense-analysis/ale
-[submodule "vim/.vim/pack/plugins/start/vim-surround"]
-	path = vim/.vim/pack/plugins/start/vim-surround
-	url = https://github.com/tpope/vim-surround
-[submodule "vim/.vim/pack/plugins/start/php"]
-	path = vim/.vim/pack/plugins/start/php
-	url = https://github.com/StanAngeloff/php.vim
-[submodule "vim/.vim/pack/plugins/start/easy-align"]
-	path = vim/.vim/pack/plugins/start/easy-align
-	url = https://github.com/junegunn/vim-easy-align
-[submodule "vim/.vim/pack/plugins/start/vim-jsx-pretty"]
-	path = vim/.vim/pack/plugins/start/vim-jsx-pretty
-	url = https://github.com/MaxMEllon/vim-jsx-pretty
 [submodule "programs/.bin/git/prettyping"]
 	path = programs/.bin/git/prettyping
 	url = https://github.com/denilsonsa/prettyping
 [submodule "programs/.bin/git/diff-so-fancy"]
 	path = programs/.bin/git/diff-so-fancy
 	url = https://github.com/so-fancy/diff-so-fancy
-[submodule "vim/.vim/pack/plugins/start/typescript-vim"]
-	path = vim/.vim/pack/plugins/start/typescript-vim
-	url = https://github.com/leafgarland/typescript-vim
-[submodule "vim/.vim/pack/plugins/start/vim-javascript"]
-	path = vim/.vim/pack/plugins/start/vim-javascript
-	url = https://github.com/pangloss/vim-javascript
-[submodule "vim/.vim/pack/plugins/start/vim-elm-syntax"]
-	path = vim/.vim/pack/plugins/start/vim-elm-syntax
-	url = https://github.com/andys8/vim-elm-syntax
