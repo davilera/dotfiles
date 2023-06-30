@@ -21,7 +21,7 @@ echo "Installing dev packages…"
 sudo apt-get -qq install stow fasd tree meld jq vim ruby subversion composer php-xml awscli curl g++ build-essential kitty openjdk-17-jdk openjdk-17-jre python python3-pip julia golang cargo luarocks markdown
 sudo update-alternatives --set editor /usr/bin/vim.basic
 
-echo "Installing utilities..."
+echo "Installing utilities…"
 sudo apt-get -qq install filezilla htop imagemagick libimage-exiftool-perl poedit myspell-es aspell-es silversearcher-ag ripgrep
 
 echo "Installing nvm, node.js, and npm…"
@@ -29,9 +29,10 @@ rm -rf ~/.nvm >/dev/null 2>&1
 mkdir ~/.nvm
 version=`wget -qO- "https://api.github.com/repos/nvm-sh/nvm/releases/latest" | jq -r .tag_name`
 wget -qO- "https://raw.githubusercontent.com/nvm-sh/nvm/$version/install.sh" | bash >/dev/null 2>&1
-bash -c "nvm install node"
-nvm install 16
-nvm use 16
+\. ~/.nvm/nvm.sh
+nvm install node 2>/dev/null
+nvm install 16 2>/dev/null
+nvm use 16 2>/dev/null
 
 echo "Installing elm…"
 npm install -g elm elm-test elm-format elm-oracle >/dev/null 2>&1
@@ -56,7 +57,7 @@ then
 	sudo dpkg -i /tmp/lando.deb
 	sudo usermod -aG docker david
 
-	echo "Configuring docker..."
+	echo "Configuring docker…"
 	sudo groupadd docker >/dev/null 2>&1
 	sudo usermod -aG docker $USER
 fi
@@ -68,7 +69,7 @@ if [ "$answer" = "y" ];
 then
 	sudo apt-get -qq install inkscape gimp
 
-	echo "Configuring inkscape..."
+	echo "Configuring inkscape…"
 	mkdir -p ~/.config/inkscape/extensions >/dev/null 2>&1
 	cd ~/.config/inkscape/extensions >/dev/null 2>&1
 	wget "https://raw.githubusercontent.com/Klowner/inkscape-applytransforms/master/applytransform.py" >/dev/null 2>&1
@@ -77,33 +78,21 @@ then
 
 fi
 
-echo "Updating apt packages..."
+echo ""
+echo "Updating apt packages…"
 sudo apt-get -qq update
 
-echo "Upgrading system..."
+echo "Upgrading system…"
 sudo apt-get -qq upgrade
 
-echo "Cleaning unnecessary packages..."
+echo "Cleaning unnecessary packages…"
 sudo apt-get -qq autoremove >/dev/null 2>&1
 sudo apt-get -qq autoclean >/dev/null 2>&1
 
 echo ""
-echo "=================="
-echo "BASIC CONFIG FILES"
-echo "=================="
-
-echo "Installing stow and getting dotfiles…"
-mkdir -p ~/.local/bin 2>/dev/null
-cd $SRC_DIR 2>/dev/null
-rm -rf ~/.git ~/.bash* ~/.vim 2>/dev/null
-stow git
-stow programs
-stow shell
-stow tmux
-stow vim
-stow lvim
-stow kitty
-cd - 2>/dev/null
+echo "====================="
+echo "UTILITIES FROM GITHUB"
+echo "====================="
 
 echo "Creating development directories…"
 mkdir -p ~/Programs/dev/plugins 2>/dev/null
@@ -126,11 +115,12 @@ echo "Installing FiraCode…"
 mkdir -p ~/.local/share/fonts/ 2>&1 >/dev/null
 cd ~/.local/share/fonts/
 wget --quiet "https://github.com/ryanoasis/nerd-fonts/releases/latest/download/FiraCode.zip"
-unzip FiraCode.zip >/dev/null 2>&1
-mv FiraCodeNerdFontMono-Regular.ttf tmp.ttf >/dev/nul 2>&1
-rm FiraCode* >/dev/null 2>&1
-mv tmp.ttf "FiraCode Nerd Font Mono.ttf" >/dev/nul 2>&1
+unzip -qqo FiraCode.zip
+mv FiraCodeNerdFontMono-Regular.ttf tmp.ttf >/dev/null 2>&1
+rm -f FiraCode* LICENSE readme.md >/dev/null 2>&1
+mv tmp.ttf "FiraCode Nerd Font Mono.ttf" >/dev/null 2>&1
 rm -f FiraCode.zip >/dev/null 2>&1
+cd -
 
 echo "Installing diff-so-fancy…"
 cd ~/.local/bin/ 2>/dev/null
@@ -148,7 +138,7 @@ mv prettyping-1.0.1/prettyping . 2>/dev/null
 rm -rf prettyping-1.0.1 v1.0.1.zip
 cd - 2>/dev/null
 
-echo "Installing bat..."
+echo "Installing bat…"
 cd /tmp
 version=`wget -qO- "https://api.github.com/repos/sharkdp/bat/releases/latest" | jq -r .tag_name | sed -e "s/v//"`
 wget --quiet "https://github.com/sharkdp/bat/releases/download/v$version/bat-musl_${version}_amd64.deb"
@@ -158,11 +148,29 @@ echo "Installing lazygit…"
 echo "TODO"
 
 echo "Installing LunarVim…"
-wget --quiet https://github.com/neovim/neovim/releases/latest/download/nvim.appimage -O ~/.local/bin/nvim
-chmod u+x ~/.local/bin/nvim
-echo -n "Branch: "
-version=`wget -qO- "https://api.github.com/repos/nvm-sh/nvm/releases/latest" | jq -r .target_commitish`
-LV_BRANCH=$version bash <(curl -s https://raw.githubusercontent.com/LunarVim/LunarVim/$version/utils/installer/install.sh)
+# wget --quiet https://github.com/neovim/neovim/releases/latest/download/nvim.appimage -O ~/.local/bin/nvim
+# chmod u+x ~/.local/bin/nvim
+# version=`wget -qO- "https://api.github.com/repos/nvm-sh/nvm/releases/latest" | jq -r .target_commitish`
+# LV_BRANCH=$version bash <(curl -s https://raw.githubusercontent.com/LunarVim/LunarVim/$version/utils/installer/install.sh)
+# rm -f ~/.local/share/lunarvim.old  ~/.cache/lvim.old
+
+echo ""
+echo "============="
+echo "INIT DOTFILES"
+echo "============="
+
+echo "Installing stow and getting dotfiles…"
+mkdir -p ~/.local/bin 2>/dev/null
+cd $SRC_DIR 2>/dev/null
+rm -rf ~/.git ~/.bash* ~/.vim 2>/dev/null
+stow git
+stow programs
+stow shell
+stow tmux
+stow vim
+stow lvim
+stow kitty
+cd - 2>/dev/null
 
 echo ""
 echo "DONE"
