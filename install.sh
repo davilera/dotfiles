@@ -148,11 +148,11 @@ echo "Installing lazygit…"
 echo "TODO"
 
 echo "Installing LunarVim…"
-# wget --quiet https://github.com/neovim/neovim/releases/latest/download/nvim.appimage -O ~/.local/bin/nvim
-# chmod u+x ~/.local/bin/nvim
-# version=`wget -qO- "https://api.github.com/repos/nvm-sh/nvm/releases/latest" | jq -r .target_commitish`
-# LV_BRANCH=$version bash <(curl -s https://raw.githubusercontent.com/LunarVim/LunarVim/$version/utils/installer/install.sh)
-# rm -f ~/.local/share/lunarvim.old  ~/.cache/lvim.old
+wget --quiet https://github.com/neovim/neovim/releases/latest/download/nvim.appimage -O ~/.local/bin/nvim
+chmod u+x ~/.local/bin/nvim
+version=`wget -qO- "https://api.github.com/repos/nvm-sh/nvm/releases/latest" | jq -r .target_commitish`
+LV_BRANCH=$version bash <(curl -s https://raw.githubusercontent.com/LunarVim/LunarVim/$version/utils/installer/install.sh)
+rm -f ~/.local/share/lunarvim.old  ~/.cache/lvim.old
 
 echo ""
 echo "============="
