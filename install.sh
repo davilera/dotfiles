@@ -27,15 +27,8 @@ stow shell
 stow tmux
 stow vim
 stow lvim
+stow kitty
 cd - 2>/dev/null
-
-find kitty -type f | while read file;
-do
-	file=`echo $file | sed -e "s/kitty\///"`
-	mkdir -p ~/`dirname $file` 2>/dev/null
-	rm ~/$file 2>/dev/null
-	ln -s $SRC_DIR/kitty/$file ~/$file
-done
 
 echo "Installing git dependencies…"
 cd $SRC_DIR 2>/dev/null
