@@ -164,15 +164,18 @@ lvim.builtin.which_key.mappings['W'] = { ':wall<cr>', 'Save all' }
 --------------------------------
 ---- Close app/tab -------------
 --------------------------------
-lvim.keys.normal_mode['_'] = ':confirm bdelete<cr>';
+lvim.builtin.which_key.mappings['q'] = { ':confirm bdelete<cr>', 'Close tab' }
 lvim.builtin.which_key.mappings['Q'] = { ':confirm qall<cr>', 'Force quit' }
-lvim.builtin.which_key.mappings['_'] = { ':confirm bdelete<cr>', 'Close tab' }
 
 --------------------------------
 ---- Splits --------------------
 --------------------------------
 lvim.builtin.which_key.mappings['v'] = { ':vs<cr>', 'Vertical split' }
 lvim.builtin.which_key.mappings['x'] = { ':sp<cr>', 'Horizontal split' }
+lvim.builtin.which_key.mappings['k'] = {
+	":lua if #vim.api.nvim_tabpage_list_wins(0) > 1 then vim.cmd(':q') end<cr>",
+	'Close split'
+}
 
 --------------------------------
 ---- Configure smart case ------
@@ -218,7 +221,7 @@ lvim.builtin.which_key.mappings['l']['d'] = {
 	':lua vim.lsp.buf.definition()<cr>', 'Go to definition'
 }
 lvim.builtin.which_key.mappings['j'] = {
-	':lua vim.lsp.buf.definition()<cr>', 'Jump to definition'
+	':vs<cr>:lua vim.lsp.buf.definition()<cr>', 'Jump to definition'
 }
 
 
