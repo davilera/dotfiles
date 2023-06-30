@@ -164,7 +164,10 @@ lvim.builtin.which_key.mappings['W'] = { ':wall<cr>', 'Save all' }
 --------------------------------
 ---- Close app/tab -------------
 --------------------------------
-lvim.builtin.which_key.mappings['q'] = { ':confirm bdelete<cr>', 'Close tab' }
+lvim.builtin.which_key.mappings['q'] = {
+	":lua if #vim.fn.getbufinfo({buflisted=1}) == 1 then vim.cmd(':confirm qall') else vim.cmd(':confirm bdelete') end<cr>",
+	'Close tab'
+}
 lvim.builtin.which_key.mappings['Q'] = { ':confirm qall<cr>', 'Force quit' }
 
 --------------------------------
@@ -218,7 +221,7 @@ lvim.builtin.which_key.mappings['l']['i'] = {
 lvim.builtin.which_key.mappings['l']['Q'] = lvim.builtin.which_key.mappings['l']['d']
 
 lvim.builtin.which_key.mappings['l']['d'] = {
-	':lua vim.lsp.buf.definition()<cr>', 'Go to definition'
+	':vs<cr>:lua vim.lsp.buf.definition()<cr>', 'Jump to definition'
 }
 lvim.builtin.which_key.mappings['j'] = {
 	':vs<cr>:lua vim.lsp.buf.definition()<cr>', 'Jump to definition'
