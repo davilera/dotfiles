@@ -131,7 +131,11 @@ vim.api.nvim_create_autocmd({ "BufRead" }, { command = ":delm a-zA-Z0-9", })
 --------------------------------
 ---- Git -----------------------
 --------------------------------
-lvim.builtin.which_key.mappings['G'] = lvim.builtin.which_key.mappings['g']
+lvim.builtin.which_key.mappings['j'] = lvim.builtin.which_key.mappings['g']
+lvim.builtin.which_key.mappings['j']['q'] = {
+	"<C-w>h:lua if vim.api.nvim_buf_get_name(0):find('^gitsigns:') ~= nil then vim.cmd(':q') end<cr>",
+	'Close diff'
+}
 
 --------------------------------
 ---- Tab Movement --------------
@@ -223,7 +227,7 @@ lvim.builtin.which_key.mappings['l']['Q'] = lvim.builtin.which_key.mappings['l']
 lvim.builtin.which_key.mappings['l']['d'] = {
 	':vs<cr>:lua vim.lsp.buf.definition()<cr>', 'Jump to definition'
 }
-lvim.builtin.which_key.mappings['j'] = {
+lvim.builtin.which_key.mappings['d'] = {
 	':vs<cr>:lua vim.lsp.buf.definition()<cr>', 'Jump to definition'
 }
 
