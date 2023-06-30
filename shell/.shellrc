@@ -12,8 +12,9 @@ alias kitty="LIBGL_ALWAYS_SOFTWARE=true GALLIUM_DRIVER=llvmpipe kitty"
 # NVM
 # ---
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-nvm use 16
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" --no-use
+# nvm use 16 is too slow. Use this instead (with --no-use):
+PATH="${NVM_DIR}/versions/node/v16.20.1/bin:${PATH}"
 
 # Brew
 # ----
