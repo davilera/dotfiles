@@ -31,17 +31,16 @@ fi
 # ------------
 wp() {
 	[ ! -e .lando.yml ] && echo "This doesn't look like a WordPress installation. Bye!" >&2 && return
-	lando wp $@ --path=`grep webroot .lando.yml | cut -d: -f2 | xargs`
+	lando wp $@ --path=`\grep webroot .lando.yml | cut -d: -f2 | xargs`
 }
 
 alias ovim="/usr/bin/vim"
 alias vi="lvim"
 alias vim="lvim"
-alias cat="bat --theme=ansi"
+alias cat="bat --tabs 2 --theme=ansi"
 alias colorize="ccze -A"
 # alias grep="grep --color --exclude-dir=vendor --exclude-dir=node_modules --exclude-dir=e2e-tests --exclude-dir=build --exclude-dir=dist --exclude-dir=build-module --exclude=\"*.min.*\" --exclude=\"*.map\" --exclude-dir=\".git\""
 alias grep="ag --norecurse --noheading --nobreak --ignore node_modules --ignore vendor --ignore e2e-tests --ignore build --ignore dist --ignore build-module --ignore .lando"
-alias less="less --tabs=3 -iRFX"
 alias top="htop"
 alias tree="tree -C"
 

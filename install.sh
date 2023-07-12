@@ -37,7 +37,7 @@ nvm install node 2>/dev/null
 echo "Installing elm…"
 npm install -g elm elm-test elm-format elm-oracle >/dev/null 2>&1
 
-echo "Installing neovim TLS servers…"
+echo "Installing neovim LSP servers…"
 npm install -g eslint_d >/dev/null 2>&1
 npm install -g prettier@npm:wp-prettier@latest 2>&1
 npm install -g typescript typescript-language-server >/dev/null 2>&1
