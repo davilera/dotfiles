@@ -68,7 +68,7 @@ lvim.plugins = {
 	-- Tab/space behavior
 	{
 		'FotiadisM/tabset.nvim',
-		config = {
+		opts = {
 			defaults = {
 				tabwidth = 2,
 				expandtab = false,
@@ -97,7 +97,7 @@ lvim.plugins = {
 	-- Colors preview
 	{
 		'brenoprata10/nvim-highlight-colors',
-		config = {
+		opts = {
 			render = 'background',
 			enabled_named_colors = true,
 		},
@@ -106,12 +106,15 @@ lvim.plugins = {
 	-- Show marks
 	{
 		'chentoast/marks.nvim',
-		config = {
+		opts = {
 			default_mappings = true,
 			signs = true,
 			mappings = {},
 		}
 	},
+
+	-- Split management
+	{ 'mrjones2014/smart-splits.nvim' },
 
 	-- Text case conversions
 	{ 'johmsalas/text-case.nvim' },
@@ -168,15 +171,28 @@ lvim.builtin.which_key.mappings['W'] = { ':wall<cr>', 'Save all' }
 --------------------------------
 ---- Close app/tab -------------
 --------------------------------
-lvim.builtin.which_key.mappings['q'] = {
-	":lua if #vim.fn.getbufinfo({buflisted=1}) == 1 then vim.cmd(':confirm qall') else vim.cmd(':confirm bdelete') end<cr>",
-	'Close tab'
-}
+local function quit()
+	local bufs = vim.fn.getbufinfo({ buflisted = 1 })
+	if 1 < #bufs then
+		vim.cmd(':confirm bdelete')
+	elseif bufs[1].name ~= "" then
+		vim.cmd(':confirm bdelete')
+		vim.cmd(':Alpha')
+	else
+		vim.cmd(':qall!')
+	end
+end
+lvim.builtin.which_key.mappings['q'] = { quit, 'Close tab' }
 lvim.builtin.which_key.mappings['Q'] = { ':confirm qall<cr>', 'Force quit' }
 
 --------------------------------
 ---- Splits --------------------
 --------------------------------
+lvim.keys.normal_mode['<C-Left>'] = ":lua require('smart-splits').resize_left()<cr>";
+lvim.keys.normal_mode['<C-Down>'] = ":lua require('smart-splits').resize_down()<cr>";
+lvim.keys.normal_mode['<C-Up>'] = ":lua require('smart-splits').resize_up()<cr>";
+lvim.keys.normal_mode['<C-Right>'] = ":lua require('smart-splits').resize_right()<cr>";
+
 lvim.builtin.which_key.mappings['v'] = { ':vs<cr>', 'Vertical split' }
 lvim.builtin.which_key.mappings['x'] = { ':sp<cr>', 'Horizontal split' }
 lvim.builtin.which_key.mappings['k'] = {
@@ -245,7 +261,7 @@ formatters.setup({
 	},
 	{
 		name = 'prettier',
-		filetypes = { 'javascript', 'typescript', 'typescriptreact' },
+		filetypes = { 'javascript', 'json', 'typescript', 'typescriptreact' },
 	}
 })
 
