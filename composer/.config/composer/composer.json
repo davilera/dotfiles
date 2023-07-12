@@ -1,0 +1,24 @@
+{
+  "require": {
+    "dealerdirect/phpcodesniffer-composer-installer": "^1.0",
+    "php-stubs/woocommerce-stubs": "^7.8",
+    "php-stubs/wordpress-globals": "^0.2.0",
+    "php-stubs/wordpress-stubs": "^6.2",
+    "php-stubs/wp-cli-stubs": "^2.8",
+    "squizlabs/php_codesniffer": "^3.7",
+    "wp-coding-standards/wpcs": "^2.3"
+  },
+  "scripts": {
+    "install-codestandards": [
+      "PHPCSStandards\\Composer\\Plugin\\Installers\\PHPCodeSniffer\\Plugin::run"
+    ],
+    "post-install-cmd": [
+      "@install-codestandards"
+    ]
+  },
+  "config": {
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true
+    }
+  }
+}

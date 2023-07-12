@@ -45,7 +45,11 @@ npm install -g @elm-tooling/elm-language-server >/dev/null 2>&1
 npm install -g emmet-ls >/dev/null 2>&1
 npm install -g intelephense >/dev/null 2>&1
 npm install -g vscode-langservers-extracted >/dev/null 2>&1
-composer global require php-stubs/wordpress-globals php-stubs/wordpress-stubs php-stubs/woocommerce-stubs php-stubs/wp-cli-stubs
+
+cd $SRC_DIR 2>/dev/null
+stow --no-folding composer >/dev/null 2>&1
+composer global install >/dev/null 2>&1
+cd - 2>/dev/null
 
 echo ""
 echo -n "Do you want to install Docker and Lando? (y/N) "
