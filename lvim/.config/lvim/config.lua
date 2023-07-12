@@ -175,7 +175,7 @@ local function quit()
 	local bufs = vim.fn.getbufinfo({ buflisted = 1 })
 	if 1 < #bufs then
 		vim.cmd(':confirm bdelete')
-	elseif bufs[1].name ~= "" then
+	elseif bufs[1] and bufs[1].name ~= "" then
 		vim.cmd(':confirm bdelete')
 		vim.cmd(':Alpha')
 	else
