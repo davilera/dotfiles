@@ -252,19 +252,26 @@ lvim.builtin.which_key.mappings['d'] = {
 --   LINTERS/FORMATTERS
 -- =======================================================
 
+local function getPhpcbfStandard()
+	if 0 == vim.fn.filereadable('./phpcs.ruleset.xml') then
+		return '--standard=WordPress'
+	else
+		return '--standard=phpcs.ruleset.xml'
+	end
+end
+
 local formatters = require 'lvim.lsp.null-ls.formatters'
 formatters.setup({
 	{
 		name = 'phpcbf',
-		command = './vendor/bin/phpcbf',
-		args = { '-q', '--stdin-path=$FILENAME', '--standard=phpcs.ruleset.xml', '-' },
+		command = '~/.config/composer/vendor/bin/phpcbf',
+		args = { '-q', '--stdin-path=$FILENAME', getPhpcbfStandard(), '-' }
 	},
 	{
 		name = 'prettier',
 		filetypes = { 'javascript', 'json', 'typescript', 'typescriptreact' },
 	}
 })
-
 
 local linters = require 'lvim.lsp.null-ls.linters'
 linters.setup({
