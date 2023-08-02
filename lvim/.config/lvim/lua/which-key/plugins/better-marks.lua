@@ -40,7 +40,7 @@ function M.run(_trigger, _mode, buf)
 		end
 		local lnum = mark.pos[2]
 
-		local line
+		local line = '';
 		if mark.pos[1] and mark.pos[1] ~= 0 then
 			local lines = vim.fn.getbufline(mark.pos[1], lnum)
 			if lines and lines[1] then

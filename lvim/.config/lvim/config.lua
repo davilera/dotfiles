@@ -8,26 +8,6 @@
 -- =======================================================
 
 lvim.colorscheme = 'tokyonight-night'
-lvim.format_on_save.enabled = true
-lvim.format_on_save.timeout = 5000
-
-lvim.builtin.autopairs.active = false
-lvim.builtin.bufferline.options.show_buffer_close_icons = false
-lvim.builtin.indentlines.active = false
-lvim.builtin.project.manual_mode = true
-lvim.builtin.which_key.setup.plugins['better-marks'] = true
-lvim.builtin.which_key.setup.plugins['better-registers'] = true
-
-lvim.builtin.lualine.sections.lualine_x = {
-	{
-		'lsp_progress',
-		display_components = { 'spinner' },
-		spinner_symbols = { '⣾', '⣽', '⣻', '⢿', '⡿', '⣟', '⣯', '⣷' },
-	},
-	require('lvim.core.lualine.components').diagnostics,
-	require('lvim.core.lualine.components').lsp,
-	require('lvim.core.lualine.components').filetype,
-}
 
 local options = {
 	backupdir = '/tmp',    -- location of swap files
@@ -65,6 +45,9 @@ end
 -- =======================================================
 
 lvim.plugins = {
+	-- Async Format on Save
+	{ 'lukas-reineke/lsp-format.nvim', opts = {} },
+
 	-- Tab/space behavior
 	{
 		'FotiadisM/tabset.nvim',
@@ -128,14 +111,45 @@ vim.api.nvim_create_autocmd({ "BufRead" }, { command = ":delm a-zA-Z0-9", })
 
 
 -- =======================================================
+--   LVIM BUILTIN TWEAKS
+-- =======================================================
+
+lvim.format_on_save.enabled = true
+lvim.format_on_save.timeout = 5000
+
+lvim.builtin.autopairs.active = false
+lvim.builtin.bufferline.options.show_buffer_close_icons = false
+lvim.builtin.indentlines.active = false
+lvim.builtin.project.manual_mode = true
+lvim.builtin.which_key.setup.plugins['better-marks'] = true
+lvim.builtin.which_key.setup.plugins['better-registers'] = true
+-- lvim.lsp.on_attach_callback = require('lsp-format').on_attach
+
+lvim.builtin.lualine.sections.lualine_x = {
+	{
+		'lsp_progress',
+		display_components = { 'spinner' },
+		spinner_symbols = { '⣾', '⣽', '⣻', '⢿', '⡿', '⣟', '⣯', '⣷' },
+	},
+	require('lvim.core.lualine.components').diagnostics,
+	require('lvim.core.lualine.components').lsp,
+	require('lvim.core.lualine.components').filetype,
+}
+
+-- =======================================================
 --   SHORTCUTS
 -- =======================================================
 
 --------------------------------
+---- Utils ---------------------
+--------------------------------
+lvim.builtin.which_key.mappings['f'] = nil
+lvim.builtin.which_key.mappings['s']['g'] = lvim.builtin.which_key.mappings['s']['t']
+
+--------------------------------
 ---- Git -----------------------
 --------------------------------
-lvim.builtin.which_key.mappings['j'] = lvim.builtin.which_key.mappings['g']
-lvim.builtin.which_key.mappings['j']['q'] = {
+lvim.builtin.which_key.mappings['g']['q'] = {
 	"<C-w>h:lua if vim.api.nvim_buf_get_name(0):find('^gitsigns:') ~= nil then vim.cmd(':q') end<cr>",
 	'Close diff'
 }
@@ -145,22 +159,6 @@ lvim.builtin.which_key.mappings['j']['q'] = {
 --------------------------------
 lvim.keys.normal_mode['L'] = ':bnext<cr>';
 lvim.keys.normal_mode['H'] = ':bprev<cr>';
-lvim.builtin.which_key.mappings['t'] = {
-	lvim.builtin.which_key.mappings['b']['j'][1],
-	'Select tab'
-}
-
---------------------------------
----- Find/Grep files -----------
---------------------------------
-lvim.builtin.which_key.mappings['f'] = {
-	lvim.builtin.which_key.mappings['s']['f'][1],
-	'Find files'
-}
-lvim.builtin.which_key.mappings['g'] = {
-	lvim.builtin.which_key.mappings['s']['t'][1],
-	'Grep files'
-}
 
 --------------------------------
 ---- Save ----------------------
@@ -175,11 +173,13 @@ local function quit()
 	local bufs = vim.fn.getbufinfo({ buflisted = 1 })
 	if 1 < #bufs then
 		vim.cmd(':confirm bdelete')
-	elseif bufs[1] and bufs[1].name ~= "" then
+	elseif bufs[1] then
 		vim.cmd(':confirm bdelete')
 		vim.cmd(':Alpha')
+		local empty = vim.fn.getbufinfo({ buflisted = 1 })[1]['bufnr']
+		vim.cmd(string.format(':%dbunload', empty))
 	else
-		vim.cmd(':qall!')
+		vim.cmd(':confirm qall')
 	end
 end
 lvim.builtin.which_key.mappings['q'] = { quit, 'Close tab' }
@@ -240,12 +240,28 @@ lvim.builtin.which_key.mappings['l']['i'] = {
 }
 lvim.builtin.which_key.mappings['l']['Q'] = lvim.builtin.which_key.mappings['l']['d']
 
-lvim.builtin.which_key.mappings['l']['d'] = {
-	':vs<cr>:lua vim.lsp.buf.definition()<cr>', 'Jump to definition'
-}
-lvim.builtin.which_key.mappings['d'] = {
-	':vs<cr>:lua vim.lsp.buf.definition()<cr>', 'Jump to definition'
-}
+local function nilget(t, ...)
+	for i = 1, select("#", ...) do
+		if t == nil then return nil end
+		t = t[select(i, ...)]
+	end
+	return t
+end
+
+local function gotoDefinition()
+	local current_file = 'file://' .. vim.api.nvim_buf_get_name(0)
+	local cursor_position = vim.api.nvim_win_get_cursor(0)
+	local definition = vim.lsp.buf_request_sync(vim.fn.bufnr(), 'textDocument/definition', {
+		textDocument = { uri = current_file },
+		position = { line = cursor_position[1], character = cursor_position[2] },
+	})
+	local definition_file = nilget(definition, 1, 'result', 1, 'targetUri') or current_file
+	if current_file ~= definition_file then
+		vim.cmd('vsplit')
+	end
+	vim.lsp.buf.definition()
+end
+lvim.builtin.which_key.mappings['l']['d'] = { gotoDefinition, 'Jump to definition' }
 
 
 -- =======================================================
@@ -275,10 +291,6 @@ formatters.setup({
 
 local linters = require 'lvim.lsp.null-ls.linters'
 linters.setup({
-	{
-		name = 'prettier',
-		filetypes = { 'javascript', 'typescript', 'typescriptreact' },
-	},
 	{
 		name = 'eslint_d',
 		filetypes = { 'javascript', 'typescript', 'typescriptreact' },
