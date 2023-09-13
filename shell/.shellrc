@@ -43,6 +43,7 @@ alias colorize="ccze -A"
 alias grep="ag --norecurse --noheading --nobreak --ignore node_modules --ignore vendor --ignore e2e-tests --ignore build --ignore dist --ignore build-module --ignore .lando"
 alias top="htop"
 alias tree="tree -C"
+alias wpd="meld ~/Programs/dev/wordpress.org/`basename $PWD`/trunk ."
 
 alias ga="git add"
 alias gc="git commit"
