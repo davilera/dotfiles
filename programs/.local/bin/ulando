@@ -1,0 +1,5 @@
+#!/bin/sh
+
+version=`wget -qO- "https://api.github.com/repos/lando/lando/releases/latest" | jq -r .tag_name`
+wget -q "https://github.com/lando/lando/releases/download/$version/lando-x64-$version.deb" -O /tmp/lando.deb
+sudo dpkg -i /tmp/lando.deb
