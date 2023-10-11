@@ -256,8 +256,17 @@ local function gotoDefinition()
 		position = { line = cursor_position[1], character = cursor_position[2] },
 	})
 	local definition_file = nilget(definition, 1, 'result', 1, 'targetUri') or current_file
+	print(vim.inspect(definition))
+	print('C:' .. current_file .. ' D:' .. definition_file)
 	if current_file ~= definition_file then
-		vim.cmd('vsplit')
+		local num_of_splits = #vim.api.nvim_tabpage_list_wins(0)
+		if 1 == num_of_splits then
+			vim.cmd('vsplit')
+		else
+			vim.cmd(vim.api.nvim_replace_termcodes('normal 20<C-w>l', true, true, true))
+			vim.cmd(vim.api.nvim_replace_termcodes('normal 20<C-w>j', true, true, true))
+			vim.cmd('split')
+		end
 	end
 	vim.lsp.buf.definition()
 end
