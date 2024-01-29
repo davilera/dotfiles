@@ -156,6 +156,9 @@ lvim.builtin.lualine.sections.lualine_x = {
 lvim.builtin.which_key.mappings['f'] = nil
 lvim.builtin.which_key.mappings['s']['g'] = lvim.builtin.which_key.mappings['s']['t']
 
+-- Replace visual selection
+lvim.keys.visual_mode['<C-r>'] = '"hy:%s/<C-r>h//gc<left><left><left>';
+
 --------------------------------
 ---- Git -----------------------
 --------------------------------
