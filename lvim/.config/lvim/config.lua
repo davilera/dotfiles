@@ -103,7 +103,17 @@ lvim.plugins = {
 	{ 'johmsalas/text-case.nvim' },
 
 	-- LSP status
-	{ 'arkav/lualine-lsp-progress' }
+	{ 'arkav/lualine-lsp-progress' },
+
+	-- Undo Tree
+	{
+		"jiaoshijie/undotree",
+		dependencies = "nvim-lua/plenary.nvim",
+		config = true,
+		keys = {
+			{ "<leader>u", "<cmd>lua require('undotree').toggle()<cr>" },
+		},
+	}
 }
 
 -- Remove marks when opening file
