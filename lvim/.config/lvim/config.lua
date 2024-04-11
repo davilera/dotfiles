@@ -22,16 +22,17 @@ local options = {
 	number = true,         -- show line numbers (current line only when combined with relative numbers)
 	path = '.,,',          -- search relative to current file + directory
 	relativenumber = true, -- show relative numbers
-	scrolloff = 8,         -- keep some context around current line
-	sidescrolloff = 8,     -- keep some context around current line
+	scrolloff = 0,         -- keep no context around current line
 	shiftwidth = 2,        -- indentation defaults (<< / >> / == / auto)
+	sidescrolloff = 0,     -- keep no context around current line
 	smartindent = true,    -- try to guess current indentation level
+	spell = true,          -- check spelling in comments and text files
 	splitbelow = true,     -- prefer new horizontal split below
 	splitright = true,     -- prefer new vertical split to the right
 	tabstop = 2,           -- tab characters take two spaces only
 	title = false,         -- disable title string
-	updatetime = 300,      -- faster autocomplete
 	undolevels = 100,      -- number of undo levels
+	updatetime = 300,      -- faster autocomplete
 	wrap = false,          -- wrap long lines
 }
 
@@ -170,8 +171,8 @@ lvim.builtin.which_key.mappings['g']['q'] = {
 --------------------------------
 ---- Tab Movement --------------
 --------------------------------
-lvim.keys.normal_mode['L'] = ':bnext<cr>';
-lvim.keys.normal_mode['H'] = ':bprev<cr>';
+lvim.keys.normal_mode['<C-n>'] = ':bnext<cr>';
+lvim.keys.normal_mode['<C-p>'] = ':bprev<cr>';
 
 --------------------------------
 ---- Save ----------------------
