@@ -10,7 +10,9 @@ export DEBIAN_FRONTEND="noninteractive"
 echo "Updating apt packages…"
 sudo apt-get -qq update
 sudo apt-get -qq upgrade
-sudo apt-get -qq install curl zsh
+
+echo "Installing basic stuff…"
+sudo apt-get -qq install curl zsh git i3
 
 echo ""
 echo "======"
@@ -160,6 +162,11 @@ version=`wget -qO- "https://api.github.com/repos/nvm-sh/nvm/releases/latest" | j
 LV_BRANCH=$version bash <(curl -s https://raw.githubusercontent.com/LunarVim/LunarVim/$version/utils/installer/install.sh)
 rm -f ~/.local/share/lunarvim.old  ~/.cache/lvim.old
 
+echo "Installing i3 dependencies…"
+sudo apt-get -qq install python3-i3ipc
+wget --quiet https://raw.githubusercontent.com/nwg-piotr/autotiling/master/autotiling/main.py -O ~/.local/bin/autotiling
+chmod a+x ~/.local/bin/autotiling
+
 echo ""
 echo "============="
 echo "INIT DOTFILES"
@@ -170,12 +177,13 @@ mkdir -p ~/.local/bin 2>/dev/null
 cd $SRC_DIR 2>/dev/null
 rm -rf ~/.git ~/.bash* ~/.vim 2>/dev/null
 stow git
+stow i3
+stow kitty
+stow lvim
 stow programs
 stow shell
 stow tmux
 stow vim
-stow lvim
-stow kitty
 cd - 2>/dev/null
 
 echo ""
