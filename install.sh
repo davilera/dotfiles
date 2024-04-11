@@ -163,7 +163,7 @@ LV_BRANCH=$version bash <(curl -s https://raw.githubusercontent.com/LunarVim/Lun
 rm -f ~/.local/share/lunarvim.old  ~/.cache/lvim.old
 
 echo "Installing i3 dependencies…"
-sudo apt-get -qq install python3-i3ipc
+sudo apt-get -qq install python3-i3ipc feh
 wget --quiet https://raw.githubusercontent.com/nwg-piotr/autotiling/master/autotiling/main.py -O ~/.local/bin/autotiling
 chmod a+x ~/.local/bin/autotiling
 
