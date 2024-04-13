@@ -157,6 +157,15 @@ lvim.builtin.which_key.mappings['s']['g'] = lvim.builtin.which_key.mappings['s']
 -- Replace visual selection
 lvim.keys.visual_mode['<C-r>'] = '"hy:%s/<C-r>h//gc<left><left><left>';
 
+-- Move lines (TODO)
+-- lvim.keys.normal_mode['<C-J>'] = ':m .+1<CR>==';
+-- lvim.keys.insert_mode['<C-J>'] = '<Esc>:m .+1<CR>==gi';
+-- lvim.keys.visual_mode['<C-J>'] = ":m '>+1<CR>gv-gv";
+
+-- lvim.keys.insert_mode['<C-K>'] = '<Esc>:m .-2<CR>==gi';
+-- lvim.keys.normal_mode['<C-K>'] = ':m .-2<CR>==';
+-- lvim.keys.visual_mode['<C-K>'] = ":m '<-2<CR>gv-gv";
+
 --------------------------------
 ---- Git -----------------------
 --------------------------------
