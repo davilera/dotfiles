@@ -97,9 +97,6 @@ lvim.plugins = {
 		}
 	},
 
-	-- Split management
-	{ 'mrjones2014/smart-splits.nvim' },
-
 	-- Text case conversions
 	{ 'johmsalas/text-case.nvim' },
 
@@ -202,11 +199,6 @@ lvim.builtin.which_key.mappings['Q'] = { ':confirm qall<cr>', 'Force quit' }
 --------------------------------
 ---- Splits --------------------
 --------------------------------
-lvim.keys.normal_mode['<C-Left>'] = ":lua require('smart-splits').resize_left()<cr>";
-lvim.keys.normal_mode['<C-Down>'] = ":lua require('smart-splits').resize_down()<cr>";
-lvim.keys.normal_mode['<C-Up>'] = ":lua require('smart-splits').resize_up()<cr>";
-lvim.keys.normal_mode['<C-Right>'] = ":lua require('smart-splits').resize_right()<cr>";
-
 lvim.builtin.which_key.mappings['v'] = { ':vs<cr>', 'Vertical split' }
 lvim.builtin.which_key.mappings['x'] = { ':sp<cr>', 'Horizontal split' }
 lvim.builtin.which_key.mappings['k'] = {
