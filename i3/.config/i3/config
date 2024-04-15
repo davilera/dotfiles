@@ -13,7 +13,7 @@
 set $mod Mod1
 
 # Set background
-exec_always feh --bg-fill ~/.config/i3/fantasy-forest-by-mikael-gustafsson.jpg
+exec_always --no-startup-id feh --bg-fill ~/.config/i3/fantasy-forest-by-mikael-gustafsson.jpg
 
 # Enable autotiling
 #exec_always --no-startup-id autotiling -sr 1.61
@@ -173,4 +173,4 @@ gaps inner 10px
 gaps outer 5px
 
 # Bar
-exec_always --no-startup-id ~/.config/polybar/start.sh
+exec_always --no-startup-id ~/.config/polybar/scripts/launch.sh
