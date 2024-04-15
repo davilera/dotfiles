@@ -163,9 +163,11 @@ LV_BRANCH=$version bash <(curl -s https://raw.githubusercontent.com/LunarVim/Lun
 rm -f ~/.local/share/lunarvim.old  ~/.cache/lvim.old
 
 echo "Installing i3 dependencies…"
-sudo apt-get -qq install python3-i3ipc feh
+sudo apt-get -qq install python3-i3ipc feh qalc polybar
 wget --quiet https://raw.githubusercontent.com/nwg-piotr/autotiling/master/autotiling/main.py -O ~/.local/bin/autotiling
 chmod a+x ~/.local/bin/autotiling
+
+wget --quiet https://github.com/jluttine/rofi-power-menu/raw/master/rofi-power-menu -O ~/.local/bin/rofi-power-menu
 
 echo ""
 echo "============="
