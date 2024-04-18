@@ -1,0 +1,159 @@
+/*
+====================================================================
+SECTION: SIDEBERY STYLES
+      => PLACE THIS SECTION MANUALLY IN SIDEBERY'S "CUSTOM STYLES"
+
+#root.root {--ctx-menu-padding: 0.3em;}
+#root.root {--ctx-menu-opt-padding: 0.3em;}
+#root.root {--ctx-menu-icon-opt-height: 30px;}
+#root.root {--d-swift: 0.1s;}
+
+#root.root {--nav-btn-fg: #ccc;}
+#root.root {--nav-delimiter-size: 1em;}
+#root.root {--nav-hidden-btn-border-radius: 0;}
+#root.root {--nav-btn-width: 36px;}
+#root.root {--tabs-height: 36px;}
+#root.root {--tabs-font: 0.9375rem system-ui;}
+#root.root {--tabs-count-font: 0.5625rem system-ui;}
+#root.root {--tabs-pinned-width: 32px;}
+#root.root {--tabs-inner-gap: 10px;}
+#root.root {--tabs-close-btn-margin: 3px;}
+#root.root {--tabs-lvl-opacity: 0.01;}
+#root.root {--tabs-activated-bg: #ffffff33;}
+#root.root {--tabs-activated-shadow: none;}
+#root.root {--tabs-normal-fg: #ccc;}
+#root.root {--tabs-border-radius: 0;}
+
+#root.root .main-items .nav-item {
+	box-shadow: none;
+  border-radius: 0;
+}
+
+#root.root:not(:hover) .main-items .nav-item {
+	display: none;
+  width: 40px;
+  margin-left: -1px;
+}
+
+#root.root:not(:hover) .main-items .nav-item[data-active="true"] {
+	display: flex;
+}
+
+
+END OF SIDEBERY STYLES SECTION
+====================================================================
+*/
+
+/*   Hide Firefox’s Native Tab Bar */
+
+#navigator-toolbox {
+  --toolbar-bgcolor: #242631;
+  display: flex !important;
+  background-color: var(--toolbar-bgcolor) !important;
+}
+
+#TabsToolbar .titlebar-spacer,
+#TabsToolbar .toolbar-items {
+  display: none !important;
+}
+
+#TabsToolbar .titlebar-buttonbox {
+  margin-right: 12px !important;
+}
+
+#TabsToolbar .Tab {
+	margin: 0;
+}
+
+
+/*   Dynamic sidebar   */
+
+#sidebar-header {
+  display: none;
+}
+
+#sidebar-splitter {
+  --sidebar-border-color: var(--chrome-content-separator-color);
+}
+
+#navigator-toolbox {
+  --toolbarbutton-hover-background: hsla(0, 0%, 70%, 0.2);
+}
+
+#sidebar-box {
+    /* CHANGE COLLAPSED SIDEBAR HERE */
+    /* border: 2px dashed orangered !important; */
+
+    overflow: hidden;
+    position: fixed;
+    display: inherit;
+    opacity: 0.95;
+    transition: 0.2s;
+		transition-delay: 0.5s;
+    transition-timing-function: ease-in-out;
+    z-index: 3;
+
+    /* width of collapsed sidebar */
+    min-width: calc(40px * 1) !important;
+    max-width: 40px !important;
+    width: calc(40px * 1) !important;
+
+    /* default sidebar height */
+    min-height: 100%;
+}
+
+[inFullscreen] #sidebar-box {
+    max-width: 5px;
+    height: 100%;
+    top: 1px
+}
+
+#sidebar-box:hover {
+    /* border: 2px dashed rgb(183, 20, 131) !important; */
+    /* expanded width */
+    min-width: unset !important;
+    max-width: calc(40px * 6) !important;
+    width: calc(40px * 6) !important;
+}
+
+#sidebar {
+    /* THIS IS THE SIDEBAR */
+    /* border: 2px dotted blue !important; */
+    max-width: 50vw !important;
+    width: calc(40px * 6) !important;
+    height: 100%;
+    background-color: transparent;
+    background-image: none !important;
+}
+
+.ScrollBox>.scroll-container>.scrollable {
+    background-color: transparent !important;
+    background-image: none !important;
+}
+
+#sidebar .container {
+    background-color: var(--bg) !important;
+}
+
+#appcontent {
+    /* margin-left: 28px; */
+    margin-left: 34px;
+    /* border: 1px solid green !important; */
+}
+
+[inFullscreen] #appcontent {
+    margin-left: -20px;
+    /* border: 1px solid aqua !important; */
+}
+
+@media(-moz-windows-default-theme) {
+    #appcontent {
+        margin-left: 100px;
+        /* border: 1px solid darkmagenta !important; */
+    }
+
+    [inFullscreen] #appcontent {
+        /* border: 1px solid magenta !important; */
+        margin-left: 0
+    }
+}
