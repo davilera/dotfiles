@@ -1,27 +1,28 @@
+/* Hide Firefox Native Tabs */
+
+#navigator-toolbox {
+  --toolbar-bgcolor: #242631;
+  display: flex !important;
+  background-color: var(--toolbar-bgcolor) !important;
+}
+
+#TabsToolbar .titlebar-spacer,
+#TabsToolbar .toolbar-items {
+  display: none !important;
+}
+
+#TabsToolbar .titlebar-buttonbox {
+  margin-right: 12px !important;
+}
+
+#TabsToolbar .Tab {
+	margin: 0;
+}
+
 /* Sidebery */
+
 #main-window .tabbrowser-tab {
   visibility: collapse !important;
-}
-
-#main-window .titlebar-button {
-  height: 40px !important;
-}
-
-#main-window #nav-bar {
-  margin-top: -40px;
-  margin-right: 137px;
-  box-shadow: none !important;
-}
-#main-window #titlebar-spacer {
-  background-color: var(--chrome-secondary-background-color);
-}
-
-#main-window #titlebar-buttonbox-container {
-  background-color: var(--chrome-secondary-background-color);
-}
-
-#main-window .titlebar-color {
-  background-color: var(--toolbar-bgcolor);
 }
 
 #sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"] #sidebar-header {
