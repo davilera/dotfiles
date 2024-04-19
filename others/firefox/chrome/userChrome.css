@@ -1,159 +1,84 @@
-/*
-====================================================================
-SECTION: SIDEBERY STYLES
-      => PLACE THIS SECTION MANUALLY IN SIDEBERY'S "CUSTOM STYLES"
-
-#root.root {--ctx-menu-padding: 0.3em;}
-#root.root {--ctx-menu-opt-padding: 0.3em;}
-#root.root {--ctx-menu-icon-opt-height: 30px;}
-#root.root {--d-swift: 0.1s;}
-
-#root.root {--nav-btn-fg: #ccc;}
-#root.root {--nav-delimiter-size: 1em;}
-#root.root {--nav-hidden-btn-border-radius: 0;}
-#root.root {--nav-btn-width: 36px;}
-#root.root {--tabs-height: 36px;}
-#root.root {--tabs-font: 0.9375rem system-ui;}
-#root.root {--tabs-count-font: 0.5625rem system-ui;}
-#root.root {--tabs-pinned-width: 32px;}
-#root.root {--tabs-inner-gap: 10px;}
-#root.root {--tabs-close-btn-margin: 3px;}
-#root.root {--tabs-lvl-opacity: 0.01;}
-#root.root {--tabs-activated-bg: #ffffff33;}
-#root.root {--tabs-activated-shadow: none;}
-#root.root {--tabs-normal-fg: #ccc;}
-#root.root {--tabs-border-radius: 0;}
-
-#root.root .main-items .nav-item {
-	box-shadow: none;
-  border-radius: 0;
+/* Sidebery */
+#main-window .tabbrowser-tab {
+  visibility: collapse !important;
 }
 
-#root.root:not(:hover) .main-items .nav-item {
-	display: none;
-  width: 40px;
-  margin-left: -1px;
+#main-window .titlebar-button {
+  height: 40px !important;
 }
 
-#root.root:not(:hover) .main-items .nav-item[data-active="true"] {
-	display: flex;
+#main-window #nav-bar {
+  margin-top: -40px;
+  margin-right: 137px;
+  box-shadow: none !important;
+}
+#main-window #titlebar-spacer {
+  background-color: var(--chrome-secondary-background-color);
 }
 
+#main-window #titlebar-buttonbox-container {
+  background-color: var(--chrome-secondary-background-color);
+}
 
-END OF SIDEBERY STYLES SECTION
-====================================================================
-*/
+#main-window .titlebar-color {
+  background-color: var(--toolbar-bgcolor);
+}
 
-/*   Hide Firefox’s Native Tab Bar */
+#sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"] #sidebar-header {
+  visibility: collapse;
+}
 
-#navigator-toolbox {
-  --toolbar-bgcolor: #242631;
-  display: flex !important;
+/* Source file https://github.com/MrOtherGuy/firefox-csshacks/tree/master/chrome/autohide_sidebar.css made available under Mozilla Public License v. 2.0
+See the above repository for updates as well as full license text. */
+
+/* Show sidebar only when the cursor is over it  */
+/* The border controlling sidebar width will be removed so you'll need to modify these values to change width */
+
+#sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"] {
+  --uc-sidebar-width: 32px !important;
+  --uc-sidebar-hover-width: 250px;
+  --uc-show-sidebar-delay: 200ms; /* Wait 0.3s before hiding sidebar */
+  --uc-autohide-sidebar-delay: 500ms; /* Wait 0.3s before hiding sidebar */
+  position: relative;
+  min-width: var(--uc-sidebar-width) !important;
+  width: var(--uc-sidebar-width) !important;
+  max-width: var(--uc-sidebar-width) !important;
+  z-index:1;
+}
+
+#sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"] > #sidebar-splitter {
+  display: none
+}
+
+#sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"] > #sidebar {
+  transition: min-width 115ms linear var(--uc-autohide-sidebar-delay) !important;
+  min-width: var(--uc-sidebar-width) !important;
+  will-change: min-width;
+}
+
+#sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"]:hover > #sidebar{
+  min-width: var(--uc-sidebar-hover-width) !important;
+  transition-delay: var(--uc-show-sidebar-delay) !important
+}
+
+/* Add sidebar divider and give it background */
+
+#sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"] > #sidebar,
+#sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"] > #sidebar-header {
   background-color: var(--toolbar-bgcolor) !important;
+  border-inline: 1px solid var(--chrome-content-separator-color) !important;
+  border-inline-width: 0px 1px;
+}
+#sidebar-box[positionend]{
+  direction: rtl
+}
+#sidebar-box[positionend] > *{
+  direction: ltr
 }
 
-#TabsToolbar .titlebar-spacer,
-#TabsToolbar .toolbar-items {
-  display: none !important;
+#sidebar-box[positionend]:-moz-locale-dir(rtl){
+  direction: ltr
 }
-
-#TabsToolbar .titlebar-buttonbox {
-  margin-right: 12px !important;
-}
-
-#TabsToolbar .Tab {
-	margin: 0;
-}
-
-
-/*   Dynamic sidebar   */
-
-#sidebar-header {
-  display: none;
-}
-
-#sidebar-splitter {
-  --sidebar-border-color: var(--chrome-content-separator-color);
-}
-
-#navigator-toolbox {
-  --toolbarbutton-hover-background: hsla(0, 0%, 70%, 0.2);
-}
-
-#sidebar-box {
-    /* CHANGE COLLAPSED SIDEBAR HERE */
-    /* border: 2px dashed orangered !important; */
-
-    overflow: hidden;
-    position: fixed;
-    display: inherit;
-    opacity: 0.95;
-    transition: 0.2s;
-		transition-delay: 0.5s;
-    transition-timing-function: ease-in-out;
-    z-index: 3;
-
-    /* width of collapsed sidebar */
-    min-width: calc(40px * 1) !important;
-    max-width: 40px !important;
-    width: calc(40px * 1) !important;
-
-    /* default sidebar height */
-    min-height: 100%;
-}
-
-[inFullscreen] #sidebar-box {
-    max-width: 5px;
-    height: 100%;
-    top: 1px
-}
-
-#sidebar-box:hover {
-    /* border: 2px dashed rgb(183, 20, 131) !important; */
-    /* expanded width */
-    min-width: unset !important;
-    max-width: calc(40px * 6) !important;
-    width: calc(40px * 6) !important;
-}
-
-#sidebar {
-    /* THIS IS THE SIDEBAR */
-    /* border: 2px dotted blue !important; */
-    max-width: 50vw !important;
-    width: calc(40px * 6) !important;
-    height: 100%;
-    background-color: transparent;
-    background-image: none !important;
-}
-
-.ScrollBox>.scroll-container>.scrollable {
-    background-color: transparent !important;
-    background-image: none !important;
-}
-
-#sidebar .container {
-    background-color: var(--bg) !important;
-}
-
-#appcontent {
-    /* margin-left: 28px; */
-    margin-left: 34px;
-    /* border: 1px solid green !important; */
-}
-
-[inFullscreen] #appcontent {
-    margin-left: -20px;
-    /* border: 1px solid aqua !important; */
-}
-
-@media(-moz-windows-default-theme) {
-    #appcontent {
-        margin-left: 100px;
-        /* border: 1px solid darkmagenta !important; */
-    }
-
-    [inFullscreen] #appcontent {
-        /* border: 1px solid magenta !important; */
-        margin-left: 0
-    }
+#sidebar-box[positionend]:-moz-locale-dir(rtl) > *{
+  direction: rtl
 }
