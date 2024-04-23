@@ -7,7 +7,10 @@
 --   BASIC SETUP
 -- =======================================================
 
-lvim.colorscheme = 'tokyonight-night'
+lvim.colorscheme = 'catppuccin-mocha'
+require('catppuccin').setup({
+	transparent_background = true
+})
 
 local options = {
 	backupdir = '/tmp',      -- location of swap files
@@ -46,6 +49,10 @@ end
 -- =======================================================
 
 lvim.plugins = {
+	-- Colorschemes
+	{ 'rose-pine/neovim' },
+	{ 'catppuccin/nvim',               name = 'catppuccin' },
+
 	-- Async Format on Save
 	{ 'lukas-reineke/lsp-format.nvim', opts = {} },
 
