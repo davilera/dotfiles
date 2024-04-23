@@ -10,30 +10,30 @@
 lvim.colorscheme = 'tokyonight-night'
 
 local options = {
-	backupdir = '/tmp',    -- location of swap files
-	clipboard = '',        -- disable integration with system clipboard
-	cmdheight = 2,         -- more space in neovim’s command line for displaying messages
-	cursorline = true,     -- highlight current line
-	cursorlineopt = 'both', -- highlight current line
-	encoding = 'utf-8',    -- fix encoding
-	hidden = true,         -- prefer hiding over unloading buffers
-	hlsearch = true,       -- highlight search
-	mouse = '',            -- disable mouse
-	number = true,         -- show line numbers (current line only when combined with relative numbers)
-	path = '.,,',          -- search relative to current file + directory
-	relativenumber = true, -- show relative numbers
-	scrolloff = 0,         -- keep no context around current line
-	shiftwidth = 2,        -- indentation defaults (<< / >> / == / auto)
-	sidescrolloff = 0,     -- keep no context around current line
-	smartindent = true,    -- try to guess current indentation level
-	spell = true,          -- check spelling in comments and text files
-	splitbelow = true,     -- prefer new horizontal split below
-	splitright = true,     -- prefer new vertical split to the right
-	tabstop = 2,           -- tab characters take two spaces only
-	title = false,         -- disable title string
-	undolevels = 100,      -- number of undo levels
-	updatetime = 300,      -- faster autocomplete
-	wrap = false,          -- wrap long lines
+	backupdir = '/tmp',      -- location of swap files
+	clipboard = '',          -- disable integration with system clipboard
+	cmdheight = 2,           -- more space in neovim’s command line for displaying messages
+	cursorline = false,      -- highlight current line
+	cursorlineopt = 'number', -- highlight current line
+	encoding = 'utf-8',      -- fix encoding
+	hidden = true,           -- prefer hiding over unloading buffers
+	hlsearch = true,         -- highlight search
+	mouse = '',              -- disable mouse
+	number = true,           -- show line numbers (current line only when combined with relative numbers)
+	path = '.,,',            -- search relative to current file + directory
+	relativenumber = true,   -- show relative numbers
+	scrolloff = 0,           -- keep no context around current line
+	shiftwidth = 2,          -- indentation defaults (<< / >> / == / auto)
+	sidescrolloff = 0,       -- keep no context around current line
+	smartindent = true,      -- try to guess current indentation level
+	spell = true,            -- check spelling in comments and text files
+	splitbelow = true,       -- prefer new horizontal split below
+	splitright = true,       -- prefer new vertical split to the right
+	tabstop = 2,             -- tab characters take two spaces only
+	title = false,           -- disable title string
+	undolevels = 100,        -- number of undo levels
+	updatetime = 300,        -- faster autocomplete
+	wrap = false,            -- wrap long lines
 }
 
 for k, v in pairs(options) do
@@ -130,7 +130,7 @@ lvim.builtin.bufferline.options.show_buffer_close_icons = false
 lvim.builtin.indentlines.active = false
 lvim.builtin.project.manual_mode = true
 lvim.builtin.which_key.setup.plugins['better-marks'] = true
-lvim.builtin.which_key.setup.plugins['better-registers'] = true
+-- lvim.builtin.which_key.setup.plugins['better-registers'] = true
 -- lvim.lsp.on_attach_callback = require('lsp-format').on_attach
 
 lvim.builtin.lualine.sections.lualine_x = {
@@ -271,8 +271,8 @@ local function gotoDefinition()
 		position = { line = cursor_position[1], character = cursor_position[2] },
 	})
 	local definition_file = nilget(definition, 1, 'result', 1, 'targetUri') or current_file
-	print(vim.inspect(definition))
-	print('C:' .. current_file .. ' D:' .. definition_file)
+	-- print(vim.inspect(definition))
+	-- print('C:' .. current_file .. ' D:' .. definition_file)
 	if current_file ~= definition_file then
 		local num_of_splits = #vim.api.nvim_tabpage_list_wins(0)
 		if 1 == num_of_splits then

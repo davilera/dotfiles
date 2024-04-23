@@ -12,7 +12,7 @@ sudo apt-get -qq update
 sudo apt-get -qq upgrade
 
 echo "Installing basic stuff…"
-sudo apt-get -qq install curl zsh git i3
+sudo apt-get -qq install curl zsh git vim kitty
 
 echo ""
 echo "======"
@@ -20,7 +20,7 @@ echo "SYSTEM"
 echo "======"
 
 echo "Installing dev packages…"
-sudo apt-get -qq install stow fasd tree meld jq vim ruby subversion composer php-xml awscli curl g++ build-essential kitty openjdk-17-jdk openjdk-17-jre python python3-pip julia golang cargo luarocks markdown
+sudo apt-get -qq install stow fasd tree meld jq ruby subversion composer php-xml awscli curl g++ build-essential openjdk-17-jdk openjdk-17-jre python3 python3-pip golang cargo luarocks markdown
 sudo update-alternatives --set editor /usr/bin/vim.basic
 
 echo "Installing utilities…"
@@ -156,6 +156,7 @@ echo "Installing lazygit…"
 echo "TODO"
 
 echo "Installing LunarVim…"
+sudo apt-get -qq install xclip
 wget --quiet https://github.com/neovim/neovim/releases/latest/download/nvim.appimage -O ~/.local/bin/nvim
 chmod u+x ~/.local/bin/nvim
 version=`wget -qO- "https://api.github.com/repos/nvm-sh/nvm/releases/latest" | jq -r .target_commitish`
@@ -163,7 +164,7 @@ LV_BRANCH=$version bash <(curl -s https://raw.githubusercontent.com/LunarVim/Lun
 rm -f ~/.local/share/lunarvim.old  ~/.cache/lvim.old
 
 echo "Installing i3 dependencies…"
-sudo apt-get -qq install python3-i3ipc feh qalc polybar
+sudo apt-get -qq install i3 python3-i3ipc feh qalc polybar rofi
 wget --quiet https://raw.githubusercontent.com/nwg-piotr/autotiling/master/autotiling/main.py -O ~/.local/bin/autotiling
 chmod a+x ~/.local/bin/autotiling
 

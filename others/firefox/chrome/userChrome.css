@@ -36,9 +36,9 @@ See the above repository for updates as well as full license text. */
 /* The border controlling sidebar width will be removed so you'll need to modify these values to change width */
 
 #sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"] {
-  --uc-sidebar-width: 32px !important;
+  --uc-sidebar-width: 36px !important;
   --uc-sidebar-hover-width: 250px;
-  --uc-show-sidebar-delay: 200ms; /* Wait 0.3s before hiding sidebar */
+  --uc-show-sidebar-delay: 1000ms; /* Wait 1s before showing sidebar */
   --uc-autohide-sidebar-delay: 500ms; /* Wait 0.3s before hiding sidebar */
   position: relative;
   min-width: var(--uc-sidebar-width) !important;
