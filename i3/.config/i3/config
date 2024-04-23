@@ -1,6 +1,3 @@
-# Keyboard Layout
-exec --no-startup-id setxkbmap -layout us -variant altgr-intl
-
 # Modifier
 set $mod Mod1
 floating_modifier $mod
@@ -28,3 +25,7 @@ include navigation.conf
 include scratchpads.conf
 include theme.conf
 include colorschemes/catppuccin-mocha.conf
+
+# Keyboard Layout
+exec --no-startup-id setxkbmap -layout us -variant altgr-intl
+
