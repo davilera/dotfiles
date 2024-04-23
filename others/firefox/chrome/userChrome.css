@@ -38,8 +38,8 @@ See the above repository for updates as well as full license text. */
 #sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"] {
   --uc-sidebar-width: 36px !important;
   --uc-sidebar-hover-width: 250px;
-  --uc-show-sidebar-delay: 1000ms; /* Wait 1s before showing sidebar */
-  --uc-autohide-sidebar-delay: 500ms; /* Wait 0.3s before hiding sidebar */
+  --uc-show-sidebar-delay: 1200ms;
+  --uc-autohide-sidebar-delay: 5ms;
   position: relative;
   min-width: var(--uc-sidebar-width) !important;
   width: var(--uc-sidebar-width) !important;
