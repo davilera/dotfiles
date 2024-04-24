@@ -20,6 +20,7 @@ set $ws10 "10"
 
 # Includes
 include desktop.conf
+include floating.conf
 include multimedia.conf
 include navigation.conf
 include scratchpads.conf
