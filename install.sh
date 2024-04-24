@@ -119,18 +119,8 @@ echo "Adding zsh themes…"
 git clone --quiet "https://github.com/bhilburn/powerlevel9k" ~/.oh-my-zsh/custom/themes/powerlevel9k
 git clone --quiet "https://github.com/win0err/aphrodite-terminal-theme" ~/.oh-my-zsh/custom/themes/aphrodite
 
-echo "Installing FiraCode…"
-mkdir -p ~/.local/share/fonts/ 2>&1 >/dev/null
-cd ~/.local/share/fonts/
-wget --quiet "https://github.com/ryanoasis/nerd-fonts/releases/latest/download/FiraCode.zip"
-unzip -qqo FiraCode.zip
-mv FiraCodeNerdFontMono-Regular.ttf tmp.ttf >/dev/null 2>&1
-rm -f FiraCode* LICENSE readme.md >/dev/null 2>&1
-mv tmp.ttf "FiraCode Nerd Font Mono.ttf" >/dev/null 2>&1
-rm -f FiraCode.zip >/dev/null 2>&1
-cd -
-
 echo "Installing diff-so-fancy…"
+mkdir -p ~/.local/bin
 cd ~/.local/bin/ 2>/dev/null
 rm -f diff-so-fancy 2>/dev/null
 wget --quiet "https://github.com/so-fancy/diff-so-fancy/releases/latest/download/diff-so-fancy"
@@ -138,6 +128,7 @@ chmod a+x diff-so-fancy
 cd - 2>/dev/null
 
 echo "Installing prettyping…"
+mkdir -p ~/.local/bin
 cd ~/.local/bin/ 2>/dev/null
 rm -f prettyping 2>/dev/null
 wget --quiet "https://github.com/denilsonsa/prettyping/archive/refs/tags/v1.0.1.zip"
@@ -153,10 +144,15 @@ wget --quiet "https://github.com/sharkdp/bat/releases/download/v$version/bat-mus
 sudo dpkg -i "bat-musl_${version}_amd64.deb"
 
 echo "Installing lazygit…"
-echo "TODO"
+LAZYGIT_VERSION=`wget -qO- "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | jq -r .tag_name | sed -e "s/v//"`
+curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz" >/dev/null 2>&1
+tar xf lazygit.tar.gz lazygit
+sudo install lazygit /usr/local/bin
+rm -f lazygit lazygit.tar.gz
 
 echo "Installing LunarVim…"
 sudo apt-get -qq install xclip
+mkdir -p ~/.local/bin
 wget --quiet https://github.com/neovim/neovim/releases/latest/download/nvim.appimage -O ~/.local/bin/nvim
 chmod u+x ~/.local/bin/nvim
 version=`wget -qO- "https://api.github.com/repos/nvm-sh/nvm/releases/latest" | jq -r .target_commitish`
@@ -164,10 +160,12 @@ LV_BRANCH=$version bash <(curl -s https://raw.githubusercontent.com/LunarVim/Lun
 rm -f ~/.local/share/lunarvim.old  ~/.cache/lvim.old
 
 echo "Installing i3 dependencies…"
-sudo apt-get -qq install i3 python3-i3ipc feh qalc polybar rofi
+sudo apt-get -qq install i3 python3-i3ipc feh qalc polybar rofi dunst
+mkdir -p ~/.local/bin
 wget --quiet https://raw.githubusercontent.com/nwg-piotr/autotiling/master/autotiling/main.py -O ~/.local/bin/autotiling
 chmod a+x ~/.local/bin/autotiling
 
+mkdir -p ~/.local/bin
 wget --quiet https://github.com/jluttine/rofi-power-menu/raw/master/rofi-power-menu -O ~/.local/bin/rofi-power-menu
 
 echo ""
@@ -176,6 +174,7 @@ echo "INIT DOTFILES"
 echo "============="
 
 echo "Installing stow and getting dotfiles…"
+mkdir -p ~/.local/bin
 mkdir -p ~/.local/bin 2>/dev/null
 cd $SRC_DIR 2>/dev/null
 rm -rf ~/.git ~/.bash* ~/.vim 2>/dev/null
