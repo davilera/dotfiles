@@ -178,13 +178,11 @@ mkdir -p ~/.local/bin
 mkdir -p ~/.local/bin 2>/dev/null
 cd $SRC_DIR 2>/dev/null
 rm -rf ~/.git ~/.bash* ~/.vim 2>/dev/null
-stow git
-stow i3
-stow kitty
+stow --no-folding desktop
+stow --no-folding git
+stow --no-folding programs
+stow --no-folding shell
 stow lvim
-stow programs
-stow shell
-stow tmux
 stow vim
 cd - 2>/dev/null
 
