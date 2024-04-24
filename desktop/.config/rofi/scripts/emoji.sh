@@ -5,4 +5,4 @@
 
 DIR="$HOME/.config/rofi"
 
-rofi -no-config -no-lazy-grab -show emoji -modi emoji -theme ~/.config/rofi/emoji.rasi
+rofi -no-config -no-lazy-grab -show emoji -modi emoji -theme $DIR/emoji.rasi
