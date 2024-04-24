@@ -1,5 +1,14 @@
+/*
+	*
+	* Author  : Aditya Shakya
+	* Mail    : adi1090x@gmail.com
+	* Github  : @adi1090x
+	* Twitter : @adi1090x
+	*
+	*/
+
 configuration {
-	font: "Iosevka Nerd Font 10";
+	font: "JetBrainsMono Nerd Font Mono 10";
 	show-icons: true;
 	icon-theme: "Papirus";
 	display-drun: "";
@@ -20,25 +29,25 @@ window {
 	border-color: @ac;
 	border-radius: 0px;
 	width: 300px;
-	location: northeast;
+	location: center;
 	x-offset: -10;
 	y-offset: 40;
 }
 
 prompt {
 	enabled: true;
-	padding: 0px 0px 0px 5px;
+	padding: 0px 0px 0px 10px;
 	background-color: @al;
 	text-color: @fg;
 }
 
 textbox-prompt-colon {
-	padding: 1px 0px 0px 0px;
+	padding: 1px 0px 0px 5px;
 	background-color: @al;
 	text-color: @ac;
 	expand: false;
-	str: "";
-	font: "feather 10";
+	str: "";
+	font: "JetBrainsMono Nerd Font Mono 10";
 }
 
 entry {
@@ -68,7 +77,7 @@ listview {
 	background-color: @al;
 	padding: 0px;
 	columns: 1;
-	lines: 5;
+	lines: 8;
 	spacing: 0px;
 	cycle: true;
 	dynamic: true;
@@ -90,7 +99,7 @@ element {
 	text-color: @fg;
 	orientation: horizontal;
 	border-radius: 0px;
-	padding: 6px 6px 6px -21px;
+	padding: 6px 6px 6px -11px;
 }
 
 element-icon {

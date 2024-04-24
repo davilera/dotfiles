@@ -1,8 +1,8 @@
 configuration {
-	font: "Noto Sans 10";
+	font: "JetBrainsMono Nerd Font Mono 10";
 	show-icons: true;
 	icon-theme: "Papirus";
-	display-drun: "";
+	display-drun: "TODO";
 	drun-display-format: "{name}";
 	disable-history: false;
 	fullscreen: false;
@@ -20,17 +20,25 @@ window {
 	border-color: @ac;
 	border-radius: 0px;
 	width: 300px;
-	location: northwest;
-	x-offset: 10;
+	location: center;
+	x-offset: -10;
 	y-offset: 40;
 }
 
 prompt {
-	font: "Noto Sans 10";
 	enabled: true;
-	padding: 0px;
+	padding: 0px 0px 0px 5px;
+	background-color: @al;
+	text-color: @fg;
+}
+
+textbox-prompt-colon {
+	padding: 1px 0px 0px 0px;
 	background-color: @al;
 	text-color: @ac;
+	expand: false;
+	str: "";
+	font: "JetBrainsMono Nerd Font Mono 10";
 }
 
 entry {
@@ -45,7 +53,7 @@ entry {
 }
 
 inputbar {
-	children: [ prompt, entry ];
+	children: [ textbox-prompt-colon, prompt ];
 	background-color: @bga;
 	text-color: @fg;
 	expand: false;
@@ -60,7 +68,7 @@ listview {
 	background-color: @al;
 	padding: 0px;
 	columns: 1;
-	lines: 10;
+	lines: 5;
 	spacing: 0px;
 	cycle: true;
 	dynamic: true;
@@ -82,7 +90,7 @@ element {
 	text-color: @fg;
 	orientation: horizontal;
 	border-radius: 0px;
-	padding: 6px;
+	padding: 6px 6px 6px -21px;
 }
 
 element-icon {

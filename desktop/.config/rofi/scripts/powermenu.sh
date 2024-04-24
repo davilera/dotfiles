@@ -1,16 +1,16 @@
 #!/usr/bin/env bash
 
-DIR="$HOME/.config/polybar/rofi"
+DIR="$HOME/.config/rofi"
 uptime=$(uptime -p | sed -e 's/up //g')
 
 rofi_command="rofi -no-config -theme $DIR/powermenu.rasi"
 
 # Options
-shutdown=" Shutdown"
-reboot=" Restart"
-lock=" Lock"
-suspend=" Sleep"
-logout=" Logout"
+lock=" Lock"
+suspend=" Sleep"
+logout="󰍃 Logout"
+reboot="󰜉 Restart"
+shutdown="󰐥 Shutdown"
 
 # Confirmation
 confirm_exit() {
