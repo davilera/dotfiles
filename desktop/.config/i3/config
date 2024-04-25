@@ -1,5 +1,5 @@
 # Modifier
-set $mod Mod1
+set $mod Mod4
 floating_modifier $mod
 
 # Reload and Restart

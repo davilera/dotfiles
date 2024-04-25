@@ -37,14 +37,15 @@ wp() {
 wpd() {
 	project=`basename $PWD`
 	dir="$HOME/Programs/dev/wordpress.org/$project/trunk"
+	echo "Meld with “$dir”"
 	[[ -d "$dir" ]] && meld "$dir" . || echo "SVN project “$project” not found."
 }
 
 alias ovim="/usr/bin/vim"
 alias vi="lvim"
 alias vim="lvim"
-alias cat="bat --tabs 2 --theme=ansi"
-alias mdcat="bat -l markdown --tabs 2 --theme=base16-256"
+alias cat="bat --tabs 2 --theme='Catppuccin Mocha'"
+alias mdcat="bat -l markdown --tabs 2 --theme='Catppuccin Mocha'"
 alias colorize="ccze -A"
 # alias grep="grep --color --exclude-dir=vendor --exclude-dir=node_modules --exclude-dir=e2e-tests --exclude-dir=build --exclude-dir=dist --exclude-dir=build-module --exclude=\"*.min.*\" --exclude=\"*.map\" --exclude-dir=\".git\""
 alias grep="ag --norecurse --noheading --nobreak --ignore node_modules --ignore vendor --ignore e2e-tests --ignore build --ignore dist --ignore build-module --ignore .lando"

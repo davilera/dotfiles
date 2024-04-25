@@ -9,7 +9,12 @@
 
 lvim.colorscheme = 'catppuccin-mocha'
 require('catppuccin').setup({
-	transparent_background = true
+	transparent_background = true,
+	styles = {
+		conditionals = { 'bold' },
+		loops = { 'bold' },
+		keywords = { 'bold' },
+	},
 })
 
 local options = {
