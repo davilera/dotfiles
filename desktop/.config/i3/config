@@ -28,5 +28,4 @@ include theme.conf
 include colorschemes/catppuccin-mocha.conf
 
 # Keyboard Layout
-exec --no-startup-id setxkbmap -layout us -variant altgr-intl
-
+exec_always --no-startup-id setxkbmap -layout us -variant altgr-intl
