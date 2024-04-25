@@ -119,6 +119,15 @@ echo "Adding zsh themes…"
 git clone --quiet "https://github.com/bhilburn/powerlevel9k" ~/.oh-my-zsh/custom/themes/powerlevel9k
 git clone --quiet "https://github.com/win0err/aphrodite-terminal-theme" ~/.oh-my-zsh/custom/themes/aphrodite
 
+echo "Installing greenclip…"
+mkdir -p ~/.local/bin
+cd ~/.local/bin/ 2>/dev/null
+killall -9 greenclip >/dev/null 2>&1
+rm -f greenclip 2>/dev/null
+wget --quiet "https://github.com/erebe/greenclip/releases/latest/download/greenclip"
+chmod a+x greenclip
+cd - 2>/dev/null
+
 echo "Installing diff-so-fancy…"
 mkdir -p ~/.local/bin
 cd ~/.local/bin/ 2>/dev/null
