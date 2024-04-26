@@ -25,6 +25,7 @@ sudo update-alternatives --set editor /usr/bin/vim.basic
 
 echo "Installing utilities…"
 sudo apt-get -qq install filezilla btop imagemagick libimage-exiftool-perl poedit myspell-es aspell-es silversearcher-ag ripgrep fd-find
+cargo install lsd >/dev/null 2>&1
 
 echo "Installing nvm, node.js, and npm…"
 rm -rf ~/.nvm >/dev/null 2>&1

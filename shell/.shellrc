@@ -1,7 +1,7 @@
 # Basic settings
 # --------------
 unset MAILCHECK
-PATH="./node_modules/.bin:./vendor/bin:$HOME/.config/composer/vendor/bin:$HOME/.local/bin:$PATH"
+PATH="./node_modules/.bin:./vendor/bin:$HOME/.config/composer/vendor/bin:$HOME/.local/bin:$HOME/.cargo/bin:$PATH"
 
 # Faster navigation
 # -----------------
@@ -10,6 +10,7 @@ PATH="./node_modules/.bin:./vendor/bin:$HOME/.config/composer/vendor/bin:$HOME/.
 eval "$(zoxide init --cmd j zsh)"
 alias cd="j"
 
+# Kitty
 alias kitty="LIBGL_ALWAYS_SOFTWARE=true GALLIUM_DRIVER=llvmpipe kitty"
 
 # NVM
@@ -54,7 +55,8 @@ alias colorize="ccze -A"
 alias grep="ag --norecurse --noheading --nobreak --ignore node_modules --ignore vendor --ignore e2e-tests --ignore build --ignore dist --ignore build-module --ignore .lando"
 alias top="btop"
 alias htop="btop"
-alias tree="tree -C"
+# alias tree="tree -C"
+alias tree="lsd --group-dirs=first --tree"
 
 alias ga="git add"
 alias gc="git commit"
@@ -80,7 +82,8 @@ then
 	alias ls="ls -G"
 	alias eog="open -a Firefox"
 else
-	alias ls="ls --color --group-directories-first"
+	# alias ls="ls --color --group-directories-first"
+	alias ls="lsd --group-dirs=first"
 	alias eog="xviewer"
 fi
 
