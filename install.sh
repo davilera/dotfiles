@@ -20,7 +20,7 @@ echo "SYSTEM"
 echo "======"
 
 echo "Installing dev packages…"
-sudo apt-get -qq install stow fasd tree meld jq ruby subversion composer php-xml awscli curl g++ build-essential openjdk-17-jdk openjdk-17-jre python3 python3-pip golang cargo luarocks markdown
+sudo apt-get -qq install stow zoxide tree meld jq ruby subversion composer php-xml awscli curl g++ build-essential openjdk-17-jdk openjdk-17-jre python3 python3-pip golang cargo luarocks markdown
 sudo update-alternatives --set editor /usr/bin/vim.basic
 
 echo "Installing utilities…"

@@ -3,10 +3,13 @@
 unset MAILCHECK
 PATH="./node_modules/.bin:./vendor/bin:$HOME/.config/composer/vendor/bin:$HOME/.local/bin:$PATH"
 
-# fasd aliases
-# ------------
-eval "$(fasd --init auto)"
-alias j="fasd_cd -d"
+# Faster navigation
+# -----------------
+# eval "$(fasd --init auto)"
+# alias j="fasd_cd -d"
+eval "$(zoxide init --cmd j zsh)"
+alias cd="j"
+
 alias kitty="LIBGL_ALWAYS_SOFTWARE=true GALLIUM_DRIVER=llvmpipe kitty"
 
 # NVM
