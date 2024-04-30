@@ -33,8 +33,8 @@ mkdir ~/.nvm
 version=`wget -qO- "https://api.github.com/repos/nvm-sh/nvm/releases/latest" | jq -r .tag_name`
 wget -qO- "https://raw.githubusercontent.com/nvm-sh/nvm/$version/install.sh" | bash >/dev/null 2>&1
 \. ~/.nvm/nvm.sh
-nvm install 16 2>/dev/null
-nvm use 16 2>/dev/null
+nvm install 20 2>/dev/null
+nvm use 20 2>/dev/null
 nvm install node 2>/dev/null
 
 echo "Installing elm…"
