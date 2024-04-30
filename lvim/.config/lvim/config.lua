@@ -322,7 +322,11 @@ formatters.setup({
 	{
 		name = 'prettier',
 		filetypes = { 'javascript', 'json', 'typescript', 'typescriptreact' },
-	}
+	},
+	{
+		name = 'stylelint',
+		filetypes = { 'css', 'scss' },
+	},
 })
 
 local linters = require 'lvim.lsp.null-ls.linters'
@@ -330,5 +334,9 @@ linters.setup({
 	{
 		name = 'eslint_d',
 		filetypes = { 'javascript', 'typescript', 'typescriptreact' },
+	},
+	{
+		name = 'stylelint',
+		filetypes = { 'css', 'scss' },
 	},
 })
