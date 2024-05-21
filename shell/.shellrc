@@ -9,6 +9,14 @@ PATH="./node_modules/.bin:./vendor/bin:$HOME/.config/composer/vendor/bin:$HOME/.
 # alias j="fasd_cd -d"
 eval "$(zoxide init --cmd j zsh)"
 alias cd="j"
+unalias ja
+unalias jq
+unalias jqi
+unalias jr
+za='zoxide add'
+zq='zoxide query'
+zqi='zoxide query -i'
+zr='zoxide remove'
 
 # Kitty
 alias kitty="LIBGL_ALWAYS_SOFTWARE=true GALLIUM_DRIVER=llvmpipe kitty"
