@@ -13,10 +13,10 @@ unalias ja
 unalias jq
 unalias jqi
 unalias jr
-za='zoxide add'
-zq='zoxide query'
-zqi='zoxide query -i'
-zr='zoxide remove'
+alias za='zoxide add'
+alias zq='zoxide query'
+alias zqi='zoxide query -i'
+alias zr='zoxide remove'
 
 # Kitty
 alias kitty="LIBGL_ALWAYS_SOFTWARE=true GALLIUM_DRIVER=llvmpipe kitty"
@@ -70,7 +70,9 @@ alias ga="git add"
 alias gc="git commit"
 alias gco="git checkout"
 alias gd="git difftool --no-symlinks --dir-diff"
-alias gg="git pull"
+alias gg="git pull --rebase"
+alias gm="git pull"
+alias gundo="git rebase --abort"
 alias gp="git push"
 alias gs="git status"
 alias gl="git blame"
