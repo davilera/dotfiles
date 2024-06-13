@@ -144,6 +144,19 @@ lvim.builtin.project.manual_mode = true
 lvim.builtin.which_key.setup.plugins['better-marks'] = true
 -- lvim.builtin.which_key.setup.plugins['better-registers'] = true
 -- lvim.lsp.on_attach_callback = require('lsp-format').on_attach
+lvim.builtin.treesitter.ensure_installed = {
+	'comment',
+	'elm',
+	'haskell',
+	'java',
+	'javascript',
+	'lua',
+	'markdown',
+	'php',
+	'regex',
+	'rust',
+	'typescript',
+}
 
 lvim.builtin.lualine.sections.lualine_x = {
 	{
