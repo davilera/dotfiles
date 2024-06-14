@@ -146,8 +146,10 @@ lvim.builtin.which_key.setup.plugins['better-marks'] = true
 -- lvim.lsp.on_attach_callback = require('lsp-format').on_attach
 lvim.builtin.treesitter.ensure_installed = {
 	'comment',
+	'css',
 	'elm',
 	'haskell',
+	'html',
 	'java',
 	'javascript',
 	'lua',
