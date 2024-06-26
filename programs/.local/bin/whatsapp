@@ -1,0 +1,3 @@
+#!/bin/sh
+
+export HOME=~/.config/firefox/whatsapp && nohup firefox --new-instance --kiosk https://web.whatsapp.com >/dev/null 2>&1 &
