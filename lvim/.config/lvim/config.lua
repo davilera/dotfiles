@@ -158,7 +158,7 @@ lvim.plugins = {
 						goto_previous_start = {
 							['[f'] = '@function.outer',
 						},
-						goto_next_end = {
+						goto_previous_end = {
 							['[F'] = '@function.outer',
 						},
 					}

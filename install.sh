@@ -167,7 +167,7 @@ wget --quiet https://github.com/neovim/neovim/releases/latest/download/nvim.appi
 chmod u+x ~/.local/bin/nvim
 version=`wget -qO- "https://api.github.com/repos/nvm-sh/nvm/releases/latest" | jq -r .target_commitish`
 LV_BRANCH=$version bash <(curl -s https://raw.githubusercontent.com/LunarVim/LunarVim/$version/utils/installer/install.sh)
-rm -f ~/.local/share/lunarvim.old  ~/.cache/lvim.old
+rm -rf ~/.local/share/lunarvim.old  ~/.cache/lvim.old
 
 echo "Installing i3 dependencies…"
 sudo apt-get -qq install i3 python3-i3ipc feh qalc polybar rofi dunst
