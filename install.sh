@@ -168,6 +168,8 @@ LV_BRANCH=$version bash <(curl -s https://raw.githubusercontent.com/LunarVim/Lun
 rm -rf ~/.local/share/lunarvim.old  ~/.cache/lvim.old
 
 echo "Installing i3 dependencies…"
+sudo echo "deb [arch=amd64] http://debian.sur5r.net/i3/ jammy universe" > /etc/apt/sources.list.d/sur5r-i3.list
+sudo apt-get -qq update
 sudo apt-get -qq install i3 python3-i3ipc feh qalc polybar rofi dunst
 mkdir -p ~/.local/bin
 wget --quiet https://raw.githubusercontent.com/nwg-piotr/autotiling/master/autotiling/main.py -O ~/.local/bin/autotiling
