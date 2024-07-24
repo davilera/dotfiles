@@ -7,15 +7,18 @@
 --   BASIC SETUP
 -- =======================================================
 
-lvim.colorscheme = 'catppuccin-mocha'
-require('catppuccin').setup({
-	transparent_background = true,
-	styles = {
-		conditionals = { 'bold' },
-		loops = { 'bold' },
-		keywords = { 'bold' },
-	},
-})
+local ok, catppuccin = pcall(require, 'catppuccin')
+if ok then
+  lvim.colorscheme = 'catppuccin-mocha'
+  catppuccin.setup({
+    transparent_background = true,
+    styles = {
+      conditionals = { 'bold' },
+      loops = { 'bold' },
+      keywords = { 'bold' },
+    },
+  })
+end
 
 local options = {
 	backupdir = '/tmp',      -- location of swap files
@@ -56,10 +59,16 @@ end
 lvim.plugins = {
 	-- Colorschemes
 	{ 'rose-pine/neovim' },
-	{ 'catppuccin/nvim',               name = 'catppuccin' },
+	{
+		'catppuccin/nvim',
+		name = 'catppuccin',
+	},
 
 	-- Async Format on Save
-	{ 'lukas-reineke/lsp-format.nvim', opts = {} },
+	{
+		'lukas-reineke/lsp-format.nvim',
+		opts = {},
+	},
 
 	-- Tab/space behavior
 	{
