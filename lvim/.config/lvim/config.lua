@@ -238,7 +238,8 @@ lvim.builtin.which_key.mappings['f'] = nil
 lvim.builtin.which_key.mappings['s']['g'] = lvim.builtin.which_key.mappings['s']['t']
 
 -- Replace visual selection
-lvim.keys.visual_mode['<C-r>'] = '"hy:%s/<C-r>h//gc<left><left><left>';
+lvim.builtin.which_key.vmappings['r'] = { '"hy:%s/<C-r>h//gc<left><left><left>', 'Replace' }
+lvim.builtin.which_key.vmappings['s'] = { 'y/<C-r>"<cr>', 'Search' }
 
 -- Move lines (TODO)
 -- lvim.keys.normal_mode['<C-J>'] = ':m .+1<CR>==';
