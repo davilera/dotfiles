@@ -207,7 +207,7 @@ echo "============"
 echo "1. Install proprietary nvidia drivers"
 echo "2. Link “$SRC_DIR/others/firefox/chrome” to your Firefox profile"
 echo "3. Enable “toolkit.legacyUserProfileCustomizations.stylesheets” in “about:config”"
-echo "4. Customize Sidebery settings"
+echo "4. Import Sidebery settings"
 
 echo ""
 echo "DONE"
