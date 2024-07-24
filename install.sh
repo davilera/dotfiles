@@ -12,7 +12,7 @@ sudo apt-get -qq update
 sudo apt-get -qq upgrade
 
 echo "Installing basic stuff…"
-sudo apt-get -qq install curl zsh git vim kitty
+sudo apt-get -qq install curl zsh git vim kitty thefuck
 
 echo ""
 echo "======"
@@ -169,8 +169,11 @@ rm -rf ~/.local/share/lunarvim.old  ~/.cache/lvim.old
 
 echo "Installing i3 dependencies…"
 sudo echo "deb [arch=amd64] http://debian.sur5r.net/i3/ jammy universe" > /etc/apt/sources.list.d/sur5r-i3.list
+/usr/lib/apt/apt-helper download-file https://debian.sur5r.net/i3/pool/main/s/sur5r-keyring/sur5r-keyring_2024.03.04_all.deb /tmp/keyring.deb SHA256:f9bb4340b5ce0ded29b7e014ee9ce788006e9bbfe31e96c09b2118ab91fca734
+sudo apt install /tmp/keyring.deb
+rm /tmp/keyring.deb
 sudo apt-get -qq update
-sudo apt-get -qq install i3 python3-i3ipc feh qalc polybar rofi dunst
+sudo apt-get -qq install i3 python3-i3ipc feh qalc polybar rofi dunst picom
 mkdir -p ~/.local/bin
 wget --quiet https://raw.githubusercontent.com/nwg-piotr/autotiling/master/autotiling/main.py -O ~/.local/bin/autotiling
 chmod a+x ~/.local/bin/autotiling
@@ -195,6 +198,14 @@ stow --no-folding shell
 stow lvim
 stow vim
 cd - 2>/dev/null
+
+echo ""
+echo "============"
+echo "MANUAL TASKS"
+echo "============"
+
+echo "1. Install proprietary nvidia drivers"
+echo "2. Install proprietary nvidia drivers"
 
 echo ""
 echo "DONE"
