@@ -59,12 +59,10 @@ echo -n "Do you want to install Docker and Lando? (y/N) "
 read answer
 if [ "$answer" = "y" ];
 then
-	wget -q https://get.docker.com/ -O /tmp/id.sh
-	bash /tmp/id.sh
-	version=`wget -qO- "https://api.github.com/repos/lando/lando/releases/latest" | jq -r .tag_name`
-	wget -q "https://github.com/lando/lando/releases/download/$version/lando-x64-$version.deb" -O /tmp/lando.deb
-	sudo dpkg -i /tmp/lando.deb
-	sudo usermod -aG docker david
+	echo "Installing Docker…"
+	/bin/bash -c "$(curl -fsSL https://get.docker.com)"
+	echo "Installing Lando…"
+	/bin/bash -c "$(curl -fsSL https://get.lando.dev/setup-lando.sh)"
 
 	echo "Configuring docker…"
 	sudo groupadd docker >/dev/null 2>&1
