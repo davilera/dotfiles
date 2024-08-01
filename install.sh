@@ -36,6 +36,7 @@ wget -qO- "https://raw.githubusercontent.com/nvm-sh/nvm/$version/install.sh" | b
 nvm install 20 2>/dev/null
 nvm use 20 2>/dev/null
 nvm install node 2>/dev/null
+npm install -g yarn >/dev/null 2>&1
 
 echo "Installing elm…"
 npm install -g elm elm-test elm-format elm-oracle >/dev/null 2>&1
@@ -151,6 +152,10 @@ version=`wget -qO- "https://api.github.com/repos/sharkdp/bat/releases/latest" | 
 wget --quiet "https://github.com/sharkdp/bat/releases/download/v$version/bat-musl_${version}_amd64.deb"
 sudo dpkg -i "bat-musl_${version}_amd64.deb"
 
+mkdir -p "$(bat --config-dir)/themes" >/dev/null 2>&1
+wget -P "$(bat --config-dir)/themes" https://github.com/catppuccin/bat/raw/main/themes/Catppuccin%20Mocha.tmTheme >/dev/null 2>&1
+bat cache --build >/dev/null 2>&1
+
 echo "Installing lazygit…"
 LAZYGIT_VERSION=`wget -qO- "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | jq -r .tag_name | sed -e "s/v//"`
 curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz" >/dev/null 2>&1
@@ -209,10 +214,11 @@ echo "2. Link “$SRC_DIR/others/firefox/chrome” to your Firefox profile"
 echo "3. Set Catppuccin Macchiato Pink theme in Firefox"
 echo "4. Enable “toolkit.legacyUserProfileCustomizations.stylesheets” in “about:config”"
 echo "5. Import Sidebery settings"
-echo "6. Set Mouse Pointer to DMZ-Black"
+echo "6. Set Mouse Pointer to Bibata Original Classic"
 echo "7. Set Applications theme to Catppuccin Pink Dark"
 echo "8. Set Icons to Mint-Y-Pink"
 echo "9. Set Desktop to Catppuccin Pink Dark"
+echo "10. Install Zoom"
 
 echo ""
 echo "DONE"
