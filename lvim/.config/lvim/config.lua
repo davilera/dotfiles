@@ -122,60 +122,60 @@ lvim.plugins = {
 	{ 'johmsalas/text-case.nvim' },
 
 	-- Treesitter text objects
-	{
-		'nvim-treesitter/nvim-treesitter-textobjects',
-		dependencies = { "nvim-treesitter/nvim-treesitter" },
-		config = function()
-			require 'nvim-treesitter.configs'.setup {
-				textobjects = {
-					select = {
-						enable = true,
-						-- Automatically jump forward to textobj, similar to targets.vim
-						lookahead = true,
-						keymaps = {
-							-- You can use the capture groups defined in textobjects.scm
-							["aa"] = "@parameter.outer",
-							["ia"] = "@parameter.inner",
-							["ac"] = "@class.outer",
-							["ic"] = "@class.inner",
-							["af"] = "@function.outer",
-							["if"] = "@function.inner",
-							["ai"] = "@conditional.outer",
-							["ii"] = "@conditional.inner",
-							["al"] = "@loop.outer",
-							["il"] = "@loop.inner",
-							["at"] = "@comment.outer",
-							-- You can also use captures from other query groups like `locals.scm`
-							-- ["as"] = { query = "@scope", query_group = "locals", desc = "Select language scope" },
-						},
-						selection_modes = {
-							['@parameter.outer'] = 'v', -- charwise
-							['@function.outer'] = 'V', -- linewise
-							['@class.outer'] = '<c-v>', -- blockwise
-						},
-						include_surrounding_whitespace = true,
-					},
-					move = {
-						enable = true,
-						set_jumpts = true,
-						goto_next_start = {
-							[']f'] = '@function.outer',
-						},
-						goto_next_end = {
-							[']F'] = '@function.outer',
-						},
-						goto_previous_start = {
-							['[f'] = '@function.outer',
-						},
-						goto_previous_end = {
-							['[F'] = '@function.outer',
-						},
-					}
-				},
-			}
-		end,
-		dependencies = "nvim-treesitter/nvim-treesitter",
-	},
+	-- TODO. Try this in the future. At the moment, “select keymaps” prevent us from saving PHP files.
+	-- {
+	-- 	'nvim-treesitter/nvim-treesitter-textobjects',
+	-- 	dependencies = { "nvim-treesitter/nvim-treesitter" },
+	-- 	config = function()
+	-- 		require 'nvim-treesitter.configs'.setup {
+	-- 			textobjects = {
+	-- 				select = {
+	-- 					enable = true,
+	-- 					-- Automatically jump forward to textobj, similar to targets.vim
+	-- 					lookahead = true,
+	-- 					keymaps = {
+	-- 						-- You can use the capture groups defined in textobjects.scm
+	-- 						["aa"] = "@parameter.outer",
+	-- 						["ia"] = "@parameter.inner",
+	-- 						["ac"] = "@class.outer",
+	-- 						["ic"] = "@class.inner",
+	-- 						["af"] = "@function.outer",
+	-- 						["if"] = "@function.inner",
+	-- 						["ai"] = "@conditional.outer",
+	-- 						["ii"] = "@conditional.inner",
+	-- 						["al"] = "@loop.outer",
+	-- 						["il"] = "@loop.inner",
+	-- 						["at"] = "@comment.outer",
+	-- 						-- You can also use captures from other query groups like `locals.scm`
+	-- 						-- ["as"] = { query = "@scope", query_group = "locals", desc = "Select language scope" },
+	-- 					},
+	-- 					selection_modes = {
+	-- 						['@parameter.outer'] = 'v', -- charwise
+	-- 						['@function.outer'] = 'V', -- linewise
+	-- 						['@class.outer'] = '<c-v>', -- blockwise
+	-- 					},
+	-- 					include_surrounding_whitespace = true,
+	-- 				},
+	-- 				move = {
+	-- 					enable = true,
+	-- 					set_jumpts = true,
+	-- 					goto_next_start = {
+	-- 						[']f'] = '@function.outer',
+	-- 					},
+	-- 					goto_next_end = {
+	-- 						[']F'] = '@function.outer',
+	-- 					},
+	-- 					goto_previous_start = {
+	-- 						['[f'] = '@function.outer',
+	-- 					},
+	-- 					goto_previous_end = {
+	-- 						['[F'] = '@function.outer',
+	-- 					},
+	-- 				}
+	-- 			},
+	-- 		}
+	-- 	end,
+	-- },
 
 	-- LSP status
 	{ 'arkav/lualine-lsp-progress' },

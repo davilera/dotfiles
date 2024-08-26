@@ -24,7 +24,7 @@ sudo apt-get -qq install stow zoxide tree meld jq ruby subversion composer php-x
 sudo update-alternatives --set editor /usr/bin/vim.basic
 
 echo "Installing utilities…"
-sudo apt-get -qq install filezilla btop imagemagick libimage-exiftool-perl poedit myspell-es aspell-es silversearcher-ag fd-find
+sudo apt-get -qq install filezilla btop imagemagick libimage-exiftool-perl poedit myspell-es aspell-es silversearcher-ag
 cargo install lsd >/dev/null 2>&1
 
 echo "Installing nvm, node.js, and npm…"
@@ -42,6 +42,7 @@ echo "Installing elm…"
 npm install -g elm elm-test elm-format elm-oracle >/dev/null 2>&1
 
 echo "Installing neovim LSP servers…"
+npm install -g neovim >/dev/null 2>&1
 npm install -g eslint_d >/dev/null 2>&1
 npm install -g prettier@npm:wp-prettier@latest 2>&1
 npm install -g typescript typescript-language-server >/dev/null 2>&1
@@ -164,7 +165,7 @@ sudo install lazygit /usr/local/bin
 rm -f lazygit lazygit.tar.gz
 
 echo "Installing LunarVim…"
-sudo apt-get -qq install xclip ripgrep
+sudo apt-get -qq install xclip ripgrep fd-find
 mkdir -p ~/.local/bin
 wget --quiet https://github.com/neovim/neovim/releases/latest/download/nvim.appimage -O ~/.local/bin/nvim
 chmod u+x ~/.local/bin/nvim
