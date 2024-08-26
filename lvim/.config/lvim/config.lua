@@ -9,15 +9,15 @@
 
 local ok, catppuccin = pcall(require, 'catppuccin')
 if ok then
-  lvim.colorscheme = 'catppuccin-mocha'
-  catppuccin.setup({
-    transparent_background = true,
-    styles = {
-      conditionals = { 'bold' },
-      loops = { 'bold' },
-      keywords = { 'bold' },
-    },
-  })
+	lvim.colorscheme = 'catppuccin-mocha'
+	catppuccin.setup({
+		transparent_background = true,
+		styles = {
+			conditionals = { 'bold' },
+			loops = { 'bold' },
+			keywords = { 'bold' },
+		},
+	})
 end
 
 local options = {
@@ -124,7 +124,7 @@ lvim.plugins = {
 	-- Treesitter text objects
 	{
 		'nvim-treesitter/nvim-treesitter-textobjects',
-		after = "nvim-treesitter",
+		dependencies = { "nvim-treesitter/nvim-treesitter" },
 		config = function()
 			require 'nvim-treesitter.configs'.setup {
 				textobjects = {
