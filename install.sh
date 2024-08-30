@@ -98,6 +98,9 @@ echo "Cleaning unnecessary packages…"
 sudo apt-get -qq autoremove >/dev/null 2>&1
 sudo apt-get -qq autoclean >/dev/null 2>&1
 
+echo "Customizing environment…"
+echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
+
 echo ""
 echo "====================="
 echo "UTILITIES FROM GITHUB"
