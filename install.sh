@@ -24,7 +24,7 @@ sudo apt-get -qq install stow zoxide tree meld jq ruby subversion composer php-x
 sudo update-alternatives --set editor /usr/bin/vim.basic
 
 echo "Installing utilities…"
-sudo apt-get -qq install filezilla btop imagemagick libimage-exiftool-perl poedit myspell-es aspell-es silversearcher-ag
+sudo apt-get -qq install filezilla btop imagemagick libimage-exiftool-perl poedit myspell-ca myspell-es aspell-es silversearcher-ag
 cargo install lsd >/dev/null 2>&1
 
 echo "Installing nvm, node.js, and npm…"
