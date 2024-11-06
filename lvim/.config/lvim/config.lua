@@ -58,7 +58,6 @@ end
 
 lvim.plugins = {
 	-- Colorschemes
-	{ 'rose-pine/neovim' },
 	{
 		'catppuccin/nvim',
 		name = 'catppuccin',
@@ -272,6 +271,7 @@ lvim.builtin.which_key.mappings['g']['q'] = {
 --------------------------------
 lvim.keys.normal_mode['<C-n>'] = ':bnext<cr>';
 lvim.keys.normal_mode['<C-p>'] = ':bprev<cr>';
+lvim.keys.normal_mode['<C-e>'] = ':bprev<cr>'; -- 18teclat
 
 --------------------------------
 ---- Save ----------------------
@@ -313,25 +313,25 @@ lvim.builtin.which_key.mappings['k'] = {
 --------------------------------
 lvim.builtin.which_key.mappings['c'] = {
 	name = 'Case',
-	['.'] = { ":lua require('textcase').current_word('to_dot_case')<cr>", 'Dot case' },
-	['-'] = { ":lua require('textcase').current_word('to_dash_case')<cr>", 'Dash case' },
-	['_'] = { ":lua require('textcase').current_word('to_snake_case')<cr>", 'Snake case' },
-	c = { ":lua require('textcase').current_word('to_camel_case')<cr>", 'Camel case' },
-	k = { ":lua require('textcase').current_word('to_constant_case')<cr>", 'Constant case' },
-	l = { ":lua require('textcase').current_word('to_lower_case')<cr>", 'Lower case' },
-	p = { ":lua require('textcase').current_word('to_pascal_case')<cr>", 'Pascal case' },
-	u = { ":lua require('textcase').current_word('to_upper_case')<cr>", 'Upper case' },
+	['.'] = { ":lua require('textcase').current_word('to_dot_case')<cr>", 'dot.case' },
+	['-'] = { ":lua require('textcase').current_word('to_dash_case')<cr>", 'dash-case' },
+	['_'] = { ":lua require('textcase').current_word('to_snake_case')<cr>", 'snake_case' },
+	c = { ":lua require('textcase').current_word('to_camel_case')<cr>", 'camelCase' },
+	k = { ":lua require('textcase').current_word('to_constant_case')<cr>", 'CONSTANT_CASE' },
+	l = { ":lua require('textcase').current_word('to_lower_case')<cr>", 'lowercase' },
+	p = { ":lua require('textcase').current_word('to_pascal_case')<cr>", 'PascalCase' },
+	u = { ":lua require('textcase').current_word('to_upper_case')<cr>", 'UPPERCASE' },
 }
 lvim.builtin.which_key.vmappings['c'] = {
 	name = 'Case',
-	['.'] = { ":lua require('textcase').operator('to_dot_case')<cr>", 'Dot case' },
-	['-'] = { ":lua require('textcase').operator('to_dash_case')<cr>", 'Dash case' },
-	['_'] = { ":lua require('textcase').operator('to_snake_case')<cr>", 'Snake case' },
-	c = { ":lua require('textcase').operator('to_camel_case')<cr>", 'Camel case' },
-	k = { ":lua require('textcase').operator('to_constant_case')<cr>", 'Constant case' },
-	l = { ":lua require('textcase').operator('to_lower_case')<cr>", 'Lower case' },
-	p = { ":lua require('textcase').operator('to_pascal_case')<cr>", 'Pascal case' },
-	u = { ":lua require('textcase').operator('to_upper_case')<cr>", 'Upper case' },
+	['.'] = { ":lua require('textcase').operator('to_dot_case')<cr>", 'dot.case' },
+	['-'] = { ":lua require('textcase').operator('to_dash_case')<cr>", 'dash-case' },
+	['_'] = { ":lua require('textcase').operator('to_snake_case')<cr>", 'snake_case' },
+	c = { ":lua require('textcase').operator('to_camel_case')<cr>", 'camelCase' },
+	k = { ":lua require('textcase').operator('to_constant_case')<cr>", 'CONSTANT_CASE' },
+	l = { ":lua require('textcase').operator('to_lower_case')<cr>", 'lowercase' },
+	p = { ":lua require('textcase').operator('to_pascal_case')<cr>", 'PascalCase' },
+	u = { ":lua require('textcase').operator('to_upper_case')<cr>", 'UPPERCASE' },
 }
 
 --------------------------------
