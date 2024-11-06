@@ -27,4 +27,7 @@ then
 fi
 
 xrandr --output DP-2 --brightness $brightness
+brightness=$(echo "$brightness * 100" | bc)
+brightness=`LC_NUMERIC=C printf "%0.0f\n" "$brightness"`
+dunstify --appname="Desktop Brightness" -t 1000 "$brightness%" "" --replace=851201
 echo $brightness
