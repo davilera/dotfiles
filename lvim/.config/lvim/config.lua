@@ -51,6 +51,22 @@ for k, v in pairs(options) do
 	vim.opt[k] = v
 end
 
+-- Automatically open two vertical splits when there’s multiple files
+vim.api.nvim_create_autocmd('VimEnter', {
+	callback = function()
+		local args = vim.fn.argv()
+		if #args > 1 then
+			vim.schedule(
+				function()
+					vim.cmd('edit ' .. args[1]);
+					vim.cmd('vsplit');
+					vim.cmd('edit ' .. args[2]);
+					vim.cmd('wincmd h')
+				end
+			)
+		end
+	end,
+})
 
 -- =======================================================
 --   CUSTOM PLUGINS
