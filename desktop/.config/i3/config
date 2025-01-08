@@ -27,6 +27,7 @@ include scratchpads.conf
 include theme.conf
 include workspaces.conf
 include colorschemes/catppuccin-mocha.conf
+include isrt.conf
 
 # Keyboard Layout
 exec_always --no-startup-id setxkbmap -layout us -variant altgr-intl
