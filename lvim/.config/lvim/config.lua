@@ -55,12 +55,12 @@ end
 vim.api.nvim_create_autocmd('VimEnter', {
 	callback = function()
 		local args = vim.fn.argv()
-		if #args > 1 then
+		if #args == 2 then
 			vim.schedule(
 				function()
-					vim.cmd('edit ' .. args[1]);
-					vim.cmd('vsplit');
-					vim.cmd('edit ' .. args[2]);
+					vim.cmd('edit ' .. args[1])
+					vim.cmd('vsplit')
+					vim.cmd('edit ' .. args[2])
 					vim.cmd('wincmd h')
 				end
 			)
@@ -266,13 +266,13 @@ lvim.builtin.which_key.vmappings['r'] = { '"hy:%s/<C-r>h//gc<left><left><left>',
 lvim.builtin.which_key.vmappings['s'] = { 'y/<C-r>"<cr>', 'Search' }
 
 -- Move lines (TODO)
--- lvim.keys.normal_mode['<C-J>'] = ':m .+1<CR>==';
--- lvim.keys.insert_mode['<C-J>'] = '<Esc>:m .+1<CR>==gi';
--- lvim.keys.visual_mode['<C-J>'] = ":m '>+1<CR>gv-gv";
+-- lvim.keys.normal_mode['<C-J>'] = ':m .+1<CR>=='
+-- lvim.keys.insert_mode['<C-J>'] = '<Esc>:m .+1<CR>==gi'
+-- lvim.keys.visual_mode['<C-J>'] = ":m '>+1<CR>gv-gv"
 
--- lvim.keys.insert_mode['<C-K>'] = '<Esc>:m .-2<CR>==gi';
--- lvim.keys.normal_mode['<C-K>'] = ':m .-2<CR>==';
--- lvim.keys.visual_mode['<C-K>'] = ":m '<-2<CR>gv-gv";
+-- lvim.keys.insert_mode['<C-K>'] = '<Esc>:m .-2<CR>==gi'
+-- lvim.keys.normal_mode['<C-K>'] = ':m .-2<CR>=='
+-- lvim.keys.visual_mode['<C-K>'] = ":m '<-2<CR>gv-gv"
 
 --------------------------------
 ---- Git -----------------------
@@ -285,9 +285,8 @@ lvim.builtin.which_key.mappings['g']['q'] = {
 --------------------------------
 ---- Tab Movement --------------
 --------------------------------
-lvim.keys.normal_mode['<C-n>'] = ':bnext<cr>';
-lvim.keys.normal_mode['<C-p>'] = ':bprev<cr>';
-lvim.keys.normal_mode['<C-e>'] = ':bprev<cr>'; -- 18teclat
+lvim.keys.normal_mode['<C-n>'] = ':bnext<cr>'
+lvim.keys.normal_mode['<C-p>'] = ':bprev<cr>'
 
 --------------------------------
 ---- Save ----------------------
@@ -437,3 +436,35 @@ linters.setup({
 		filetypes = { 'css', 'scss' },
 	},
 })
+
+
+--------------------------------
+---- ISRT Mappings -------------
+--------------------------------
+vim.keymap.set({ 'n', 'v' }, 'p', 'h', { noremap = true, silent = true })
+vim.keymap.set({ 'n', 'v' }, 'n', 'j', { noremap = true, silent = true })
+vim.keymap.set({ 'n', 'v' }, 'e', 'k', { noremap = true, silent = true })
+vim.keymap.set({ 'n', 'v' }, 'a', 'l', { noremap = true, silent = true })
+
+vim.keymap.set({ 'n', 'v' }, 'P', 'H', { noremap = true, silent = true })
+vim.keymap.set({ 'n', 'v' }, 'N', 'J', { noremap = true, silent = true })
+vim.keymap.set({ 'n', 'v' }, 'E', 'K', { noremap = true, silent = true })
+vim.keymap.set({ 'n', 'v' }, 'A', 'L', { noremap = true, silent = true })
+
+vim.keymap.set({ 'n', 'v' }, 'h', 'n', { noremap = true, silent = true }) -- [h]op to the [n]ext hit
+vim.keymap.set({ 'n', 'v' }, 'j', 'e', { noremap = true, silent = true }) -- [j]ump to the [e]nd
+vim.keymap.set({ 'n', 'v' }, 'k', 'p', { noremap = true, silent = true }) -- stic[k] to [p]aste
+vim.keymap.set({ 'n', 'v' }, 'l', 'a', { noremap = true, silent = true }) -- insert mode [l]ater
+
+vim.keymap.set({ 'n', 'v' }, 'H', 'N', { noremap = true, silent = true })
+vim.keymap.set({ 'n', 'v' }, 'J', 'E', { noremap = true, silent = true })
+vim.keymap.set({ 'n', 'v' }, 'K', 'P', { noremap = true, silent = true })
+vim.keymap.set({ 'n', 'v' }, 'L', 'A', { noremap = true, silent = true })
+
+lvim.keys.normal_mode['<C-p>'] = '<C-w>h'
+lvim.keys.normal_mode['<C-n>'] = '<C-w>j'
+lvim.keys.normal_mode['<C-e>'] = '<C-w>k'
+lvim.keys.normal_mode['<C-a>'] = '<C-w>l'
+
+vim.keymap.set({ 'n' }, '<C-h>', ':bnext<cr>', { noremap = true, silent = true })
+vim.keymap.set({ 'n' }, '<C-j>', ':bprev<cr>', { noremap = true, silent = true })
