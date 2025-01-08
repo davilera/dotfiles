@@ -436,3 +436,35 @@ linters.setup({
 		filetypes = { 'css', 'scss' },
 	},
 })
+
+
+--------------------------------
+---- ISRT Mappings -------------
+--------------------------------
+vim.keymap.set({ 'n', 'v' }, 'p', 'h', { noremap = true, silent = true })
+vim.keymap.set({ 'n', 'v' }, 'n', 'j', { noremap = true, silent = true })
+vim.keymap.set({ 'n', 'v' }, 'e', 'k', { noremap = true, silent = true })
+vim.keymap.set({ 'n', 'v' }, 'a', 'l', { noremap = true, silent = true })
+
+vim.keymap.set({ 'n', 'v' }, 'P', 'H', { noremap = true, silent = true })
+vim.keymap.set({ 'n', 'v' }, 'N', 'J', { noremap = true, silent = true })
+vim.keymap.set({ 'n', 'v' }, 'E', 'K', { noremap = true, silent = true })
+vim.keymap.set({ 'n', 'v' }, 'A', 'L', { noremap = true, silent = true })
+
+vim.keymap.set({ 'n', 'v' }, 'h', 'n', { noremap = true, silent = true }) -- [h]op to the [n]ext hit
+vim.keymap.set({ 'n', 'v' }, 'j', 'e', { noremap = true, silent = true }) -- [j]ump to the [e]nd
+vim.keymap.set({ 'n', 'v' }, 'k', 'p', { noremap = true, silent = true }) -- stic[k] to [p]aste
+vim.keymap.set({ 'n', 'v' }, 'l', 'a', { noremap = true, silent = true }) -- insert mode [l]ater
+
+vim.keymap.set({ 'n', 'v' }, 'H', 'N', { noremap = true, silent = true })
+vim.keymap.set({ 'n', 'v' }, 'J', 'E', { noremap = true, silent = true })
+vim.keymap.set({ 'n', 'v' }, 'K', 'P', { noremap = true, silent = true })
+vim.keymap.set({ 'n', 'v' }, 'L', 'A', { noremap = true, silent = true })
+
+lvim.keys.normal_mode['<C-p>'] = '<C-w>h'
+lvim.keys.normal_mode['<C-n>'] = '<C-w>j'
+lvim.keys.normal_mode['<C-e>'] = '<C-w>k'
+lvim.keys.normal_mode['<C-a>'] = '<C-w>l'
+
+vim.keymap.set({ 'n' }, '<C-h>', ':bnext<cr>', { noremap = true, silent = true })
+vim.keymap.set({ 'n' }, '<C-j>', ':bprev<cr>', { noremap = true, silent = true })
