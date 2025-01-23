@@ -468,3 +468,13 @@ lvim.keys.normal_mode['<C-a>'] = '<C-w>l'
 
 vim.keymap.set({ 'n' }, '<C-h>', ':bnext<cr>', { noremap = true, silent = true })
 vim.keymap.set({ 'n' }, '<C-j>', ':bprev<cr>', { noremap = true, silent = true })
+
+lvim.builtin.which_key.mappings['l']['n'] = lvim.builtin.which_key.mappings['l']['j']
+lvim.builtin.which_key.mappings['l']['e'] = lvim.builtin.which_key.mappings['l']['k']
+lvim.builtin.which_key.mappings['g']['n'] = lvim.builtin.which_key.mappings['g']['j']
+lvim.builtin.which_key.mappings['g']['e'] = lvim.builtin.which_key.mappings['g']['k']
+
+lvim.builtin.which_key.mappings['l']['j'] = nil
+lvim.builtin.which_key.mappings['l']['k'] = nil
+lvim.builtin.which_key.mappings['g']['j'] = nil
+lvim.builtin.which_key.mappings['g']['k'] = nil
