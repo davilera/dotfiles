@@ -203,6 +203,15 @@ lvim.plugins = {
 		keys = {
 			{ "<leader>u", "<cmd>lua require('undotree').toggle()<cr>" },
 		},
+	},
+
+
+	{
+		"kylechui/nvim-surround",
+		even = "VeryLazy",
+		config = function()
+			require("nvim-surround").setup({})
+		end
 	}
 }
 
