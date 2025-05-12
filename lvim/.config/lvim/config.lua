@@ -426,11 +426,7 @@ formatters.setup({
 	},
 	{
 		name = 'prettier',
-		filetypes = { 'javascript', 'json', 'typescript', 'typescriptreact' },
-	},
-	{
-		name = 'stylelint',
-		filetypes = { 'css', 'scss' },
+		filetypes = { 'javascript', 'json', 'typescript', 'typescriptreact', 'css', 'scss' },
 	},
 })
 
