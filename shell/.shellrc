@@ -1,7 +1,8 @@
 # Basic settings
 # --------------
 unset MAILCHECK
-PATH="./node_modules/.bin:./vendor/bin:$HOME/.config/composer/vendor/bin:$HOME/.local/bin:$HOME/.cargo/bin:$PATH"
+export BUN_INSTALL="$HOME/.bun"
+export PATH="./node_modules/.bin:$BUN_INSTALL/bin:./vendor/bin:$HOME/.config/composer/vendor/bin:$HOME/.local/bin:$HOME/.cargo/bin:$HOME/.lando/bin:$PATH"
 
 # Faster navigation
 # -----------------

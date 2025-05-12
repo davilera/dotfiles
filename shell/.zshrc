@@ -56,9 +56,5 @@ export NVM_DIR="$HOME/.nvm"
 # bun completions
 [ -s "/home/david/.bun/_bun" ] && source "/home/david/.bun/_bun"
 
-# bun
-export BUN_INSTALL="$HOME/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
-
-# Lando
-export PATH="/home/david/.lando/bin${PATH+:$PATH}"; #landopath
+# Make sure node_modules/.bin is the first option
+export PATH="./node_modules/.bin:$PATH"
