@@ -23,6 +23,7 @@
 [user]
 	name = David Aguilera
 	email = david.aguilera@neliosoftware.com
+	signingkey = 6B22401EA80354A5
 [url "https://github.com"]
 	insteadOf = git://github.com
 [credential]
@@ -37,3 +38,7 @@
 	cmd = kitty +kitten diff $LOCAL $REMOTE
 [difftool "kitty.gui"]
 	cmd = kitty kitty +kitten diff $LOCAL $REMOTE
+[commit]
+	gpgsign = true
+[tag]
+	gpgSign = true
