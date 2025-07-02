@@ -56,8 +56,8 @@ wpd() {
 }
 
 alias ovim="/usr/bin/vim"
-alias vi="lvim"
-alias vim="lvim"
+alias vi="lunarvim"
+alias vim="lunarvim"
 alias cat="bat --tabs 2 --theme='Catppuccin Mocha'"
 alias mdcat="bat -l markdown --tabs 2 --theme='Catppuccin Mocha'"
 alias colorize="ccze -A"
