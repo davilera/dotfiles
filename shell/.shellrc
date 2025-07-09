@@ -81,10 +81,6 @@ alias gl="git blame"
 alias lg="lazygit"
 alias lz="lazygit"
 
-alias yi="yarn install"
-alias yr="yarn run"
-alias ry="yarn run"
-
 alias ping="~/.local/bin/prettyping"
 alias pip="pip3"
 
