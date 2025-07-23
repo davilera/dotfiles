@@ -1,0 +1,85 @@
+#!/home/david/.bun/bin/bun
+// vim: set filetype=javascript :
+
+const { spawnSync } = require( 'child_process' );
+
+const ESC = '\x1b';
+const CTRL_C = '\x03';
+
+main();
+function main() {
+	const input = process.argv[ 2 ];
+	const [ filename, line = 0 ] = input
+		.split( ':' )
+		.map( ( x, i ) => ( i === 1 ? Number.parseInt( x ) : x ) );
+
+	const { stdout: info } = spawnSync( 'kitty', [ '@', 'ls' ] );
+	const win = JSON.parse( info ).find( ( w ) => w.is_focused );
+	if ( ! win ) {
+		process.exit( 1 );
+	} //end if
+
+	const currentTab = win.tabs.find( ( t ) => t.is_focused );
+	const cwd = currentTab.windows[ 0 ]?.cwd;
+	if ( ! cwd ) {
+		process.exit( 1 );
+	} //end if
+
+	const vimId = win.tabs.find( isTabRunning( cwd, 'nvim' ) )?.id;
+	if ( ! vimId ) {
+		openVim( win, cwd, filename, line );
+		process.exit( 0 );
+	} //end if
+
+	spawnSync( 'kitty', [ '@', 'focus-tab', `--match=id:${ vimId }` ] );
+	spawnSync( 'kitty', [
+		'@',
+		'send-text',
+		`--match-tab=id:${ vimId }`,
+		`${ ESC }:ed ${ filename }\n`,
+		`:${ line }\n`,
+	] );
+} //end main()
+
+// =======
+// HELPERS
+// =======
+
+function isTabRunning( cwd, process ) {
+	process = `/${ process }`;
+	return ( t ) =>
+		t.windows[ 0 ]?.foreground_processes[ 0 ]?.cmdline[ 0 ]?.includes(
+			process
+		) &&
+		t.windows[ 0 ]?.foreground_processes[ 0 ]?.cwd === cwd;
+} //end isTabRunning()
+
+function openVim( win, cwd, filename, line ) {
+	const id = win.tabs.find( isTabRunning( cwd, 'zsh' ) )?.id || openTab( cwd );
+	spawnSync( 'kitty', [ '@', 'focus-tab', `--match=id:${ id }` ] );
+	spawnSync( 'kitty', [
+		'@',
+		'send-text',
+		`--match-tab=id:${ id }`,
+		`${CTRL_C}  vim +${ line } ${ filename }\n`,
+	] );
+} //end openVim()
+
+function openTab( cwd ) {
+	const { stdout } = spawnSync( 'kitty', [
+		'@',
+		'launch',
+		'--type=tab',
+		'--location=neighbor',
+		'--keep-focus',
+		`--cwd=${ cwd }`,
+	] );
+	const id = JSON.parse( stdout );
+	spawnSync( 'kitty', [
+		'@',
+		'send-text',
+		`--match-tab=id:${ id }`,
+		'${CTRL_C}  source ~/.zshrc',
+	] );
+	return id;
+} //end openTab()
