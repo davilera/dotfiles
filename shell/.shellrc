@@ -71,7 +71,7 @@ alias td='grep -r todo.david'
 alias ga="git add"
 alias gc="git commit"
 alias gco="git checkout"
-alias gd="git difftool --no-symlinks --dir-diff"
+alias gd="git -c diff.external=difft diff"
 alias gg="git pull --rebase"
 alias gm="git pull"
 alias gundo="git rebase --abort"
