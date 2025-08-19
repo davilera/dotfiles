@@ -16,11 +16,22 @@ return {
 				},
 				phpcbf = {
 					command = vim.env.HOME .. "/.config/composer/vendor/bin/phpcbf",
-					args = { "-q", getPhpcbfStandard() },
+					args = {
+						"-q",
+						"--stdin-path=$FILENAME",
+						getPhpcbfStandard(),
+						"-",
+					},
+				},
+				stylelint = {
+					command = "stylelint",
+					args = { "--fix" },
 				},
 			},
 			formatters_by_ft = {
-				php = { "phpcbf" }
+				php = { "phpcbf" },
+				css = { "stylelint" },
+				scss = { "stylelint" },
 			},
 		},
 	},
