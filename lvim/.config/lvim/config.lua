@@ -409,20 +409,12 @@ lvim.builtin.which_key.mappings['l']['d'] = { gotoDefinition, 'Jump to definitio
 --   LINTERS/FORMATTERS
 -- =======================================================
 
-local function getPhpcbfStandard()
-	if 0 == vim.fn.filereadable('./phpcs.ruleset.xml') then
-		return '--standard=WordPress'
-	else
-		return '--standard=phpcs.ruleset.xml'
-	end
-end
-
 local formatters = require 'lvim.lsp.null-ls.formatters'
 formatters.setup({
 	{
 		name = 'phpcbf',
 		command = '~/.config/composer/vendor/bin/phpcbf',
-		args = { '-q', '--stdin-path=$FILENAME', getPhpcbfStandard(), '-' }
+		args = { '-q', '--stdin-path=$FILENAME', '-' }
 	},
 	{
 		name = 'prettier',
