@@ -1,14 +1,14 @@
 {
   "require": {
-    "automattic/vipwpcs": "^3.0.0",
-    "dealerdirect/phpcodesniffer-composer-installer": "^1.0",
-    "php-stubs/woocommerce-stubs": "^7.8",
-    "php-stubs/wordpress-globals": "^0.2.0",
-    "php-stubs/wordpress-stubs": "^6.2",
-    "php-stubs/wp-cli-stubs": "^2.8",
-    "phpcompatibility/php-compatibility": "^9.3",
-    "squizlabs/php_codesniffer": "^3.11.1",
-    "wp-coding-standards/wpcs": "^3.1.0"
+    "automattic/vipwpcs": "*",
+    "dealerdirect/phpcodesniffer-composer-installer": "*",
+    "php-stubs/woocommerce-stubs": "*",
+    "php-stubs/wordpress-globals": "*",
+    "php-stubs/wordpress-stubs": "*",
+    "php-stubs/wp-cli-stubs": "*",
+    "phpcompatibility/php-compatibility": "*",
+    "squizlabs/php_codesniffer": "*",
+    "wp-coding-standards/wpcs": "*"
   },
   "scripts": {
     "install-codestandards": [

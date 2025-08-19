@@ -4,7 +4,7 @@ return {
 		linters_by_ft = {
 			css = { "stylelint" },
 			scss = { "stylelint" },
-			php = { "phpcs" },
+			php = { "phpstan", "phpcs" },
 		},
 	},
 }
