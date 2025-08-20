@@ -170,7 +170,7 @@ rm -f lazygit lazygit.tar.gz
 echo "Installing LunarVim…"
 sudo apt-get -qq install xclip ripgrep fd-find
 mkdir -p ~/.local/bin
-wget --quiet https://github.com/neovim/neovim/releases/latest/download/nvim.appimage -O ~/.local/bin/nvim
+wget --quiet https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.appimage -O ~/.local/bin/nvim
 chmod u+x ~/.local/bin/nvim
 version=`wget -qO- "https://api.github.com/repos/nvm-sh/nvm/releases/latest" | jq -r .target_commitish`
 LV_BRANCH=$version bash <(curl -s https://raw.githubusercontent.com/LunarVim/LunarVim/$version/utils/installer/install.sh)
