@@ -2,5 +2,7 @@
 -- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
 -- Add any additional keymaps here
 
-local utils = require("utils")
-utils.require_dir("config/keymaps")
+local map = vim.keymap.set
+
+map("n", "<C-p>", ":bprev<CR>", { desc = "Go to Previews Buffer", remap = true })
+map("n", "<C-n>", ":bnext<CR>", { desc = "Go to Next Buffer", remap = true })
