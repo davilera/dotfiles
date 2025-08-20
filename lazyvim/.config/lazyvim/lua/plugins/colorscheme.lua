@@ -1,3 +1,6 @@
+-- todo restore this
+if true then return {} end
+
 return {
 	{
 		"catppuccin/nvim",
