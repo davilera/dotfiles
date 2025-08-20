@@ -3,5 +3,5 @@
 -- Add any additional options here
 
 vim.opt.mouse = ""
-
+vim.g.lazyvim_blink_main = false
 vim.g.lazyvim_php_lsp = "intelephense"
