@@ -204,7 +204,8 @@ stow --no-folding desktop
 stow --no-folding git
 stow --no-folding programs
 stow --no-folding shell
-stow lvim
+stow lunarvim
+stow lazyvim
 stow vim
 cd - 2>/dev/null
 
