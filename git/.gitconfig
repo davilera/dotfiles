@@ -23,7 +23,7 @@
 [user]
 	name = David Aguilera
 	email = david.aguilera@neliosoftware.com
-	signingkey = 6B22401EA80354A5
+	signingkey = A66E72994DAFFCCD
 [url "https://github.com"]
 	insteadOf = git://github.com
 [credential]

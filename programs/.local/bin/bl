@@ -1,5 +1,8 @@
 #!/bin/bash
 
+echo "Implement in wayland"
+exit 0
+
 output=`xrandr --verbose | grep -A5 " connected"`
 display=`echo -e "$output" | grep " connected " | head -n1 | awk '{ print$1 }'`
 brightness=`echo -e "$output" | grep "Brightness" | head -n1 | cut -d: -f2 | awk '{ print$1 }'`
