@@ -8,6 +8,7 @@ unset MAILCHECK
 export BUN_INSTALL="$HOME/.bun"
 export PATH="./node_modules/.bin:$BUN_INSTALL/bin:./vendor/bin:$HOME/.config/composer/vendor/bin:$HOME/.local/bin:$HOME/.cargo/bin:$HOME/.lando/bin:$PATH"
 export GPG_TTY=$(tty)
+export PHPRC=$HOME/.config/php.ini
 
 # Faster navigation
 # -----------------
