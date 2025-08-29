@@ -31,7 +31,7 @@ npm install -g yarn >/dev/null 2>&1
 echo "Installing elm…"
 npm install -g elm elm-test elm-format elm-oracle >/dev/null 2>&1
 
-echo "Installing neovim LSP servers…"
+echo "Installing nvim helpers…"
 # TODO. Review this.
 # npm install -g neovim >/dev/null 2>&1
 # npm install -g eslint_d >/dev/null 2>&1
