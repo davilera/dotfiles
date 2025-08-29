@@ -78,6 +78,7 @@ echo "====================="
 echo "Creating development directories…"
 mkdir -p ~/Programs/dev/plugins 2>/dev/null
 mkdir -p ~/Programs/dev/themes 2>/dev/null
+mkdir -p ~/Programs/dev/sites 2>/dev/null
 mkdir -p ~/Programs/dev/wordpress.org 2>/dev/null
 
 # TODO. View how to integrate with Omarchy.
