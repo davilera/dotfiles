@@ -1,16 +1,13 @@
 #!/usr/bin/bash
-############################
-# install.sh
-############################
 
-cd "`dirname $0`"
-SRC_DIR=`pwd`
+cd "$(dirname $0)"
+SRC_DIR=$(pwd)
 
 echo "Updating pacman packages…"
 sudo pacman -Syu
 
 echo "Installing basic stuff…"
-sudo pacman -S --noconfirm curl zsh git vim kitty thefuck
+sudo pacman -S --noconfirm curl git vim kitty thefuck
 
 echo ""
 echo "======"
@@ -21,18 +18,14 @@ echo "Installing dev packages…"
 sudo pacman -S --noconfirm stow zoxide tree meld jq ruby subversion composer curl python3 python-pip go cargo luarocks prettyping lsd
 
 echo "Installing utilities…"
-sudo pacman -S --noconfirm filezilla btop imagemagick poedit hunspell-es_any aspell-es the_silver_searcher difftastic
+sudo pacman -S --noconfirm filezilla btop imagemagick poedit hunspell-es_any aspell-ca aspell-es the_silver_searcher difftastic
 yay -S --noconfirm hunspell-ca
 
-echo "Installing nvm, node.js, and npm…"
-rm -rf ~/.nvm >/dev/null 2>&1
-mkdir ~/.nvm
-version=`wget -qO- "https://api.github.com/repos/nvm-sh/nvm/releases/latest" | jq -r .tag_name`
-wget -qO- "https://raw.githubusercontent.com/nvm-sh/nvm/$version/install.sh" | bash >/dev/null 2>&1
-\. ~/.config/nvm/nvm.sh
+echo "Installing nvm, npm, node, bun…"
+sudo pacman -S --noconfirm nvm npm bun-bin
+source /usr/share/nvm/init-nvm.sh
 nvm install 20 2>/dev/null
 nvm use 20 2>/dev/null
-nvm install node 2>/dev/null
 npm install -g yarn >/dev/null 2>&1
 
 echo "Installing elm…"
@@ -50,7 +43,7 @@ npm install -g emmet-ls >/dev/null 2>&1
 npm install -g intelephense >/dev/null 2>&1
 npm install -g vscode-langservers-extracted >/dev/null 2>&1
 
-cd $SRC_DIR 2>/dev/null
+cd "$SRC_DIR" 2>/dev/null
 stow --no-folding composer >/dev/null 2>&1
 composer global install >/dev/null 2>&1
 cd - 2>/dev/null
@@ -98,14 +91,12 @@ echo "============="
 
 echo "Stowing dotfiles…"
 mkdir -p ~/.local/bin 2>/dev/null
-cd $SRC_DIR 2>/dev/null
+cd "$SRC_DIR" 2>/dev/null
 rm -rf ~/.git ~/.bash* ~/.vim 2>/dev/null
-# TODO. Update.
-# stow --no-folding desktop
 stow --no-folding git
 stow --no-folding programs
-# TODO. Update
-# stow --no-folding shell
+stow --no-folding shell
+stow desktop
 stow lazyvim
 cd - 2>/dev/null
 
