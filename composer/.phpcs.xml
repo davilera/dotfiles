@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<ruleset name="WordPress Coding Standards">
+	<description>A custom set of code standard rules to check for WordPress themes and plugins.</description>
+
+	<file>.</file>
+
+	<arg name="extensions" value="php" />
+
+	<exclude-pattern>dist</exclude-pattern>
+	<exclude-pattern>node_modules</exclude-pattern>
+	<exclude-pattern>vendor</exclude-pattern>
+	<exclude-pattern>\.lando</exclude-pattern>
+	<exclude-pattern>\.wordpress</exclude-pattern>
+
+	<!-- Basic -->
+	<rule ref="PHPCompatibility" />
+	<config name="testVersion" value="7.4-" />
+
+	<!-- Include the WordPress ruleset, with exclusions. -->
+	<rule ref="WordPress">
+		<exclude name="Squiz.Commenting.ClassComment.Missing" />
+		<exclude name="Squiz.Commenting.FunctionComment.Missing" />
+		<exclude name="Squiz.Commenting.VariableComment.Missing" />
+
+		<exclude name="Squiz.Commenting.FileComment.Missing" />
+		<exclude name="Squiz.Commenting.FileComment.MissingPackageTag" />
+		<exclude name="Squiz.Commenting.FileComment.SpacingAfterComment" />
+		<exclude name="Squiz.Commenting.FileComment.SpacingAfterOpen" />
+		<exclude name="Squiz.Commenting.FileComment.WrongStyle" />
+		<exclude name="Squiz.Commenting.FunctionComment.WrongStyle" />
+
+		<exclude name="WordPress.Files.FileName.InvalidClassFileName" />
+		<exclude name="Generic.Functions.CallTimePassByReference" />
+	</rule>
+
+	<!-- Restore some WordPress exclusions -->
+	<rule ref="Squiz.Commenting.LongConditionClosingComment">
+		<properties>
+			<property name="lineLimit" value="1" />
+		</properties>
+		<severity>5</severity>
+	</rule>
+
+	<!--
+	Prevent errors caused by WordPress Coding Standards not supporting PHP 8.0+.
+	See https://github.com/WordPress/WordPress-Coding-Standards/issues/2035
+	-->
+	<ini name="error_reporting" value="E_ALL &#38; ~E_DEPRECATED" />
+
+</ruleset>
