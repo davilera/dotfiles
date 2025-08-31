@@ -1,14 +1,13 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-if [ ! -f .lando.yml ];
-then
-	echo "The current directory doesn't contain a ‘.lando.yml’ file" >&2
-	exit 1
+if [ ! -f .lando.yml ]; then
+  echo "The current directory doesn't contain a ‘.lando.yml’ file" >&2
+  exit 1
 fi
 
-PROJECT_NAME=`grep name .lando.yml | cut -d: -f2 | xargs`
-WEBROOT=`grep webroot .lando.yml | cut -d: -f2 | xargs`
-SITE_NAME=`echo "$PROJECT_NAME" | sed -e "s/-/ /g" | sed "s/\b[a-z]/\u&/g"`
+PROJECT_NAME=$(grep name .lando.yml | cut -d: -f2 | xargs)
+WEBROOT=$(grep webroot .lando.yml | cut -d: -f2 | xargs)
+SITE_NAME=$(echo "$PROJECT_NAME" | sed -e "s/-/ /g" | sed "s/\b[a-z]/\u&/g")
 
 # ========================================================
 echo "Setting up WordPress..."
@@ -16,58 +15,56 @@ echo "Setting up WordPress..."
 
 echo "Do you want to reinstall WordPress? (y/N)"
 read answer
-if [ "y" == "$answer" ];
-then
-	# -----------------------------------
-	echo "  - Downloading WordPress..."
-	# -----------------------------------
-	pushd /tmp >/dev/null
-	rm -rf wordpress >/dev/null
-	wget https://wordpress.org/latest.zip >/dev/null
+if [ "y" == "$answer" ]; then
+  # -----------------------------------
+  echo "  - Downloading WordPress..."
+  # -----------------------------------
+  pushd /tmp >/dev/null
+  rm -rf wordpress >/dev/null
+  wget https://wordpress.org/latest.zip >/dev/null
 
-	# -----------------------------------
-	echo "  - Unpacking WordPress..."
-	# -----------------------------------
-	unzip latest.zip >/dev/null
-	popd >/dev/null
-	mkdir -p $WEBROOT >/dev/null
-	rm -rf $WEBROOT >/dev/null
-	mv /tmp/wordpress $WEBROOT >/dev/null
+  # -----------------------------------
+  echo "  - Unpacking WordPress..."
+  # -----------------------------------
+  unzip latest.zip >/dev/null
+  popd >/dev/null
+  mkdir -p $WEBROOT >/dev/null
+  rm -rf $WEBROOT >/dev/null
+  mv /tmp/wordpress $WEBROOT >/dev/null
 
-	# -----------------------------------
-	echo "  - Rebuilding lando..."
-	# -----------------------------------
-	echo 'y' | lando rebuild >/dev/null
+  # -----------------------------------
+  echo "  - Rebuilding lando..."
+  # -----------------------------------
+  echo 'y' | lando rebuild >/dev/null
 
-	if [ ! -d $WEBROOT ];
-	then
-		echo "WordPress couldn’t be downloaded :-("
-		exit
-	fi
+  if [ ! -d $WEBROOT ]; then
+    echo "WordPress couldn’t be downloaded :-("
+    exit
+  fi
 fi
 
 # -----------------------------------
 echo "  - Creating “wp-config.php”..."
 # -----------------------------------
 rm -f $WEBROOT/wp-config.php
-DB=`lando info --service database --format json`
-DBNAME=`echo "$DB" | jq -r ".[0].creds.database"`
-DBUSER=`echo "$DB" | jq -r ".[0].creds.user"`
-DBPASS=`echo "$DB" | jq -r ".[0].creds.password"`
-DBHOST=`echo "$DB" | jq -r ".[0].hostnames[0]"`
+DB=$(lando info --service database --format json)
+DBNAME=$(echo "$DB" | jq -r ".[0].creds.database")
+DBUSER=$(echo "$DB" | jq -r ".[0].creds.user")
+DBPASS=$(echo "$DB" | jq -r ".[0].creds.password")
+DBHOST=$(echo "$DB" | jq -r ".[0].hostnames[0]")
 lando wp config create --dbname=$DBNAME --dbuser=$DBUSER --dbpass=$DBPASS --dbhost=$DBHOST --path=$WEBROOT
 
 # -----------------------------------
 echo "  - Enabling debug options..."
 # -----------------------------------
-sed -e "s/define( 'WP_DEBUG', false );/define( 'WP_DEBUG', true );\ndefine( 'SCRIPT_DEBUG', true );/" $WEBROOT/wp-config.php > $WEBROOT/wp-config.php1
+sed -e "s/define( 'WP_DEBUG', false );/define( 'WP_DEBUG', true );\ndefine( 'SCRIPT_DEBUG', true );/" $WEBROOT/wp-config.php >$WEBROOT/wp-config.php1
 mv $WEBROOT/wp-config.php1 $WEBROOT/wp-config.php
 
 # -----------------------------------
 echo "  - Installing WordPress..."
 # -----------------------------------
-URL=`lando info --service appserver --format json | jq -r ".[0].urls" | grep -vw localhost | grep http: | cut -d'"' -f2`
-DOMAIN=`echo "$URL" | sed -e "s/^http:\/\///" | sed -e "s/\///g"`
+URL=$(lando info --service appserver --format json | jq -r ".[0].urls" | grep -vw localhost | grep http: | cut -d'"' -f2)
+DOMAIN=$(echo "$URL" | sed -e "s/^http:\/\///" | sed -e "s/\///g")
 lando wp core install --url="$URL" --title="$SITE_NAME" --admin_user=admin --admin_password=password --admin_email=admin@$DOMAIN --path=$WEBROOT >/dev/null
 
 # -----------------------------------
@@ -89,18 +86,16 @@ lando wp rewrite flush --force --path=$WEBROOT >/dev/null
 echo "Adding current project in WordPress installation..."
 # ========================================================
 
-DIRNAME=`basename "$(pwd)"`
-if [ `pwd | grep "/themes/" | wc -l` -eq 1 ];
-then
-	cd $WEBROOT/wp-content/themes
-	rm -f $DIRNAME
-	ln -s ../../../../ $DIRNAME
+DIRNAME=$(basename "$(pwd)")
+if [ $(pwd | grep "/themes/" | wc -l) -eq 1 ]; then
+  cd $WEBROOT/wp-content/themes
+  rm -f $DIRNAME
+  ln -s ../../../../ $DIRNAME
 else
-	cd $WEBROOT/wp-content/plugins
-	rm -f $DIRNAME
-	ln -s ../../../../ $DIRNAME
+  cd $WEBROOT/wp-content/plugins
+  rm -f $DIRNAME
+  ln -s ../../../../ $DIRNAME
 fi
-
 
 # ========================================================
 echo "Done."
