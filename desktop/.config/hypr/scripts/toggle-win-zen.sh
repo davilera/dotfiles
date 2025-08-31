@@ -9,5 +9,6 @@ read -r MONX MONW < <(hyprctl -j monitors | jq -r '.[] | select(.focused==true) 
 
 # clamp width
 NEWX=$((MONX + (MONW - MAXW) / 2))
-hyprctl --batch "dispatch togglefloating ; dispatch resizeactive exact \"$MAXW\" \"$H\" ; dispatch centerwindow"
+hyprctl dispatch togglefloating
+hyprctl dispatch resizeactive exact "$MAXW" "$H"
 hyprctl dispatch movewindowpixel exact "$NEWX" "$Y",address:"$ADDR"
