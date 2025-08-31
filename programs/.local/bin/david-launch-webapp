@@ -1,3 +1,6 @@
 #!/usr/bin/env bash
 
-# TODO
+id=$(firefoxpwa profile list | grep "^- $1:" | sed -e "s/[^(]*(//" | sed -e "s/)[^)]*$//")
+[[ -z "$id" ]] && exit 0
+
+firefoxpwa site launch "$id"
