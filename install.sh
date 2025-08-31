@@ -7,7 +7,7 @@ echo "Updating pacman packages…"
 sudo pacman -Syu
 
 echo "Installing basic stuff…"
-sudo pacman -S --noconfirm curl git vim kitty thefuck
+sudo pacman -S --noconfirm curl git vim kitty thefuck hplip
 
 echo ""
 echo "======"
