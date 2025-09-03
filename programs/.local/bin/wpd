@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+project=$(basename "$PWD")
+meld "$HOME/Programs/dev/wordpress.org/$project/trunk" .
