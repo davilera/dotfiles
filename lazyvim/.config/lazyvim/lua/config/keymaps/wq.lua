@@ -9,7 +9,7 @@ unmap("n", "<leader>qS")
 
 local map = vim.keymap.set
 map("n", "<leader>w", "<cmd>:w<cr>", { desc = "Save" })
-map("n", "<leader>W", "<cmd>:wall<cr>", { desc = "Save" })
+map("n", "<leader>W", "<cmd>:wall<cr>", { desc = "Save all" })
 
 local function quit()
   local bufs = vim.fn.getbufinfo({ buflisted = 1 })
