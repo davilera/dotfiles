@@ -21,6 +21,13 @@ echo "Installing utilities…"
 sudo pacman -S --noconfirm filezilla btop imagemagick poedit hunspell-es_any aspell-ca aspell-es the_silver_searcher difftastic aws-cli-v2
 yay -S --noconfirm hunspell-ca
 
+sudo pacman -S --noconfirm python-markdown
+sudo cat <<EOF >/usr/local/bin/markdown
+#!/bin/sh
+python -m markdown $@
+EOF
+sudo chmod a+x /usr/local/bin/markdown
+
 echo "Installing nvm, npm, node, bun…"
 sudo pacman -S --noconfirm nvm npm bun-bin
 source /usr/share/nvm/init-nvm.sh
