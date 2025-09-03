@@ -3,7 +3,7 @@ return {
   opts = {
     formatters = {
       prettier = {
-        command = vim.env.HOME .. "/.nvm/versions/node/v20.12.2/bin/prettier",
+        command = vim.env.HOME .. "/.nvm/versions/node/v20.19.4/bin/prettier",
       },
       phpcbf = {
         command = vim.env.HOME .. "/.config/composer/vendor/bin/phpcbf",
@@ -14,7 +14,7 @@ return {
         stdin = true,
       },
       stylelint = {
-        command = vim.env.HOME .. "/.nvm/versions/node/v20.12.2/bin/stylelint",
+        command = vim.env.HOME .. "/.nvm/versions/node/v20.19.4/bin/stylelint",
         args = { "--fix" },
       },
     },
