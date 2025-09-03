@@ -1,11 +1,7 @@
 local unmap = vim.keymap.del
 unmap("n", "<leader>wd")
 unmap("n", "<leader>wm")
-unmap("n", "<leader>qd")
-unmap("n", "<leader>ql")
 unmap("n", "<leader>qq")
-unmap("n", "<leader>qs")
-unmap("n", "<leader>qS")
 
 local map = vim.keymap.set
 map("n", "<leader>w", "<cmd>:w<cr>", { desc = "Save" })
