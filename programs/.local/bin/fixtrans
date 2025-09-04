@@ -12,10 +12,14 @@ const filenames = glob.sync( '**/*.{html,php,js,ts,jsx,tsx}', {
 	ignore: [ 'node_modules/**', '**/dist/**', '**/vendor/**', '**/*.d.ts' ],
 } );
 
+/*
 for ( const filename of filenames ) {
 	const file = fs.readFileSync( filename, 'utf8' );
 	fs.writeFileSync( filename, fixPlaceholders( file ) );
 }
+*/
+
+console.log( fixPlaceholders( '  // translators: yadah yadah' ) );
 
 // =======
 // HELPERS
@@ -27,7 +31,7 @@ function fixPlaceholders( text ) {
 
 	for ( let i = 0; i < lines.length; ++i ) {
 		const line = lines[ i ];
-		if ( ! /^\/\*\s*translators:/.test( line.trim() ) ) {
+		if ( ! /^\/[*/]\s*translators:/.test( line.trim() ) ) {
 			result.push( line );
 			continue;
 		}
@@ -44,6 +48,7 @@ function fixPlaceholders( text ) {
 }
 
 function fixTranslatorsComment( line, placeholders ) {
+	line = ensureMultilineComment( line );
 	line = ensurePlaceholders( line, placeholders );
 	line = fixSpaces( line );
 	line = removeIndefiniteArticles( line );
@@ -51,6 +56,13 @@ function fixTranslatorsComment( line, placeholders ) {
 	line = separateWithDots( line );
 	line = addFinalDot( line );
 	return line;
+}
+
+function ensureMultilineComment( line ) {
+	if ( ! /^\s*\/\//.test( line ) ) {
+		return line;
+	}
+	return line.replace( /^(\s*)\/\//, '$1/*' ) + ' */';
 }
 
 function ensurePlaceholders( line, placeholders ) {
