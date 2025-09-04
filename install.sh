@@ -49,6 +49,10 @@ npm install -g @elm-tooling/elm-language-server >/dev/null 2>&1
 npm install -g emmet-ls >/dev/null 2>&1
 npm install -g intelephense >/dev/null 2>&1
 npm install -g vscode-langservers-extracted >/dev/null 2>&1
+npm install -g @wordpress/eslint-plugin @typescript-eslint/eslint-plugin @typescript-eslint/parser >/dev/null 2>&1
+
+echo "Installing script helpers…"
+npm install -g glob lodash >/dev/null 2>&1
 
 cd "$SRC_DIR" 2>/dev/null
 stow --no-folding composer >/dev/null 2>&1
