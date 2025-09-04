@@ -12,14 +12,10 @@ const filenames = glob.sync( '**/*.{html,php,js,ts,jsx,tsx}', {
 	ignore: [ 'node_modules/**', '**/dist/**', '**/vendor/**', '**/*.d.ts' ],
 } );
 
-/*
 for ( const filename of filenames ) {
 	const file = fs.readFileSync( filename, 'utf8' );
 	fs.writeFileSync( filename, fixPlaceholders( file ) );
 }
-*/
-
-console.log( fixPlaceholders( '  // translators: yadah yadah' ) );
 
 // =======
 // HELPERS
