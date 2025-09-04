@@ -4,22 +4,68 @@ module.paths.push(
 	require( 'child_process' ).execSync( 'npm root -g' ).toString().trim()
 );
 
-const glob = require( 'glob' );
 const _ = require( 'lodash' );
 const fs = require( 'fs' );
+const glob = require( 'glob' );
+const path = require( 'path' );
 
-const filenames = glob.sync( '**/*.{html,php,js,ts,jsx,tsx}', {
-	ignore: [ 'node_modules/**', '**/dist/**', '**/vendor/**', '**/*.d.ts' ],
-} );
+const args = process.argv.slice( 2 );
+const filenames = expandFiles( args );
 
+console.time( 'Total time' );
+let transformed = 0;
 for ( const filename of filenames ) {
 	const file = fs.readFileSync( filename, 'utf8' );
-	fs.writeFileSync( filename, fixPlaceholders( file ) );
+	const update = fixPlaceholders( file );
+	if ( file !== update ) {
+		++transformed;
+	}
+	fs.writeFileSync( filename, update );
 }
+console.log( `Processed ${ getFileCount( filenames.length ) }` );
+console.log( `Fixed ${ getFileCount( transformed ) }` );
+console.timeEnd( 'Total time' );
 
 // =======
 // HELPERS
 // =======
+
+function expandFiles( inputs ) {
+	let files = [];
+	if ( ! inputs.length ) {
+		inputs = [ '.' ];
+	}
+
+	for ( const input of inputs ) {
+		const fullPath = path.resolve( input );
+
+		if ( ! fs.existsSync( fullPath ) ) {
+			continue;
+		}
+
+		const stat = fs.statSync( fullPath );
+
+		if ( stat.isDirectory() ) {
+			// Expand all PHP files inside this directory (recursively)
+			const phpFiles = glob.sync(
+				path.join( fullPath, '**/*.{html,php,js,ts,jsx,tsx}' ),
+				{
+					ignore: [
+						'node_modules/**',
+						'**/dist/**',
+						'**/vendor/**',
+						'**/*.d.ts',
+					],
+				}
+			);
+			files.push( ...phpFiles );
+		} else if ( stat.isFile() ) {
+			files.push( fullPath );
+		}
+	}
+
+	return _.uniq( files );
+}
 
 function fixPlaceholders( text ) {
 	const lines = text.split( '\n' );
@@ -113,4 +159,8 @@ function separateWithDots( line ) {
 
 function addFinalDot( line ) {
 	return line.replace( /([^.]) \*\//, '$1. */' );
+}
+
+function getFileCount( count ) {
+	return `${ count } file${ count === 1 ? '' : 's' }`;
 }
