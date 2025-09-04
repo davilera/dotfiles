@@ -1,0 +1,107 @@
+#!/usr/bin/env node
+
+module.paths.push(
+	require( 'child_process' ).execSync( 'npm root -g' ).toString().trim()
+);
+
+const glob = require( 'glob' );
+const _ = require( 'lodash' );
+const fs = require( 'fs' );
+
+const filenames = glob.sync( '**/*.{html,php,js,ts,jsx,tsx}', {
+	ignore: [ 'node_modules/**', '**/dist/**', '**/vendor/**', '**/*.d.ts' ],
+} );
+
+for ( const filename of filenames ) {
+	const file = fs.readFileSync( filename, 'utf8' );
+	fs.writeFileSync( filename, fixPlaceholders( file ) );
+}
+
+// =======
+// HELPERS
+// =======
+
+function fixPlaceholders( text ) {
+	const lines = text.split( '\n' );
+	const result = [];
+
+	for ( let i = 0; i < lines.length; ++i ) {
+		const line = lines[ i ];
+		if ( ! /^\/\*\s*translators:/.test( line.trim() ) ) {
+			result.push( line );
+			continue;
+		}
+
+		const nextIndex = /['"]/.test( lines[ i + 1 ] ) ? i + 1 : i + 2;
+		const nextLine = lines[ nextIndex ] || '';
+		const placeholders = _.uniq(
+			_.sortBy( nextLine.match( /%([0-9]\$)?[sd]/g ) )
+		);
+		result.push( fixTranslatorsComment( line, placeholders ) );
+	}
+
+	return result.join( '\n' );
+}
+
+function fixTranslatorsComment( line, placeholders ) {
+	line = ensurePlaceholders( line, placeholders );
+	line = fixSpaces( line );
+	line = removeIndefiniteArticles( line );
+	line = capitalizeExplanations( line );
+	line = separateWithDots( line );
+	line = addFinalDot( line );
+	return line;
+}
+
+function ensurePlaceholders( line, placeholders ) {
+	if ( ! placeholders.length ) {
+		return line;
+	}
+
+	if ( 1 === placeholders.length ) {
+		return line
+			.replace( /%([0-9]\$)?[sd]:?/, '' )
+			.replace(
+				'translators: ',
+				`translators: ${ placeholders[ 0 ] }: `
+			);
+	}
+
+	for ( const placeholder of placeholders ) {
+		const n = placeholder.replace( /[^0-9]/g, '' );
+		const regex = new RegExp( `\\b${ n }\\b\\s*(:|->?)` );
+		line = line.replace( regex, ` ${ placeholder }: ` );
+	}
+
+	return line;
+}
+
+function fixSpaces( line ) {
+	const [ a, b ] = line.split( /\/\*\s*translators:/ );
+	return (
+		a + '/* translators:' + b.replace( '*/', ' */' ).replace( /\s+/g, ' ' )
+	);
+}
+
+function removeIndefiniteArticles( line ) {
+	return line.replace( /(%(\d\$)?[ds]: )(an? )/gi, '$1' );
+}
+
+function capitalizeExplanations( line ) {
+	return line.replace(
+		/(%(\d\$)?[ds]: )([^A-Z])/g,
+		( ...matches ) => `${ matches[ 1 ] }${ matches[ 3 ].toUpperCase() }`
+	);
+}
+
+function separateWithDots( line ) {
+	return line
+		.replace( /(\w) (%(\d\$)?[ds]:)/g, '$1. $2' )
+		.replace( /(["']) (%(\d\$)?[ds]:)/g, '$1. $2' )
+		.replace( /[^.] (%(\d\$)?[ds]:)/g, '. $1' )
+		.replace( 'translators.', 'translators:' );
+}
+
+function addFinalDot( line ) {
+	return line.replace( /([^.]) \*\//, '$1. */' );
+}
