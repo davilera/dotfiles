@@ -75,9 +75,10 @@ function ensurePlaceholders( line, placeholders ) {
 			);
 	}
 
+	line = line.replace( /%([0-9])\$[ds]\s*(->?|:)?/g, '$1 -> ' );
 	for ( const placeholder of placeholders ) {
 		const n = placeholder.replace( /[^0-9]/g, '' );
-		const regex = new RegExp( `\\b${ n }\\b\\s*(:|->?)` );
+		const regex = new RegExp( `\\b${ n }\\b\\s*(->?|:)` );
 		line = line.replace( regex, ` ${ placeholder }: ` );
 	}
 
