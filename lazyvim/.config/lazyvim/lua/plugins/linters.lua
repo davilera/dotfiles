@@ -3,7 +3,7 @@ return {
   opts = {
     linters = {
       phpcs = {
-        cmd = vim.fn.exepath("phpcs"),
+        cmd = vim.env.HOME .. "/.config/composer/vendor/bin/phpcs",
       },
     },
     linters_by_ft = {
