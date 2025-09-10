@@ -6,7 +6,7 @@ source ~/.local/share/omarchy/default/bash/rc
 # --------------
 unset MAILCHECK
 export BUN_INSTALL="$HOME/.bun"
-export PATH="./node_modules/.bin:$BUN_INSTALL/bin:./vendor/bin:$HOME/.config/composer/vendor/bin:$HOME/.local/bin:$HOME/.cargo/bin:$HOME/.lando/bin:$PATH"
+export PATH="./node_modules/.bin:$BUN_INSTALL/bin:./vendor/bin:$HOME/.config/composer/vendor/bin:$HOME/.local/bin:$HOME/.cargo/bin:$HOME/.lando/bin:$PATH:/usr/bin/vendor_perl"
 export GPG_TTY=$(tty)
 export PHP_INI_SCAN_DIR="$PHP_INI_SCAN_DIR:$HOME/.config/php/conf.d" # layer yours last
 

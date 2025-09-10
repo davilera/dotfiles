@@ -8,7 +8,7 @@ while [ $# -ge 1 ]; do
 
   echo -n "Converting $INPUT..." >&2
   mv "$INPUT" "$BACKUP"
-  convert "$BACKUP" -resize "1200x800^" -gravity center -crop 1200x800+0+0 -define jpeg:extent=250kb "$OUTFILE"
+  magick "$BACKUP" -resize "1200x800^" -gravity center -crop 1200x800+0+0 -define jpeg:extent=250kb "$OUTFILE"
   exiftool -all= "$OUTFILE"
   rm "${OUTFILE}_original"
   echo " Done!" >&2
