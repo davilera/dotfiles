@@ -81,7 +81,7 @@ alias gl="git blame"
 alias lg="lazygit"
 alias lz="lazygit"
 
-alias ping="~/.local/bin/prettyping"
+alias ping="prettyping"
 alias pip="pip3"
 
 if [ -d "/Users" ]; then
