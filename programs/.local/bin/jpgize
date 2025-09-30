@@ -4,11 +4,13 @@ while [ $# -ge 1 ]; do
 
   INPUT=$1
   BACKUP=$INPUT.bkp
-  OUTFILE=$(echo "$1" | sed -e s/\.[a-z]\\+$//).jpg
+  OUTFILE="${INPUT%.*}.jpg"
 
-  echo -n "Converting $INPUT..." >&2
+  echo -n "Converting $INPUT…" >&2
   mv "$INPUT" "$BACKUP"
-  convert "$BACKUP" -define jpeg:extent=250kb "$OUTFILE"
+  magick "$BACKUP" -define jpeg:extent=250kb "$OUTFILE"
+  exiftool -all= "$OUTFILE"
+  rm "${OUTFILE}_original"
   echo " Done!" >&2
 
   shift

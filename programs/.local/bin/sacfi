@@ -6,7 +6,7 @@ while [ $# -ge 1 ]; do
   BACKUP=$INPUT.bkp
   OUTFILE="${INPUT%.*}.jpg"
 
-  echo -n "Converting $INPUT..." >&2
+  echo -n "Converting $INPUT…" >&2
   mv "$INPUT" "$BACKUP"
   magick "$BACKUP" -resize "1200x800^" -gravity center -crop 1200x800+0+0 -define jpeg:extent=250kb "$OUTFILE"
   exiftool -all= "$OUTFILE"

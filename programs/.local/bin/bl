@@ -3,34 +3,31 @@
 echo "Implement in wayland"
 exit 0
 
-output=`xrandr --verbose | grep -A5 " connected"`
-display=`echo -e "$output" | grep " connected " | head -n1 | awk '{ print$1 }'`
-brightness=`echo -e "$output" | grep "Brightness" | head -n1 | cut -d: -f2 | awk '{ print$1 }'`
+output=$(xrandr --verbose | grep -A5 " connected")
+display=$(echo -e "$output" | grep " connected " | head -n1 | awk '{ print$1 }')
+brightness=$(echo -e "$output" | grep "Brightness" | head -n1 | cut -d: -f2 | awk '{ print$1 }')
 
 fixBrightness() {
-	value="$1"
-	min="0.4"
-	max="1.0"
-	value=$(echo "if ($min > $value) $min else $value" | bc)
-	value=$(echo "if ($max < $value) $max else $value" | bc)
-	echo "$value"
+  value="$1"
+  min="0.4"
+  max="1.0"
+  value=$(echo "if ($min > $value) $min else $value" | bc)
+  value=$(echo "if ($max < $value) $max else $value" | bc)
+  echo "$value"
 }
 
-if [ "$1" == "inc" ];
-then
-	brightness=$(echo "$brightness + 0.05" | bc)
-	brightness=$(fixBrightness "$brightness")
-elif [ "$1" == "dec" ];
-then
-	brightness=$(echo "$brightness - 0.05" | bc)
-	brightness=$(fixBrightness "$brightness")
-elif [ "$1" == "max" ];
-then
-	brightness="1"
+if [ "$1" == "inc" ]; then
+  brightness=$(echo "$brightness + 0.05" | bc)
+  brightness=$(fixBrightness "$brightness")
+elif [ "$1" == "dec" ]; then
+  brightness=$(echo "$brightness - 0.05" | bc)
+  brightness=$(fixBrightness "$brightness")
+elif [ "$1" == "max" ]; then
+  brightness="1"
 fi
 
 xrandr --output DP-2 --brightness $brightness
 brightness=$(echo "$brightness * 100" | bc)
-brightness=`LC_NUMERIC=C printf "%0.0f\n" "$brightness"`
+brightness=$(LC_NUMERIC=C printf "%0.0f\n" "$brightness")
 dunstify --appname="Desktop Brightness" -t 1000 "$brightness%" "" --replace=851201
 echo $brightness
