@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 
-cd "$(dirname $0)"
+cd "$(dirname "$0")"
 SRC_DIR=$(pwd)
 
 echo "Updating pacman packages…"
@@ -22,7 +22,7 @@ sudo pacman -S --noconfirm filezilla btop imagemagick poedit hunspell-es_any asp
 yay -S --noconfirm hunspell-ca
 
 sudo pacman -S --noconfirm python-markdown
-sudo cat <<EOF >/usr/local/bin/markdown
+cat <<EOF | sudo tee /usr/local/bin/markdown >/dev/null
 #!/bin/sh
 python -m markdown $@
 EOF
@@ -110,6 +110,13 @@ stow --no-folding shell
 stow desktop
 stow lazyvim
 cd - 2>/dev/null
+
+echo ""
+echo "=================="
+echo "LOAD GNOME CONFIGS"
+echo "=================="
+
+dconf load /org/gnome/meld/ <"${SRC_DIR}/dconf/meld.ini"
 
 echo ""
 echo "DONE"
