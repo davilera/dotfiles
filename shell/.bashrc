@@ -97,3 +97,19 @@ if [ "$TERM" = 'xterm-kitty' ]; then
   alias eog="kitty +kitten icat"
   alias icat="kitty +kitten icat"
 fi
+
+# System aliases
+alias pacs='pacman -Ss'       # Search for package or packages in the repositories
+alias pacu='sudo pacman -Syu' # Update the system and upgrade all system packages.
+alias paci='sudo pacman -S'   # Install a specific package from repos added to the system
+alias pacr='sudo pacman -Rns' # Remove package, its configuration and all unwanted dependencies
+alias pach='pacman -Si'       # Help information about a given package located in the repositories
+
+alias yays='yay -Ss'   # Search for package or packages in the repositories
+alias yayu='yay -Syua' # Synchronize with repositories and upgrade packages, including AUR packages.
+alias yayi='yay -S'    # Install a specific package from repos added to the system
+alias yayil='yay -U'   # Install specific package that has been downloaded to the local system
+alias yayr='yay -Rns'  # Remove package or packages , its configuration and all unwanted dependencies
+alias yayh='yay -Si'   # Display information about a given package located in the repositories
+alias yayhl='yay -Qi'  # Display information about a given package in the local database
+alias yayro='yay -Qtd' # Remove orphans using yay
