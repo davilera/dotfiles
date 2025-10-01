@@ -7,7 +7,7 @@ echo "Updating pacman packages…"
 sudo pacman -Syu
 
 echo "Installing basic stuff…"
-sudo pacman -S --noconfirm curl git vim kitty thefuck hplip
+sudo pacman -S --noconfirm firefox curl git vim kitty thefuck hplip
 
 echo ""
 echo "======"
@@ -107,6 +107,9 @@ rm -rf ~/.git ~/.bash* ~/.vim 2>/dev/null
 stow --no-folding git
 stow --no-folding programs
 stow --no-folding shell
+rm -rf ~/.config/hypr 2>/dev/null
+rm -rf ~/.config/kitty 2>/dev/null
+rm -rf ~/.config/qalculate 2>/dev/null
 stow desktop
 stow lazyvim
 cd - 2>/dev/null
