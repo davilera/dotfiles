@@ -7,7 +7,7 @@ echo "Updating pacman packages…"
 sudo pacman -Syu
 
 echo "Installing basic stuff…"
-sudo pacman -S --noconfirm firefox curl git vim kitty thefuck hplip
+sudo pacman -S --noconfirm curl git vim kitty thefuck hplip
 
 echo ""
 echo "======"
@@ -40,20 +40,23 @@ npm install -g elm elm-test elm-format elm-oracle >/dev/null 2>&1
 
 echo "Installing nvim helpers…"
 # TODO. Review this.
-# npm install -g neovim >/dev/null 2>&1
-# npm install -g eslint_d >/dev/null 2>&1
+echo " » prettier"
 npm install -g prettier@npm:wp-prettier@latest 2>&1
-# TODO. Review this.
-# npm install -g typescript typescript-language-server >/dev/null 2>&1
+echo " » elm tooling"
 npm install -g @elm-tooling/elm-language-server >/dev/null 2>&1
+echo " » emmet"
 npm install -g emmet-ls >/dev/null 2>&1
+echo " » intelephense"
 npm install -g intelephense >/dev/null 2>&1
+echo " » vscode landservers"
 npm install -g vscode-langservers-extracted >/dev/null 2>&1
+echo " » eslint"
 npm install -g @wordpress/eslint-plugin @typescript-eslint/eslint-plugin @typescript-eslint/parser >/dev/null 2>&1
 
 echo "Installing script helpers…"
 npm install -g glob lodash path >/dev/null 2>&1
 
+echo "Installing composer deps…"
 cd "$SRC_DIR" 2>/dev/null
 stow --no-folding composer >/dev/null 2>&1
 composer global install >/dev/null 2>&1
@@ -70,6 +73,16 @@ wget "https://raw.githubusercontent.com/Klowner/inkscape-applytransforms/master/
 wget "https://raw.githubusercontent.com/Klowner/inkscape-applytransforms/master/applytransform.inx" >/dev/null 2>&1
 cd - >/dev/null 2>&1
 
+echo "Installing Firefox…"
+sudo pacman -S --noconfirm firefox firefoxpwa
+xdg-settings set default-web-browser firefox.desktop
+
+echo "Installing WhatsApp webapp…"
+if [ "$(firefoxpwa profile list | grep -c whatsapp.web)" -ne 0 ]; then
+  profile="$(firefoxpwa profile create | grep "Profile created" | sed -e "s/.*Profile created: //")"
+  firefoxpwa site install https://web.whatsapp.com/data/manifest.json --profile "$profile"
+fi
+
 echo "Installing Lando…"
 /bin/bash -c "$(curl -fsSL https://get.lando.dev/setup-lando.sh)"
 eval "$(/home/david/.lando/bin/lando shellenv)"
@@ -78,12 +91,6 @@ echo ""
 echo "====================="
 echo "UTILITIES FROM GITHUB"
 echo "====================="
-
-echo "Creating development directories…"
-mkdir -p ~/Programs/dev/plugins 2>/dev/null
-mkdir -p ~/Programs/dev/themes 2>/dev/null
-mkdir -p ~/Programs/dev/sites 2>/dev/null
-mkdir -p ~/Programs/dev/wordpress.org 2>/dev/null
 
 # TODO. View how to integrate with Omarchy.
 # echo "Installing greenclip…"
@@ -115,10 +122,11 @@ stow lazyvim
 cd - 2>/dev/null
 
 echo ""
-echo "=================="
-echo "LOAD GNOME CONFIGS"
-echo "=================="
+echo "======================="
+echo "LOAD ADDITIONAL CONFIGS"
+echo "======================="
 
+~/.local/share/omarchy/bin/omarchy-theme-set catppuccin
 dconf load /org/gnome/meld/ <"${SRC_DIR}/dconf/meld.ini"
 
 echo ""
