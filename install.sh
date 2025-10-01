@@ -79,11 +79,12 @@ wget "https://raw.githubusercontent.com/Klowner/inkscape-applytransforms/master/
 cd - >/dev/null 2>&1
 
 echo "Installing Firefox…"
+sudo pacman -Syy
 sudo pacman -S --noconfirm firefox firefoxpwa
 xdg-settings set default-web-browser firefox.desktop
 
 echo "Installing WhatsApp webapp…"
-if [ "$(firefoxpwa profile list | grep -c whatsapp.web)" -ne 0 ]; then
+if [ "$(firefoxpwa profile list | grep -c whatsapp.web)" -eq 0 ]; then
   profile="$(firefoxpwa profile create | grep "Profile created" | sed -e "s/.*Profile created: //")"
   firefoxpwa site install https://web.whatsapp.com/data/manifest.json --profile "$profile"
 fi
