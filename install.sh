@@ -15,7 +15,7 @@ echo "SYSTEM"
 echo "======"
 
 echo "Installing dev packages…"
-sudo pacman -S --noconfirm stow zoxide tree meld jq ruby subversion composer curl python3 python-pip go cargo luarocks prettyping lsd
+sudo pacman -S --noconfirm stow zoxide tree meld jq ruby subversion composer curl python3 python-pip go cargo luarocks prettyping lsd openssh
 
 echo "Installing utilities…"
 sudo pacman -S --noconfirm filezilla btop imagemagick poedit hunspell-es_any aspell-ca aspell-es the_silver_searcher difftastic aws-cli-v2 perl-image-exiftool
