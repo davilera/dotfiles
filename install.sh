@@ -81,7 +81,6 @@ cd - >/dev/null 2>&1
 echo "Installing Firefox…"
 sudo pacman -Syy
 sudo pacman -S --noconfirm firefox firefoxpwa
-xdg-settings set default-web-browser firefox.desktop
 
 echo "Installing WhatsApp webapp…"
 if [ "$(firefoxpwa profile list | grep -c whatsapp.web)" -eq 0 ]; then
@@ -133,7 +132,9 @@ echo "LOAD ADDITIONAL CONFIGS"
 echo "======================="
 
 ~/.local/share/omarchy/bin/omarchy-theme-set catppuccin
+~/.local/share/omarchy/bin/omarchy-install-terminal kitty
 dconf load /org/gnome/meld/ <"${SRC_DIR}/dconf/meld.ini"
+xdg-settings set default-web-browser firefox.desktop
 
 echo ""
 echo "DONE"
