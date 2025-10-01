@@ -15,7 +15,7 @@ echo "SYSTEM"
 echo "======"
 
 echo "Installing dev packages…"
-sudo pacman -S --noconfirm stow zoxide tree meld jq ruby subversion composer curl python3 python-pip go cargo luarocks prettyping lsd openssh
+sudo pacman -S --noconfirm stow zoxide tree meld jq ruby subversion composer curl python3 python-pip go cargo luarocks prettyping lsd
 
 echo "Installing utilities…"
 sudo pacman -S --noconfirm filezilla btop imagemagick poedit hunspell-es_any aspell-ca aspell-es the_silver_searcher difftastic aws-cli-v2 perl-image-exiftool
@@ -27,6 +27,11 @@ cat <<EOF | sudo tee /usr/local/bin/markdown >/dev/null
 python -m markdown $@
 EOF
 sudo chmod a+x /usr/local/bin/markdown
+
+echo "Installing openssh…"
+sudo pacman -S --noconfirm openssh
+sudo sed -i "s/^# *Port 22/Port 22/" /etc/ssh/sshd_config
+sudo systemctl restart sshd
 
 echo "Installing nvm, npm, node, bun…"
 sudo pacman -S --noconfirm nvm npm bun-bin
