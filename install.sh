@@ -4,23 +4,14 @@ cd "$(dirname "$0")"
 SRC_DIR=$(pwd)
 
 title() {
-  local text
-  text="  $(echo "$1" | xargs)  "
-  local spaces
-  spaces="$(echo "$text" | tr '[:print:]' ' ')"
-  echo -e "\e[48;5;25m"
-  echo "$spaces"
-  echo "$text"
-  echo "$spaces"
-  echo -e "\e[0m"
+  echo ""
+  gum style --trim --border=thick --padding="1 10" "$1"
+  echo ""
 }
 
 subtitle() {
-  local text
-  text="$(echo "$1" | xargs)"
-  echo -e "\e[96m"
-  echo -n "► $text"
-  echo -e "\e[0m"
+  echo ""
+  gum style --trim --foreground=6 "$1"
 }
 
 ############
@@ -61,28 +52,17 @@ sudo pacman -S --noconfirm nvm npm bun-bin
 source /usr/share/nvm/init-nvm.sh
 nvm install 20 2>/dev/null
 nvm use 20 2>/dev/null
-npm install -g yarn >/dev/null 2>&1
 
-subtitle "Installing elm…"
-npm install -g elm elm-test elm-format elm-oracle >/dev/null 2>&1
-
-subtitle "Installing nvim helpers…"
-# TODO. Review this.
-echo -ne " » prettier\r"
-npm install -g prettier@npm:wp-prettier@latest >/dev/null 2>&1
-echo -ne " » elm tooling\r"
-npm install -g @elm-tooling/elm-language-server >/dev/null 2>&1
-echo -ne " » emmet\r"
-npm install -g emmet-ls >/dev/null 2>&1
-echo -ne " » intelephense\r"
-npm install -g intelephense >/dev/null 2>&1
-echo -ne " » vscode landservers\r"
-npm install -g vscode-langservers-extracted >/dev/null 2>&1
-echo -ne " » eslint\r"
-npm install -g @wordpress/eslint-plugin @typescript-eslint/eslint-plugin @typescript-eslint/parser >/dev/null 2>&1
-
-subtitle "Installing script helpers…"
-npm install -g glob lodash path >/dev/null 2>&1
+subtitle "Installing global npm deps…"
+gum spin --padding="0 2" --title="Installing yarn…" -- npm install -g yarn
+gum spin --padding="0 2" --title="Installing elm…" -- npm install -g elm elm-test elm-format elm-oracle
+gum spin --padding="0 2" --title="Installing prettier…" -- npm install -g prettier@npm:wp-prettier@latest
+gum spin --padding="0 2" --title="Installing elm tooling…" -- npm install -g @elm-tooling/elm-language-server
+gum spin --padding="0 2" --title="Installing emmet…" -- npm install -g emmet-ls
+gum spin --padding="0 2" --title="Installing intelephense…" -- npm install -g intelephense
+gum spin --padding="0 2" --title="Installing vscode langservers…" -- npm install -g vscode-langservers-extracted
+gum spin --padding="0 2" --title="Installing eslint…" -- npm install -g @wordpress/eslint-plugin @typescript-eslint/eslint-plugin @typescript-eslint/parser
+gum spin --padding="0 2" --title="Installing script helpers…" -- npm install -g glob lodash path >/dev/null 2>&1
 
 subtitle "Installing composer deps…"
 cd "$SRC_DIR" 2>/dev/null
