@@ -1,4 +1,5 @@
 #!/usr/bin/bash
+# shellcheck disable=SC2038
 
 cd "$(dirname "$0")"
 SRC_DIR=$(pwd)
@@ -119,16 +120,25 @@ title "INIT DOTFILES"
 subtitle "Stowing dotfiles…"
 mkdir -p ~/.local/bin 2>/dev/null
 cd "$SRC_DIR" 2>/dev/null
-rm -rf ~/.git ~/.bash* ~/.vim 2>/dev/null
-stow --no-folding git
+
+if gum confirm "Do you want to stow git config?"; then
+  rm -rf ~/.git 2>/dev/null
+  stow --no-folding git
+fi
+
 stow --no-folding programs
+
+rm -rf ~/.bash* 2>/dev/null
 stow --no-folding shell
-rm -rf ~/.config/hypr 2>/dev/null
-rm -rf ~/.config/kitty 2>/dev/null
-rm -rf ~/.config/qalculate 2>/dev/null
+
+find desktop/.config -mindepth 1 -maxdepth 1 | xargs -n1 basename | while read -r file; do
+  rm -rf "$HOME/.config/$file" 2>/dev/null
+done
 stow desktop
+
 rm -rf ~/.config/nvim 2>/dev/null
 stow nvim
+
 cd - 2>/dev/null
 
 #############################S"
