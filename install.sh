@@ -123,7 +123,8 @@ rm -rf ~/.config/hypr 2>/dev/null
 rm -rf ~/.config/kitty 2>/dev/null
 rm -rf ~/.config/qalculate 2>/dev/null
 stow desktop
-stow lazyvim
+rm -rf ~/.config/nvim 2>/dev/null
+stow nvim
 cd - 2>/dev/null
 
 echo ""
@@ -131,11 +132,15 @@ echo "======================="
 echo "LOAD ADDITIONAL CONFIGS"
 echo "======================="
 
-~/.local/share/omarchy/bin/omarchy-theme-set catppuccin
-~/.local/share/omarchy/bin/omarchy-install-terminal kitty
+if [ "$(~/.local/share/omarchy/bin/omarchy-theme-current)" != "Catppuccin" ]; then
+  yes n | ~/.local/share/omarchy/bin/omarchy-theme-set catppuccin
+fi
+yes n | ~/.local/share/omarchy/bin/omarchy-install-terminal kitty
 dconf load /org/gnome/meld/ <"${SRC_DIR}/dconf/meld.ini"
 xdg-settings set default-web-browser firefox.desktop
 
 echo ""
 echo "DONE"
 echo "Enjoy your new life, David!"
+
+gum confirm "Relaunch Hyprland to use new settings?" && uwsm stop

@@ -56,9 +56,8 @@ fi
 # 	[[ -d "$dir" ]] && meld "$dir" . || echo "SVN project “$project” not found."
 # }
 
-alias ovim="/usr/bin/vim"
-alias vi="/home/david/.local/bin/lazyvim"
-alias vim="/home/david/.local/bin/lazyvim"
+alias vi="nvim"
+alias vim="nvim"
 alias cat="bat --tabs 2"
 alias mdcat="bat -l markdown --tabs 2 --theme='Catppuccin Mocha'"
 alias colorize="ccze -A"
