@@ -82,6 +82,9 @@ echo "Installing Firefox…"
 sudo pacman -Syy
 sudo pacman -S --noconfirm firefox firefoxpwa
 
+echo "Installing firefoxpwa’s runtime…"
+firefoxpwa runtime install
+
 echo "Installing WhatsApp webapp…"
 if [ "$(firefoxpwa profile list | grep -c whatsapp.web)" -eq 0 ]; then
   profile="$(firefoxpwa profile create | grep "Profile created" | sed -e "s/.*Profile created: //")"
