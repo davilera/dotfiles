@@ -23,7 +23,7 @@ subtitle "Updating pacman packages…"
 sudo pacman -Syu
 
 subtitle "Installing basic stuff…"
-sudo pacman -S --noconfirm curl git vim kitty thefuck hplip
+sudo pacman -S --noconfirm curl git vim kitty thefuck hplip trash-cli
 
 ##############
 title "SYSTEM"
@@ -46,6 +46,7 @@ sudo chmod a+x /usr/local/bin/markdown
 subtitle "Installing openssh…"
 sudo pacman -S --noconfirm openssh
 sudo sed -i "s/^# *Port 22/Port 22/" /etc/ssh/sshd_config
+sudo systemctl enable sshd
 sudo systemctl restart sshd
 
 subtitle "Installing nvm, npm, node, bun…"
@@ -126,8 +127,6 @@ if gum confirm "Do you want to stow git config?"; then
   stow --no-folding git
 fi
 
-stow --no-folding programs
-
 rm -rf ~/.bash* 2>/dev/null
 stow --no-folding shell
 
@@ -138,6 +137,10 @@ stow desktop
 
 rm -rf ~/.config/nvim 2>/dev/null
 stow nvim
+
+stow --no-folding programs
+systemctl --user enable empty-trash.timer
+systemctl --user start empty-trash.timer
 
 cd - 2>/dev/null
 

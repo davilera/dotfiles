@@ -44,28 +44,26 @@ fi
 
 # Aliases
 # ------------
-# wp() {
-# 	[ ! -e .lando.yml ] && echo "This doesn't look like a WordPress installation. Bye!" >&2 && return
-# 	lando wp $@ --path=`\grep webroot .lando.yml | cut -d: -f2 | xargs`
-# }
-#
-# wpd() {
-# 	project=`basename $PWD`
-# 	dir="$HOME/Programs/dev/wordpress.org/$project/trunk"
-# 	echo "Meld with “$dir”"
-# 	[[ -d "$dir" ]] && meld "$dir" . || echo "SVN project “$project” not found."
-# }
+function take() {
+  mkdir -p $1
+  cd $1
+}
 
-alias vi="nvim"
-alias vim="nvim"
+alias s="source ~/.bashrc"
 alias cat="bat --tabs 2"
-alias mdcat="bat -l markdown --tabs 2 --theme='Catppuccin Mocha'"
 alias colorize="ccze -A"
 alias grep="ag --noheading --nobreak --ignore node_modules --ignore vendor --ignore e2e-tests --ignore build --ignore dist --ignore build-module --ignore .lando"
-alias top="btop"
 alias htop="btop"
+alias mdcat="bat -l markdown --tabs 2 --theme='Catppuccin Mocha'"
+alias rm="trash"
+alias serve="python3 -m http.server"
+alias td="grep -r todo.david"
+alias tl="trash-list"
+alias top="btop"
 alias tree="lsd --group-dirs=first --tree"
-alias td='grep -r todo.david'
+alias trim="awk '{\$1=\$1;print}'"
+alias vi="nvim"
+alias vim="nvim"
 
 alias ga="git add"
 alias gc="git commit"
