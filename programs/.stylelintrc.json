@@ -1,0 +1,8 @@
+{
+	"extends": "@wordpress/stylelint-config/scss",
+	"ignoreFiles": [ "**/*.ts", "**/*.tsx" ],
+	"rules": {
+		"scss/operator-no-newline-after": null,
+		"selector-class-pattern": null
+	}
+}
