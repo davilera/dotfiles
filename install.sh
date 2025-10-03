@@ -52,8 +52,8 @@ sudo systemctl restart sshd
 subtitle "Installing nvm, npm, node, bun…"
 sudo pacman -S --noconfirm nvm npm bun-bin
 source /usr/share/nvm/init-nvm.sh
-nvm install 20 2>/dev/null
-nvm use 20 2>/dev/null
+nvm install 20
+nvm use 20
 
 subtitle "Installing global npm deps…"
 gum spin --padding="0 2" --title="Installing yarn…" -- npm install -g yarn
