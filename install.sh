@@ -23,7 +23,7 @@ subtitle "Updating pacman packages…"
 sudo pacman -Syu
 
 subtitle "Installing basic stuff…"
-sudo pacman -S --noconfirm curl git vim kitty thefuck hplip trash-cli
+sudo pacman -S --noconfirm curl git vim kitty thefuck hplip trash-cli wget
 
 ##############
 title "SYSTEM"
