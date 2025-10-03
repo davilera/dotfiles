@@ -57,8 +57,7 @@ nvm use 20
 
 subtitle "Installing global npm deps…"
 gum spin --padding="0 2" --title="Installing yarn…" -- npm install -g yarn
-gum spin --padding="0 2" --title="Installing elm tooling…" -- npm install -g @elm-tooling/elm-language-server
-gum spin --padding="0 2" --title="Installing elm…" -- npm install -g elm elm-test elm-format elm-oracle
+gum spin --padding="0 2" --title="Installing elm…" -- npm install -g elm elm-test elm-format elm-oracle @elm-tooling/elm-language-server
 gum spin --padding="0 2" --title="Installing emmet…" -- npm install -g emmet-ls
 gum spin --padding="0 2" --title="Installing eslint…" -- npm install -g @wordpress/eslint-plugin @typescript-eslint/eslint-plugin @typescript-eslint/parser
 gum spin --padding="0 2" --title="Installing intelephense…" -- npm install -g intelephense
