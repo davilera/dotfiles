@@ -62,7 +62,7 @@ gum spin --padding="0 2" --title="Installing elm…" -- npm install -g elm elm-t
 gum spin --padding="0 2" --title="Installing emmet…" -- npm install -g emmet-ls
 gum spin --padding="0 2" --title="Installing eslint…" -- npm install -g @wordpress/eslint-plugin @typescript-eslint/eslint-plugin @typescript-eslint/parser
 gum spin --padding="0 2" --title="Installing intelephense…" -- npm install -g intelephense
-gum spin --padding="0 2" --title="Installing prettier…" -- npm install -g prettier@npm:wp-prettier@latest
+gum spin --padding="0 2" --title="Installing prettier…" -- npm install -g prettier@npm:wp-prettier@latest @wordpress/prettier-config
 gum spin --padding="0 2" --title="Installing script helpers…" -- npm install -g glob lodash path >/dev/null 2>&1
 gum spin --padding="0 2" --title="Installing stylelint…" -- npm install -g stylelint @wordpress/stylelint-config >/dev/null 2>&1
 gum spin --padding="0 2" --title="Installing vscode langservers…" -- npm install -g vscode-langservers-extracted
@@ -142,6 +142,8 @@ stow nvim
 stow --no-folding programs
 systemctl --user enable empty-trash.timer
 systemctl --user start empty-trash.timer
+
+stow tooling-config
 
 cd - 2>/dev/null
 
