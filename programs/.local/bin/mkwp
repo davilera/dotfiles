@@ -1,19 +1,40 @@
 #!/usr/bin/env bash
 # shellcheck disable=SC1111
+# shellcheck disable=SC2001
+# shellcheck disable=SC2181
 
-if [ $# -ne 2 ]; then
-  echo "Usage: mkwp NAME TITLE"
-  echo "Example: mkwp testing \"Nelio A/B Testing\""
-  exit 1
-fi
+while [ "$TITLE" == "" ]; do
+  TITLE=$(gum input --prompt "🌍 Site title: ")
+  [[ $? -ne 0 ]] && exit 1
+  TITLE=$(echo "$TITLE" | sed -e "s/^\s*//" | sed -e "s/\s*$//")
+done
 
-DIR=$1
-TITLE=$2
+DEFAULT_DIR=$(echo "$TITLE" | tr "[:upper:]" "[:lower:]" | sed -e "s/[^a-z0-9 ]//g" | sed -e "s/\s\+/-/g")
+DIR=$(gum input --prompt "📂 Install directory ($DEFAULT_DIR): ")
+[[ $? -ne 0 ]] && exit 1
+[[ "$DIR" == "" ]] && DIR="$DEFAULT_DIR"
 
-if [ -e "$DIR" ]; then
+USER=$(gum input --prompt "👤 Admin user (admin): ")
+[[ $? -ne 0 ]] && exit 1
+[[ "$USER" == "" ]] && USER="admin"
+
+PASSWORD="a"
+PASSWORD_CONFIRM="b"
+while [ "$PASSWORD" != "$PASSWORD_CONFIRM" ]; do
+  PASSWORD=$(gum input --prompt "🔑 Password (password): " --password)
+  [[ $? -ne 0 ]] && exit 1
+  if [ "$PASSWORD" == "" ]; then
+    PASSWORD="password"
+    PASSWORD_CONFIRM="password"
+  else
+    PASSWORD_CONFIRM=$(gum input --prompt "🔑 Repeat password: " --password)
+    [[ $? -ne 0 ]] && exit 1
+  fi
+done
+
+while [ -e "$DIR" ]; do
   echo "Directory “$DIR” already exists. Please use a non-existing name."
-  exit 2
-fi
+done
 
 # Create the directory
 # --------------------------------------------------
@@ -70,9 +91,9 @@ DOMAIN=$(echo "$URL" | sed -e "s/^http:\/\///" | sed -e "s/\/.*$//")
 lando wp core install \
   --url="$URL" \
   --title="$TITLE" \
-  --admin_user=admin \
-  --admin_password=password \
-  --admin_email="admin@$DOMAIN" \
+  --admin_user="$USER" \
+  --admin_password="$PASSWORD" \
+  --admin_email="$USER@$DOMAIN" \
   --path=. >/dev/null 2>&1
 
 # -----------------------------------
