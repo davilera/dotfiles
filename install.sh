@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 # shellcheck disable=SC2038
 
-cd "$(dirname "$0")"
+cd "$(dirname "$0")" || exit
 SRC_DIR=$(pwd)
 
 title() {
@@ -15,47 +15,156 @@ subtitle() {
   gum style --trim --foreground=6 "$1"
 }
 
-############
-title "INIT"
-############
+# ========================================================
+# ========================================================
+title "BASICS"
+# ========================================================
+# ========================================================
 
+# --------------------------------------------------------
 subtitle "Updating pacman packages…"
+# --------------------------------------------------------
+
 sudo pacman -Syu
 
-subtitle "Installing basic stuff…"
-sudo pacman -S --noconfirm curl git vim kitty thefuck hplip trash-cli wget
+# --------------------------------------------------------
+subtitle "Installing packages…"
+# --------------------------------------------------------
 
-##############
-title "SYSTEM"
-##############
+cat <<EOD | xargs sudo pacman -S --noconfirm
+  aspell-ca
+  aspell-es
+  aws-cli-v2
+  bat
+  btop
+  bun-bin
+  cargo
+  composer
+  curl
+  curl
+  difftastic
+  filezilla
+  firefox
+  firefoxpwa
+  gimp
+  go
+  hplip
+  hunspell-es_any
+  imagemagick
+  inkscape
+  jq
+  kitty
+  lsd
+  luarocks
+  meld
+  npm
+  nvm
+  openssh
+  pass
+  perl-image-exiftool
+  poedit
+  prettyping
+  python-markdown
+  python-pip
+  python3
+  ruby
+  stow
+  subversion
+  tldr
+  the_silver_searcher
+  trash-cli
+  tree
+  wget
+  zoxide
+EOD
+sudo pacman -S --noconfirm
 
-subtitle "Installing dev packages…"
-sudo pacman -S --noconfirm stow zoxide tree meld jq ruby subversion composer curl python3 python-pip go cargo luarocks prettyping lsd
+cat <<EOD | xargs yay -S --noconfirm
+  hunspell-ca
+  navi
+  smassh
+  zoom
+EOD
 
-subtitle "Installing utilities…"
-sudo pacman -S --noconfirm filezilla btop imagemagick poedit hunspell-es_any aspell-ca aspell-es the_silver_searcher difftastic aws-cli-v2 perl-image-exiftool
-yay -S --noconfirm hunspell-ca
+# --------------------------------------------------------
+subtitle "Configuring packages…"
+# --------------------------------------------------------
 
-sudo pacman -S --noconfirm python-markdown
+# Bat setup
+mkdir -p "$(bat --config-dir)/themes" >/dev/null 2>&1
+wget -P "$(bat --config-dir)/themes" https://github.com/catppuccin/bat/raw/main/themes/Catppuccin%20Mocha.tmTheme >/dev/null 2>&1
+bat cache --build >/dev/null 2>&1
+
+# Markdown setup
 cat <<EOF | sudo tee /usr/local/bin/markdown >/dev/null
 #!/bin/sh
 python -m markdown $@
 EOF
 sudo chmod a+x /usr/local/bin/markdown
 
-subtitle "Installing openssh…"
-sudo pacman -S --noconfirm openssh
+# Meld setup
+dconf load /org/gnome/meld/ <"${SRC_DIR}/dconf/meld.ini"
+
+# SSHD setup
 sudo sed -i "s/^# *Port 22/Port 22/" /etc/ssh/sshd_config
 sudo systemctl enable sshd
 sudo systemctl restart sshd
 
-subtitle "Installing nvm, npm, node, bun…"
-sudo pacman -S --noconfirm nvm npm bun-bin
-source /usr/share/nvm/init-nvm.sh
+# Adding links for vi and nvim
+sudo ln -s /usr/bin/nvim /usr/bin/vi
+sudo ln -s /usr/bin/nvim /usr/bin/vim
+
+# Inkscape setup
+mkdir -p ~/.config/inkscape/extensions >/dev/null 2>&1
+cd ~/.config/inkscape/extensions >/dev/null 2>&1 || exit
+wget "https://raw.githubusercontent.com/Klowner/inkscape-applytransforms/master/applytransform.py" >/dev/null 2>&1
+wget "https://raw.githubusercontent.com/Klowner/inkscape-applytransforms/master/applytransform.inx" >/dev/null 2>&1
+cd - >/dev/null 2>&1 || exit
+
+# Set Firefox as Default browser
+xdg-settings set default-web-browser firefox.desktop
+
+# Download TLDR entries
+gum spin --padding="0 2" --title="Downloading TLDR entries…" -- tldr -u
+
+# Download navi cheats
+mkdir -p ~/.local/share/navi/cheats
+pushd ~/.local/share/navi/cheats >/dev/null 2>&1 || exit
+rm -rf denisidoro__cheats tmp 2>/dev/null
+mkdir tmp
+pushd tmp >/dev/null 2>&1 || exit
+git clone https://github.com/denisidoro/cheats denisidoro__cheats 2>/dev/null
+if [ -d denisidoro__cheats ]; then
+  pushd denisidoro__cheats >/dev/null 2>&1 || exit
+  mkdir -p ../../denisidoro__cheats
+  find . -name "*.cheat" -printf "%P\n" | while read -r file; do mv "$file" "../../denisidoro__cheats/${file//\//__}" 2>/dev/null; done
+  popd >/dev/null 2>&1 || exit
+fi
+popd >/dev/null 2>&1 || exit
+rm -rf tmp 2>/dev/null
+popd >/dev/null 2>&1 || exit
+
+# Firefox PWA
+gum spin --padding="0 2" --title="Installing firefoxpwa runtime…" -- firefoxpwa runtime install
+if [ "$(firefoxpwa profile list | grep whatsapp.com)" -eq 0 ]; then
+  profile="$(firefoxpwa profile create | grep "Profile created" | sed -e "s/.*Profile created: //")"
+  firefoxpwa site install https://web.whatsapp.com/data/manifest.json --profile "$profile"
+fi
+
+# ========================================================
+# ========================================================
+title "DEVELOPMENT"
+# ========================================================
+# ========================================================
+
+# --------------------------------------------------------
+subtitle "Installing global npm deps…"
+# --------------------------------------------------------
+
+source /usr/share/nvim/init-nvm.sh
 nvm install 20
 nvm use 20
 
-subtitle "Installing global npm deps…"
 gum spin --padding="0 2" --title="Installing yarn…" -- npm install -g yarn
 gum spin --padding="0 2" --title="Installing elm…" -- npm install -g elm elm-test elm-format elm-oracle @elm-tooling/elm-language-server
 gum spin --padding="0 2" --title="Installing emmet…" -- npm install -g emmet-ls
@@ -66,66 +175,37 @@ gum spin --padding="0 2" --title="Installing script helpers…" -- npm install -
 gum spin --padding="0 2" --title="Installing stylelint…" -- npm install -g stylelint @wordpress/stylelint-config >/dev/null 2>&1
 gum spin --padding="0 2" --title="Installing vscode langservers…" -- npm install -g vscode-langservers-extracted
 
+# --------------------------------------------------------
 subtitle "Installing composer deps…"
-cd "$SRC_DIR" 2>/dev/null
+# --------------------------------------------------------
+
+cd "$SRC_DIR" 2>/dev/null || exit
 stow --no-folding composer >/dev/null 2>&1
 composer global install >/dev/null 2>&1
-cd - 2>/dev/null
+cd - 2>/dev/null || exit
 
-subtitle "Installing apps…"
-sudo pacman -S --noconfirm inkscape gimp
-yay -S --noconfirm zoom
-
-subtitle "Configuring inkscape…"
-mkdir -p ~/.config/inkscape/extensions >/dev/null 2>&1
-cd ~/.config/inkscape/extensions >/dev/null 2>&1
-wget "https://raw.githubusercontent.com/Klowner/inkscape-applytransforms/master/applytransform.py" >/dev/null 2>&1
-wget "https://raw.githubusercontent.com/Klowner/inkscape-applytransforms/master/applytransform.inx" >/dev/null 2>&1
-cd - >/dev/null 2>&1
-
-subtitle "Installing Firefox…"
-sudo pacman -Syy
-sudo pacman -S --noconfirm firefox firefoxpwa
-
-subtitle "Installing firefoxpwa’s runtime…"
-firefoxpwa runtime install
-
-subtitle "Installing WhatsApp webapp…"
-if [ "$(firefoxpwa profile list | grep whatsapp.com)" -eq 0 ]; then
-  profile="$(firefoxpwa profile create | grep "Profile created" | sed -e "s/.*Profile created: //")"
-  firefoxpwa site install https://web.whatsapp.com/data/manifest.json --profile "$profile"
-fi
-
+# --------------------------------------------------------
 subtitle "Installing Lando…"
-/bin/bash -c "$(curl -fsSL https://get.lando.dev/setup-lando.sh)"
+# --------------------------------------------------------
+
+/bin/bash -c "$(curl -fsSL https://get.lando.dev/setup-lando.sh)" -- -y
 eval "$(/home/david/.lando/bin/lando shellenv)"
 
-#############################
-title "UTILITIES FROM GITHUB"
-#############################
+# ========================================================
+# ========================================================
+title "CUSTOMIZE SETUP"
+# ========================================================
+# ========================================================
 
-# TODO. View how to integrate with Omarchy.
-# echo "Installing greenclip…"
-# sudo pacman -S --noconfirm rofi-greenclip
-
-# TODO. Review how to use colorscheme from Omarchy theme.
-subtitle "Configuring bat…"
-mkdir -p "$(bat --config-dir)/themes" >/dev/null 2>&1
-wget -P "$(bat --config-dir)/themes" https://github.com/catppuccin/bat/raw/main/themes/Catppuccin%20Mocha.tmTheme >/dev/null 2>&1
-bat cache --build >/dev/null 2>&1
-
-#####################
-title "INIT DOTFILES"
-#####################
-
+# --------------------------------------------------------
 subtitle "Stowing dotfiles…"
-mkdir -p ~/.local/bin 2>/dev/null
-cd "$SRC_DIR" 2>/dev/null
+# --------------------------------------------------------
 
-if gum confirm "Do you want to stow git config?"; then
-  rm -rf ~/.git 2>/dev/null
-  stow --no-folding git
-fi
+mkdir -p ~/.local/bin 2>/dev/null
+cd "$SRC_DIR" 2>/dev/null || exit
+
+rm -rf ~/.git 2>/dev/null
+stow --no-folding git
 
 rm -rf ~/.bash* 2>/dev/null
 stow --no-folding shell
@@ -135,7 +215,7 @@ find desktop/.config -mindepth 1 -maxdepth 1 | xargs -n1 basename | while read -
 done
 stow desktop
 
-rm -rf ~/.config/nvim 2>/dev/null
+rm -rf ~/.config/nvim ~/.local/share/nvim 2>/dev/null
 stow nvim
 
 stow --no-folding programs
@@ -144,18 +224,16 @@ systemctl --user start empty-trash.timer
 
 stow tooling-config
 
-cd - 2>/dev/null
+cd - 2>/dev/null || exit
 
-#############################S"
-title "LOAD ADDITIONAL CONFIGS"
-#############################S"
+# --------------------------------------------------------
+subtitle "Customizing Omarchy…"
+# --------------------------------------------------------
 
 if [ "$(~/.local/share/omarchy/bin/omarchy-theme-current)" != "Catppuccin" ]; then
   yes n | ~/.local/share/omarchy/bin/omarchy-theme-set catppuccin
 fi
 yes n | ~/.local/share/omarchy/bin/omarchy-install-terminal kitty
-dconf load /org/gnome/meld/ <"${SRC_DIR}/dconf/meld.ini"
-xdg-settings set default-web-browser firefox.desktop
 
-echo -e "\e[32mDone! Enjoy your new life, David.\e[0m"
+echo -e "\e[32m Done!\e[0m"
 gum confirm "Relaunch Hyprland to use new settings?" && uwsm stop
