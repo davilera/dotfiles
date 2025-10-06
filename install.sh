@@ -91,7 +91,7 @@ subtitle "Installing firefoxpwa’s runtime…"
 firefoxpwa runtime install
 
 subtitle "Installing WhatsApp webapp…"
-if [ "$(firefoxpwa profile list | grep -c whatsapp.web)" -eq 0 ]; then
+if [ "$(firefoxpwa profile list | grep whatsapp.com)" -eq 0 ]; then
   profile="$(firefoxpwa profile create | grep "Profile created" | sed -e "s/.*Profile created: //")"
   firefoxpwa site install https://web.whatsapp.com/data/manifest.json --profile "$profile"
 fi
