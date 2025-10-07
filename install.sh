@@ -202,28 +202,42 @@ title "CUSTOMIZE SETUP"
 subtitle "Stowing dotfiles…"
 # --------------------------------------------------------
 
-mkdir -p ~/.local/bin 2>/dev/null
 cd "$SRC_DIR" 2>/dev/null || exit
+
+stow --no-folding bin
 
 rm -rf ~/.git 2>/dev/null
 stow --no-folding git
 
-rm -rf ~/.bash* 2>/dev/null
-stow --no-folding shell
+rm -rf ~/.config/hypr 2>/dev/null
+stow hypr
 
-find desktop/.config -mindepth 1 -maxdepth 1 | xargs -n1 basename | while read -r file; do
-  rm -rf "$HOME/.config/$file" 2>/dev/null
-done
-stow desktop
+rm -rf ~/.config/kitty 2>/dev/null
+stow kitty
+
+stow meld
 
 rm -rf ~/.config/nvim ~/.local/share/nvim 2>/dev/null
 stow nvim
 
-stow --no-folding programs
+rm -rf ~/.config/qalculate 2>/dev/null
+stow qalculate
+
+rm -rf ~/.bash* 2>/dev/null
+stow --no-folding shell
+
+rm -rf ~/.config/smassh 2>/dev/null
+stow smassh
+
+rm -rf ~/.config/php 2>/dev/null
+stow tooling-config
+
+stow --no-folding trash
 systemctl --user enable empty-trash.timer
 systemctl --user start empty-trash.timer
 
-stow tooling-config
+rm -rf ~/.config/uwsm 2>/dev/null
+stow uwsm
 
 cd - 2>/dev/null || exit
 
