@@ -78,6 +78,8 @@ alias gl="git blame"
 alias lg="lazygit"
 alias lz="lazygit"
 
+alias aws="AWS_ACCESS_KEY_ID=$(pass show aws/access_id) AWS_SECRET_ACCESS_KEY=$(pass show aws/access_token) aws"
+
 alias ping="prettyping"
 alias pip="pip3"
 
