@@ -220,9 +220,6 @@ stow meld
 rm -rf ~/.config/nvim ~/.local/share/nvim 2>/dev/null
 stow nvim
 
-rm -rf ~/.config/qalculate 2>/dev/null
-stow qalculate
-
 rm -rf ~/.bash* 2>/dev/null
 stow --no-folding shell
 
