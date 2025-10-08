@@ -52,6 +52,7 @@ function take() {
 alias s="source ~/.bashrc"
 alias cat="bat --tabs 2"
 alias colorize="ccze -A"
+alias df="dysk"
 alias grep="ag --noheading --nobreak --ignore node_modules --ignore vendor --ignore e2e-tests --ignore build --ignore dist --ignore build-module --ignore .lando"
 alias htop="btop"
 alias mdcat="bat -l markdown --tabs 2 --theme='Catppuccin Mocha'"

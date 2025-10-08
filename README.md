@@ -87,6 +87,7 @@ notes for myself (and others) on why they’re there:
 | `composer`            | PHP dependency manager (used in WordPress plugin development) |
 | `curl`                | HTTP transfers / API calls / fetch scripts                    |
 | `difftastic`          | Better diffing tool (structural diffs)                        |
+| `dysk`                | Better info on mounted filesystems                            |
 | `filezilla`           | GUI FTP / SFTP client                                         |
 | `firefox`             | Web browser (my default)                                      |
 | `firefoxpwa`          | Firefox + progressive web app support / wrappers              |

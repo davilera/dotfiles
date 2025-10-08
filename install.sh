@@ -43,6 +43,7 @@ cat <<EOD | xargs sudo pacman -S --noconfirm
 	curl
 	curl
 	difftastic
+	dysk
 	filezilla
 	firefox
 	firefoxpwa
