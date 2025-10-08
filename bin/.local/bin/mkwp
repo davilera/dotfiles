@@ -3,44 +3,84 @@
 # shellcheck disable=SC2001
 # shellcheck disable=SC2181
 
-while [ "$TITLE" == "" ]; do
-  TITLE=$(gum input --prompt "🌍 Site title: ")
-  [[ $? -ne 0 ]] && exit 1
-  TITLE=$(echo "$TITLE" | sed -e "s/^\s*//" | sed -e "s/\s*$//")
+function help {
+  cat <<EOF
+Usage: $(basename "$0") [OPTION]... [DIR TITLE].
+
+This script accepts either:
+  - No arguments: runs interactively.
+  - Two arguments: Accepts a directory name (where WordPress will be installed) and a site title.
+
+Examples:
+  $(basename "$0")
+  $(basename "$0") my-site "My Site"
+EOF
+}
+
+while getopts "h" opt; do
+  case $opt in
+  h)
+    help
+    exit 0
+    ;;
+  *)
+    help
+    exit 1
+    ;;
+  esac
 done
 
-DEFAULT_DIR=$(echo "$TITLE" | tr "[:upper:]" "[:lower:]" | sed -e "s/[^a-z0-9 ]//g" | sed -e "s/\s\+/-/g")
-DIR=$(gum input --prompt "📂 Install directory ($DEFAULT_DIR): ")
-[[ $? -ne 0 ]] && exit 1
-[[ "$DIR" == "" ]] && DIR="$DEFAULT_DIR"
-
-USER=$(gum input --prompt "👤 Admin user (admin): ")
-[[ $? -ne 0 ]] && exit 1
-[[ "$USER" == "" ]] && USER="admin"
-
-PASSWORD="a"
-PASSWORD_CONFIRM="b"
-while [ "$PASSWORD" != "$PASSWORD_CONFIRM" ]; do
-  PASSWORD=$(gum input --prompt "🔑 Password (password): " --password)
-  [[ $? -ne 0 ]] && exit 1
-  if [ "$PASSWORD" == "" ]; then
-    PASSWORD="password"
-    PASSWORD_CONFIRM="password"
-  else
-    PASSWORD_CONFIRM=$(gum input --prompt "🔑 Repeat password: " --password)
+if [ "$#" -eq 2 ]; then
+  DIR="$1"
+  TITLE="$2"
+  USER="admin"
+  PASSWORD="password"
+elif [ "$#" -ne 0 ]; then
+  help
+  exit 1
+else
+  while [ "$TITLE" == "" ]; do
+    TITLE=$(gum input --prompt "🌍 Site title: ")
     [[ $? -ne 0 ]] && exit 1
-  fi
-done
+    TITLE=$(echo "$TITLE" | sed -e "s/^\s*//" | sed -e "s/\s*$//")
+  done
 
-while [ -e "$DIR" ]; do
-  echo "Directory “$DIR” already exists. Please use a non-existing name."
-done
+  DEFAULT_DIR=$(echo "$TITLE" | tr "[:upper:]" "[:lower:]" | sed -e "s/[^a-z0-9 ]//g" | sed -e "s/\s\+/-/g")
+  DIR=$(gum input --prompt "📂 Install directory ($DEFAULT_DIR): ")
+  [[ $? -ne 0 ]] && exit 1
+  [[ "$DIR" == "" ]] && DIR="$DEFAULT_DIR"
+  while [ -e "$DIR" ]; do
+    DIR=$(gum input --prompt "📂 Install directory ($DEFAULT_DIR): ")
+    [[ $? -ne 0 ]] && exit 1
+    echo "Directory “$DIR” already exists. Please use a non-existing name."
+  done
+
+  USER=$(gum input --prompt "👤 Admin user (admin): ")
+  [[ $? -ne 0 ]] && exit 1
+  [[ "$USER" == "" ]] && USER="admin"
+
+  PASSWORD="a"
+  PASSWORD_CONFIRM="b"
+  while [ "$PASSWORD" != "$PASSWORD_CONFIRM" ]; do
+    PASSWORD=$(gum input --prompt "🔑 Password (password): " --password)
+    [[ $? -ne 0 ]] && exit 1
+    if [ "$PASSWORD" == "" ]; then
+      PASSWORD="password"
+      PASSWORD_CONFIRM="password"
+    else
+      PASSWORD_CONFIRM=$(gum input --prompt "🔑 Repeat password: " --password)
+      [[ $? -ne 0 ]] && exit 1
+    fi
+  done
+fi
+
+exit 0
 
 # Create the directory
 # --------------------------------------------------
 
 mkdir "$DIR"
-cd "$DIR" || exit
+cd "$DIR" || exit 2
 
 # ========================================================
 echo "Initializing Lando..."
