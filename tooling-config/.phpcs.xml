@@ -33,7 +33,12 @@
 		<exclude name="Generic.Functions.CallTimePassByReference" />
 	</rule>
 
-	<!-- Restore some WordPress exclusions -->
+  <!-- Add end comments -->
+	<rule ref="Squiz.Commenting.ClosingDeclarationComment.Missing">
+		<severity>5</severity>
+	</rule>
+
+  <!-- Add end comments -->
 	<rule ref="Squiz.Commenting.LongConditionClosingComment">
 		<properties>
 			<property name="lineLimit" value="1" />
