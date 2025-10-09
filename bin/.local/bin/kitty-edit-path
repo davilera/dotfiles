@@ -1,4 +1,4 @@
-#!/home/david/.bun/bin/bun
+#!/usr/bin/bun
 // vim: set filetype=javascript :
 
 const { spawnSync } = require( 'child_process' );
@@ -25,43 +25,56 @@ function main() {
 		process.exit( 1 );
 	} //end if
 
-	const vimId = win.tabs.find( isTabRunning( cwd, 'nvim' ) )?.id;
-	if ( ! vimId ) {
+	const vimTab = win.tabs.find( isTabRunning( cwd, 'nvim' ) )?.id;
+	if ( ! vimTab ) {
 		openVim( win, cwd, filename, line );
 		process.exit( 0 );
 	} //end if
 
-	spawnSync( 'kitty', [ '@', 'focus-tab', `--match=id:${ vimId }` ] );
+	spawnSync( 'kitty', [ '@', 'focus-tab', `--match=id:${ vimTab }` ] );
 	spawnSync( 'kitty', [
 		'@',
 		'send-text',
-		`--match-tab=id:${ vimId }`,
-		`${ ESC }:ed ${ filename }\n`,
-		`:${ line }\n`,
+		`--match-tab=id:${ vimTab }`,
+		`${ ESC }:ed +${ line } ${ filename }\n`,
 	] );
+
+	appendFileSync( '/tmp/david.txt', `File is ${ filename }\n` );
+	process.exit( 0 );
 } //end main()
 
 // =======
 // HELPERS
 // =======
 
-function isTabRunning( cwd, process ) {
-	process = `/${ process }`;
-	return ( t ) =>
-		t.windows[ 0 ]?.foreground_processes[ 0 ]?.cmdline[ 0 ]?.includes(
-			process
-		) &&
-		t.windows[ 0 ]?.foreground_processes[ 0 ]?.cwd === cwd;
+function isTabRunning( cwd, targetProgram ) {
+	return ( t ) => {
+		const process = t.windows[ 0 ]?.foreground_processes[ 0 ];
+		if ( process?.cwd !== cwd ) {
+			return false;
+		} //end if
+
+		const cmdline = process?.cmdline[ 0 ];
+		if (
+			cmdline !== targetProgram &&
+			! cmdline.includes( `/${ targetProgram }` )
+		) {
+			return false;
+		} //end if
+
+		return true;
+	};
 } //end isTabRunning()
 
 function openVim( win, cwd, filename, line ) {
-	const id = win.tabs.find( isTabRunning( cwd, 'zsh' ) )?.id || openTab( cwd );
+	const id =
+		win.tabs.find( isTabRunning( cwd, 'bash' ) )?.id || openTab( cwd );
 	spawnSync( 'kitty', [ '@', 'focus-tab', `--match=id:${ id }` ] );
 	spawnSync( 'kitty', [
 		'@',
 		'send-text',
 		`--match-tab=id:${ id }`,
-		`${CTRL_C}  vim +${ line } ${ filename }\n`,
+		`${ CTRL_C }  vim +${ line } ${ filename }\n`,
 	] );
 } //end openVim()
 
