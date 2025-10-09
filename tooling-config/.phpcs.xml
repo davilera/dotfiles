@@ -33,19 +33,6 @@
 		<exclude name="Generic.Functions.CallTimePassByReference" />
 	</rule>
 
-  <!-- Add end comments -->
-	<rule ref="Squiz.Commenting.ClosingDeclarationComment.Missing">
-		<severity>5</severity>
-	</rule>
-
-  <!-- Add end comments -->
-	<rule ref="Squiz.Commenting.LongConditionClosingComment">
-		<properties>
-			<property name="lineLimit" value="1" />
-		</properties>
-		<severity>5</severity>
-	</rule>
-
 	<!--
 	Prevent errors caused by WordPress Coding Standards not supporting PHP 8.0+.
 	See https://github.com/WordPress/WordPress-Coding-Standards/issues/2035
