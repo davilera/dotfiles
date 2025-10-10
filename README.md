@@ -28,6 +28,7 @@ Here’s how I’ve organized things:
 | `tooling-config/` | Global configs (ESLint, prettier, stylelint, etc) so tooling _without per-project defines_ still follows WordPress style  |
 | `trash/`          | A systemd “task” (timer + service) to periodically purge old items from the “trash” (for me, I alias `rm` to `trash-cli`) |
 | `uwsm/`           | Config files inherited from Omarchy’s `uwsm` (user workflow / session manager) with my custom overlays                    |
+| `waybar/`         | Config files inherited from Omarchy’s `waybar` with my custom overlays                                                    |
 
 Additionally, there is an `install.sh` script at the root whose job is:
 

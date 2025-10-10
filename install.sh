@@ -237,6 +237,9 @@ systemctl --user start empty-trash.timer
 rm -rf ~/.config/uwsm 2>/dev/null
 stow uwsm
 
+rm -rf ~/.config/waybar 2>/dev/null
+stow waybar
+
 cd - 2>/dev/null || exit
 
 # --------------------------------------------------------
