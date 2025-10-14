@@ -81,7 +81,7 @@ alias lz="lazygit"
 
 alias aws="AWS_ACCESS_KEY_ID=$(pass show aws/access_id) AWS_SECRET_ACCESS_KEY=$(pass show aws/access_token) aws"
 
-alias ping="prettyping"
+alias ping="prettyping --nolegend"
 alias pip="pip3"
 
 if [ -d "/Users" ]; then
