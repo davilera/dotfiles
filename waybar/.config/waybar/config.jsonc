@@ -62,8 +62,8 @@
 		"on-click": "$TERMINAL -e btop"
 	},
 	"clock": {
-		"format": "{:L%A %H:%M}",
-		"format-alt": "{:L%d %B W%V %Y}",
+		"format": "󰃶 {:L%A %d   %H:%M}",
+		"format-alt": "{:L%d %B %Y, week %V}",
 		"tooltip": false,
 		"on-click-right": "omarchy-cmd-tzupdate"
 	},
