@@ -24,7 +24,7 @@ return {
             environment = {
               includePaths = {
                 vim.env.HOME .. "/.config/composer/vendor/php-stubs",
-                "./stubs/compat.php",
+                "./php-stubs/compat.php",
               },
             },
           },
