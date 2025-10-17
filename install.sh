@@ -148,10 +148,8 @@ popd >/dev/null 2>&1 || exit
 
 # Firefox PWA
 gum spin --padding="0 2" --title="Installing firefoxpwa runtime…" -- firefoxpwa runtime install
-if [ "$(firefoxpwa profile list | grep whatsapp.com)" -eq 0 ]; then
-  profile="$(firefoxpwa profile create | grep "Profile created" | sed -e "s/.*Profile created: //")"
-  firefoxpwa site install https://web.whatsapp.com/data/manifest.json --profile "$profile"
-fi
+"$SRC_DIR/bin/.local/bin/firefox-webapp-install" ChatGPT https://chatgpt.com https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/chatgpt.png
+"$SRC_DIR/bin/.local/bin/firefox-webapp-install" WhatsApp https://web.whatsapp.com https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/whatsapp.png
 
 # ========================================================
 # ========================================================
