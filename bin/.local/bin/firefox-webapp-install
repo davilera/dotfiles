@@ -17,6 +17,8 @@ else
   INTERACTIVE_MODE=false
 fi
 
+APP_URL="${APP_URL%/}"
+
 # Ensure valid execution
 if [[ -z "$APP_NAME" || -z "$APP_URL" || -z "$ICON_REF" ]]; then
   echo "You must set app name, app URL, and icon URL!"
@@ -30,8 +32,25 @@ if [ "$(firefoxpwa profile list | grep -c "^- $APP_NAME:")" -ne 0 ]; then
 fi
 
 # Prepare Firefox profile to run the webapp
-profile="$(firefoxpwa profile create | grep "Profile created" | sed -e "s/.*Profile created: //")"
-webapp="$(firefoxpwa site install "$APP_URL" --name "$APP_NAME" --profile "$profile" | grep "Web app installed" | sed -e "s/.*Web app installed: //")"
+profile="$(firefoxpwa profile create 2>/dev/null | grep "Profile created" | sed -e "s/.*Profile created: //")"
+if [ "$profile" == "" ]; then
+  echo "Unable to create profile. Something went wrong."
+  exit 1
+fi
+
+webapp="$(firefoxpwa site install "$APP_URL" --name "$APP_NAME" --profile "$profile" 2>/dev/null | grep "Web app installed" | sed -e "s/.*Web app installed: //")"
+if [ "$webapp" == "" ]; then
+  manifest="$(gum spin --padding="0 2" --title="Retrieving manifest…" -- curl -s "$APP_URL" | grep -oP '<link[^>]+rel=["'\'']manifest["'\''][^>]+>' | grep -oP 'href=["'\''][^"'\''>]+["'\'']' | sed -E 's/href=["'\'']([^"'\''>]+)["'\'']/\1/')"
+  APP_URL="$APP_URL$manifest"
+  webapp="$(firefoxpwa site install "$APP_URL" --name "$APP_NAME" --profile "$profile" 2>/dev/null | grep "Web app installed" | sed -e "s/.*Web app installed: //")"
+fi
+
+if [ "$webapp" == "" ]; then
+  firefoxpwa profile remove -q "$profile" >/dev/null 2>&1
+  echo "Unable to create app. Something went wrong."
+  exit 1
+fi
+
 rm -f "$HOME/.local/share/applications/FFPWA-$webapp.desktop"
 mkdir -p "$HOME/.local/share/firefoxpwa/profiles/$profile/chrome"
 echo "user_pref( 'toolkit.legacyUserProfileCustomizations.stylesheets', true );" >"$HOME/.local/share/firefoxpwa/profiles/$profile/user.js"
