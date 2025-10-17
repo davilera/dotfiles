@@ -14,8 +14,12 @@ SITE_NAME=$(echo "$PROJECT_NAME" | sed -e "s/-/ /g" | sed "s/\b[a-z]/\u&/g")
 echo "Setting up WordPress…"
 # ========================================================
 
-echo "Do you want to reinstall WordPress? (y/N)"
-read -r answer
+if [ ! -e "$WEBROOT/wp-config.php" ]; then
+  answer="y"
+else
+  echo "Do you want to reinstall WordPress? (y/N)"
+  read -r answer
+fi
 if [ "y" == "$answer" ]; then
   # -----------------------------------
   echo "  - Downloading WordPress…"
