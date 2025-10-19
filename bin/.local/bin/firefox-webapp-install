@@ -39,7 +39,7 @@ if [ "$profile" == "" ]; then
   exit 1
 fi
 
-manifest="$(echo "{\"name\":\"$APP_NAME\",\"short_name\":\"$APP_NAME\",\"description\":\"$APP_NAME\",\"start_url\":\"$APP_URL\",\"scope\":\"$APP_URL\",\"display\":\"standalone\",\"background_color\":\"#f7f5f3\",\"theme_color\":\"#f7f5f3\",\"icons\":[]}" | base64 -w0)"
+manifest="$(echo "{\"name\":\"$APP_NAME\",\"short_name\":\"$APP_NAME\",\"description\":\"$APP_NAME\",\"start_url\":\"$APP_URL\",\"scope\":\"$APP_URL\",\"display\":\"standalone\"}" | base64 -w0)"
 webapp="$(firefoxpwa site install "data:application/manifest+json;base64,$manifest" --document-url "$APP_URL" --profile "$profile" 2>/dev/null | grep "Web app installed" | sed -e "s/.*Web app installed: //")"
 
 rm -f "$HOME/.local/share/applications/FFPWA-$webapp.desktop"

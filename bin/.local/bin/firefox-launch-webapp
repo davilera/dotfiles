@@ -1,6 +1,74 @@
 #!/usr/bin/env bash
 
-id=$(firefoxpwa profile list | grep "^- $1:" | sed -e "s/[^(]*(//" | sed -e "s/)[^)]*$//")
-[[ -z "$id" ]] && exit 0
+print_help() {
+  echo "Usage: $0 [OPTIONS] WEBAPP"
+  echo
+  echo "  WEBAPP              Name of the Firefox PWA WebApp"
+  echo
+  echo "Optional flags:"
+  echo "  -t, --with-toolbox  Enables navigation toolbox"
+  echo "  -h, --help          Show this help message and exit"
+}
 
-firefoxpwa site launch "$id"
+# Parse options
+OPTS=$(getopt -o ht --long help,with-toolbox -- "$@")
+if [ $? != 0 ]; then
+  echo "Failed to parse options." >&2
+  print_help
+  exit 1
+fi
+
+# Reorganize the positional parameters according to parsed opts
+eval set -- "$OPTS"
+
+# Default values
+TOOLBOX=false
+
+# Extract options and their arguments into variables.
+while true; do
+  case "$1" in
+  -h | --help)
+    print_help
+    exit 0
+    ;;
+  -t | --with-toolbox)
+    TOOLBOX=true
+    shift
+    ;;
+  --)
+    shift
+    break
+    ;;
+  *)
+    break
+    ;;
+  esac
+done
+
+# Check for the mandatory argument
+if [ $# -lt 1 ]; then
+  echo "Error: WEBAPP argument is required." >&2
+  print_help
+  exit 1
+fi
+
+WEBAPP_NAME="$1"
+WEBAPP_ID=$(firefoxpwa profile list | grep "^- $WEBAPP_NAME:" | sed -e "s/[^(]*(//" | sed -e "s/)[^)]*$//")
+if [ -z "$WEBAPP_ID" ]; then
+  echo "Error: WEBAPP not found." >&2
+  exit 1
+fi
+
+PROFILE_ID=$(firefoxpwa profile list | grep -B3 "$WEBAPP_ID" | head -n1 | cut -d" " -f2)
+if [ -z "$PROFILE_ID" ]; then
+  echo "Error: Profile $PROFILE_ID not found." >&2
+  exit 1
+fi
+
+if ! $TOOLBOX; then
+  echo "#navigator-toolbox { display:none }" >"$HOME/.local/share/firefoxpwa/profiles/$PROFILE_ID/chrome/userChrome.css"
+else
+  echo "" >"$HOME/.local/share/firefoxpwa/profiles/$PROFILE_ID/chrome/userChrome.css"
+fi
+
+firefoxpwa site launch "$WEBAPP_ID"
