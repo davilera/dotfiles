@@ -46,6 +46,8 @@ rm -f "$HOME/.local/share/applications/FFPWA-$webapp.desktop"
 mkdir -p "$HOME/.local/share/firefoxpwa/profiles/$profile/chrome"
 echo "user_pref( 'toolkit.legacyUserProfileCustomizations.stylesheets', true );" >"$HOME/.local/share/firefoxpwa/profiles/$profile/user.js"
 echo "#navigator-toolbox { display:none }" >"$HOME/.local/share/firefoxpwa/profiles/$profile/chrome/userChrome.css"
+echo "user_pref( 'firefoxpwa.launchType', 3 );" >>"$HOME/.local/share/firefoxpwa/profiles/$profile/prefs.js"
+echo "user_pref( 'firefoxpwa.openOutOfScopeInDefaultBrowser', true );" >>"$HOME/.local/share/firefoxpwa/profiles/$profile/prefs.js"
 
 # Refer to local icon or fetch remotely from URL
 ICON_DIR="$HOME/.local/share/applications/icons"
