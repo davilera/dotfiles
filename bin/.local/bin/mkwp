@@ -98,6 +98,9 @@ name: $(basename "$DIR")
 recipe: wordpress
 config:
   webroot: .
+services:
+    phpmyadmin:
+        type: phpmyadmin
 EOF
 
 mv wordpress/* .
