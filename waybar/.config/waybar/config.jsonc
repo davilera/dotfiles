@@ -45,7 +45,7 @@
 	"custom/omarchy": {
 		"format": "<span font='omarchy'>\udb82\udcc7</span>",
 		"on-click": "omarchy-menu",
-		"on-click-right": "omarchy-launch-terminal",
+		"on-click-right": "xdg-terminal-exec",
 		"tooltip-format": "Omarchy Menu"
 	},
 	"custom/update": {
@@ -60,7 +60,7 @@
 	"cpu": {
 		"interval": 5,
 		"format": "󰍛",
-		"on-click": "$TERMINAL -e btop"
+		"on-click": "xdg-terminal-exec btop"
 	},
 	"clock": {
 		"format": "󰃶 {:L%A %d   %H:%M}",
@@ -109,7 +109,7 @@
 	},
 	"pulseaudio": {
 		"format": "{icon}",
-		"on-click": "$TERMINAL --class=Wiremix -e wiremix",
+		"on-click": "xdg-terminal-exec --app-id=com.omarchy.Wiremix -e wiremix",
 		"on-click-right": "pamixer -t",
 		"tooltip-format": "Playing at {volume}%",
 		"scroll-step": 5,
