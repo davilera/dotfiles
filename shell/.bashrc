@@ -1,3 +1,8 @@
+# shellcheck source=/dev/null
+
+# If not running interactively, don't do anything (leave this at the top of this file)
+[[ $- != *i* ]] && return
+
 # All the default Omarchy aliases and functions
 # (don't mess with these directly, just overwrite them here!)
 source ~/.local/share/omarchy/default/bash/rc
@@ -14,9 +19,9 @@ export PHP_INI_SCAN_DIR="$PHP_INI_SCAN_DIR:$HOME/.config/php/conf.d" # layer you
 # -----------------
 eval "$(zoxide init --cmd j bash)"
 alias cd="j"
+alias ji="zoxide query -i"
 alias za="zoxide add"
 alias zq="zoxide query"
-alias zqi="zoxide query -i"
 alias zr="zoxide remove"
 
 # Kitty
@@ -44,29 +49,66 @@ fi
 
 # Aliases
 # ------------
+function aws() {
+  AWS_ACCESS_KEY_ID=$(pass show aws/access_id) AWS_SECRET_ACCESS_KEY=$(pass show aws/access_token) command aws "$@"
+}
+
+function cat() {
+  if [[ "$#" -eq 1 ]] && [ "$TERM" = 'xterm-kitty' ] && [[ "$(file "$1" | command grep -ci "image data")" -eq 1 ]]; then
+    local aux
+    aux="$(mktemp)"
+    magick "$1" -resize "480x320^" -gravity center "$aux"
+    kitten icat --align=left "$aux"
+    identify "$1"
+    rm "$aux"
+  elif [[ "$#" -eq 1 ]]; then
+    if [ "$1" == "readme.txt" ] || [[ "$1" == *.md ]] || [[ "$1" == *.markdown ]]; then
+      local aux
+      aux="$(mktemp --suffix=.md)"
+      cp "$1" "$aux"
+      glow -s tokyo-night --pager "$aux"
+      rm "$aux"
+    else
+      bat --tabs 2 "$1"
+    fi
+  else
+    bat --tabs 2 "$@"
+  fi
+}
+
+function grep() {
+  echo "grep is disabled" >&2
+  return 1
+}
+
 function take() {
-  mkdir -p $1
-  cd $1
+  mkdir -p "$1"
+  cd "$1"
+}
+
+function trim() {
+  awk "{\$1=\$1;print}" "$@"
 }
 
 alias s="source ~/.bashrc"
-alias cat="bat --tabs 2"
+alias ag="ag --noheading --nobreak --ignore node_modules --ignore vendor --ignore e2e-tests --ignore build --ignore dist --ignore build-module --ignore .lando"
 alias colorize="ccze -A"
 alias df="dysk"
-alias grep="ag --noheading --nobreak --ignore node_modules --ignore vendor --ignore e2e-tests --ignore build --ignore dist --ignore build-module --ignore .lando"
+alias hl="ag --passthru"
 alias htop="btop"
-alias mdcat="bat -l markdown --tabs 2 --theme='Catppuccin Mocha'"
+alias ping="prettyping --nolegend"
+alias pip="pip3"
 alias rm="trash"
 alias serve="python3 -m http.server"
-alias td="grep -r todo.david"
+alias td="ag todo.david"
 alias tl="trash-list"
 alias top="btop"
 alias tree="lsd --group-dirs=first --tree"
-alias trim="awk '{\$1=\$1;print}'"
 alias vi="nvim"
 alias vim="nvim"
 
 alias ga="git add"
+alias gb="git blame"
 alias gc="git commit"
 alias gco="git checkout"
 alias gd="git -c diff.external=difft diff"
@@ -75,28 +117,9 @@ alias gm="git pull"
 alias gundo="git rebase --abort"
 alias gp="git push"
 alias gs="git status"
-alias gl="git blame"
+alias gl="git log"
 alias lg="lazygit"
 alias lz="lazygit"
-
-alias aws="AWS_ACCESS_KEY_ID=$(pass show aws/access_id) AWS_SECRET_ACCESS_KEY=$(pass show aws/access_token) aws"
-
-alias ping="prettyping --nolegend"
-alias pip="pip3"
-
-if [ -d "/Users" ]; then
-  export LSCOLORS="ExGxBxDxCxEgEdxbxgxcxd"
-  alias ls="ls -G"
-  alias eog="open -a Firefox"
-else
-  alias ls="lsd --group-dirs=first"
-  alias eog="xviewer"
-fi
-
-if [ "$TERM" = 'xterm-kitty' ]; then
-  alias eog="kitty +kitten icat"
-  alias icat="kitty +kitten icat"
-fi
 
 # System aliases
 alias pacs='pacman -Ss'       # Search for package or packages in the repositories
