@@ -57,7 +57,7 @@ function cat() {
   if [[ "$#" -eq 1 ]] && [ "$TERM" = 'xterm-kitty' ] && [[ "$(file "$1" | command grep -ci "image data")" -eq 1 ]]; then
     local aux
     aux="$(mktemp)"
-    magick "$1" -resize "480x320^" -gravity center "$aux"
+    magick "$1" -resize "480x320>" -gravity center "$aux"
     kitten icat --align=left "$aux"
     identify "$1"
     rm "$aux"
