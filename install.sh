@@ -48,6 +48,7 @@ cat <<EOD | xargs sudo pacman -S --noconfirm
 	firefox
 	firefoxpwa
 	gimp
+	glow
 	go
 	hplip
 	hunspell-es_any
