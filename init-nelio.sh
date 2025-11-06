@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/usr/bin/env bash
 
 mkdir -p ~/Programs/dev/sites 2>/dev/null
 mkdir -p ~/Programs/dev/wordpress.org 2>/dev/null
