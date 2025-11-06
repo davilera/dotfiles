@@ -89,6 +89,7 @@ alias ag="ag --noheading --nobreak --ignore node_modules --ignore vendor --ignor
 alias df="dysk"
 alias hl="ag --passthru"
 alias htop="btop"
+alias kz="killall -9 zoom"
 alias ping="prettyping --nolegend"
 alias pip="pip3"
 alias rm="trash"
