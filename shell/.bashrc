@@ -37,12 +37,6 @@ source /usr/share/nvm/init-nvm.sh >/dev/null 2>&1
 # nvm use 20 is too slow. Use this instead (with --no-use):
 PATH="${NVM_DIR}/versions/node/v20.19.4/bin:${PATH}"
 
-# Brew
-# ----
-if [ -d /home/linuxbrew/.linuxbew ]; then
-  eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
-fi
-
 # Haskell
 # ------------
 [ -f "/Users/david/.ghcup/env" ] && source "/Users/david/.ghcup/env"
@@ -106,6 +100,7 @@ alias tree="lsd --group-dirs=first --tree"
 alias vi="nvim"
 alias vim="nvim"
 
+# Git aliases
 alias ga="git add"
 alias gb="git blame"
 alias gc="git commit"
