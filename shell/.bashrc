@@ -92,7 +92,6 @@ function trim() {
 
 alias s="source ~/.bashrc"
 alias ag="ag --noheading --nobreak --ignore node_modules --ignore vendor --ignore e2e-tests --ignore build --ignore dist --ignore build-module --ignore .lando"
-alias colorize="ccze -A"
 alias df="dysk"
 alias hl="ag --passthru"
 alias htop="btop"
