@@ -175,6 +175,7 @@ gum spin --padding="0 2" --title="Installing prettier…" -- npm install -g pret
 gum spin --padding="0 2" --title="Installing script helpers…" -- npm install -g glob lodash path >/dev/null 2>&1
 gum spin --padding="0 2" --title="Installing stylelint…" -- npm install -g stylelint @wordpress/stylelint-config >/dev/null 2>&1
 gum spin --padding="0 2" --title="Installing vscode langservers…" -- npm install -g vscode-langservers-extracted
+gum spin --padding="0 2" --title="Installing WordPress scripts…" -- npm install -g @wordpress/scripts
 
 # --------------------------------------------------------
 subtitle "Installing composer deps…"
