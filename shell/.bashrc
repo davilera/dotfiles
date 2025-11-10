@@ -70,14 +70,9 @@ function cat() {
   fi
 }
 
-function grep() {
-  echo "grep is disabled" >&2
-  return 1
-}
-
 function take() {
   mkdir -p "$1"
-  cd "$1"
+  cd "$1" || exit 0
 }
 
 function trim() {
@@ -94,6 +89,7 @@ alias ping="prettyping --nolegend"
 alias pip="pip3"
 alias rm="trash"
 alias serve="python3 -m http.server"
+alias sl="ls"
 alias td="ag todo.david"
 alias tl="trash-list"
 alias top="btop"
@@ -102,17 +98,26 @@ alias vi="nvim"
 alias vim="nvim"
 
 # Git aliases
+[ -f /usr/share/bash-completion/completions/git ] && source /usr/share/bash-completion/completions/git
 alias ga="git add"
+__git_complete ga _git_add
 alias gb="git blame"
 alias gc="git commit"
+__git_complete gc _git_commit
 alias gco="git checkout"
+__git_complete gco _git_checkout
 alias gd="git -c diff.external=difft diff"
 alias gg="git pull --rebase"
+__git_complete gg _git_pull
 alias gm="git pull"
+__git_complete gm _git_pull
 alias gundo="git rebase --abort"
 alias gp="git push"
+__git_complete gp _git_push
 alias gs="git status"
+__git_complete gs _git_status
 alias gl="git log"
+__git_complete gl _git_log
 alias lg="lazygit"
 alias lz="lazygit"
 
