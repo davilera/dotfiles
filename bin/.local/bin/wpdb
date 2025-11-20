@@ -1,0 +1,1182 @@
+#!/bin/bash
+
+go_to_ancestor_lando() {
+  [ -e ".lando.yml" ] && cd .. >/dev/null 2>/dev/null
+
+  while [ ! -e ".lando.yml" ] && [ "$(pwd)" != "/" ]; do
+    cd .. >/dev/null 2>/dev/null
+  done
+
+}
+
+find_service() {
+  local url
+  local service
+  while true; do
+    [ "$(pwd)" == "/" ] && break
+
+    service="$(lando info --format json | jq '.[] | select(.service == "phpmyadmin")' 2>/dev/null)"
+    [ "$service" == "" ] && go_to_ancestor_lando && continue
+
+    url="$(echo "$service" | jq -r '.urls[0]' 2>/dev/null)"
+    [ "$url" != "null" ] && break
+
+    url=""
+    go_to_ancestor_lando
+  done
+
+  echo "${url%/}"
+}
+
+export -f go_to_ancestor_lando
+export -f find_service
+URL="$(gum spin --title "Loading phpmyadmin…" -- bash -c find_service)"
+
+if [ "$URL" == "" ]; then
+  echo "Unable to find phpmyadmin." >&2
+  exit 1
+fi
+
+PROFILE_DIR=$(mktemp -d /tmp/phpmyadmin.XXXXXX)
+firefox --createprofile ""
+mkdir -p "$PROFILE_DIR/chrome"
+cat <<EOF >"$PROFILE_DIR/user.js"
+user_pref( 'browser.startup.homepage_override.mstone', 'ignore' );
+user_pref( 'startup.homepage_welcome_url', '' );
+user_pref( 'startup.homepage_welcome_url.additional', '' );
+user_pref( 'browser.startup.homepage', 'about:blank' );
+user_pref( 'browser.aboutwelcome.enabled', false );
+user_pref( 'browser.startup.firstrunSkipsHomepage', true );
+user_pref( 'browser.shell.checkDefaultBrowser', false );
+user_pref( 'datareporting.policy.dataSubmissionPolicyBypassNotification', true );
+user_pref( 'browser.rights.3.shown', true );
+user_pref( 'toolkit.legacyUserProfileCustomizations.stylesheets', true );
+EOF
+
+cat <<EOF >"$PROFILE_DIR/chrome/userContent.css"
+@-moz-document url-prefix("$URL") {
+  :root {
+    --rosewater: #f5e0dc;
+    --flamingo: #f2cdcd;
+    --pink: #f5c2e7;
+    --mauve: #cba6f7;
+    --red: #f38ba8;
+    --maroon: #eba0ac;
+    --peach: #fab387;
+    --yellow: #f9e2af;
+    --green: #a6e3a1;
+    --teal: #94e2d5;
+    --sky: #89dceb;
+    --sapphire: #74c7ec;
+    --blue: #89b4fa;
+    --lavender: #b4befe;
+    --text: #cdd6f4;
+    --subtext-1: #bac2de;
+    --subtext-0: #a6adc8;
+    --overlay-2: #9399b2;
+    --overlay-1: #7f849c;
+    --overlay-0: #6c7086;
+    --surface-2: #585b70;
+    --surface-1: #45475a;
+    --surface-0: #313244;
+    --base: #1e1e2e;
+    --mantle: #181825;
+    --crust: #11111b;
+
+    --icon-filter: invert(80%) sepia(100%) saturate(300%) hue-rotate(210deg);
+    --alt-icon-filter: invert(40%) sepia(80%) saturate(200%) hue-rotate(210deg);
+  }
+
+  body[style][style][style][style] {
+    background: var(--base);
+
+    *,
+    *:hover {
+        color: var(--text) !important;
+        text-shadow: none !important;
+        box-shadow: none !important;
+        transition: none !important;
+    }
+
+    a {
+        text-decoration: none !important;
+
+        &:hover {
+            color: white !important;
+            text-decoration: none !important;
+        }
+    }
+
+    /* BASE COLORS */
+    #imgpmalogo {
+        filter: saturate(0) brightness(2);
+    }
+
+    #pma_navigation_content {
+        background: var(--surface-0);
+        color: var(--text);
+    }
+
+    #pma_navigation_tree_content li.activePointer {
+        background: none;
+
+        a {
+            color: inherit;
+            text-decoration: none;
+
+            &:hover {
+                color: var(--lavender) !important;
+            }
+        }
+    }
+
+    #pma_navigation_resizer {
+        background: none;
+        border-left: 1px solid var(--overlay-0);
+        width: 4px !important;
+    }
+
+    .pma_quick_warp .drop_list:hover .drop_button {
+        background: var(--lavender) !important;
+    }
+
+    .pma_quick_warp .drop_button {
+        background: var(--mauve);
+        color: var(--surface-0) !important;
+        border: none;
+        border-radius: 2px;
+
+        &:hover {
+            background: var(--lavender) !important;
+        }
+
+        & + ul {
+            background: var(--lavender) !important;
+            border: 1px solid var(--overlay-2);
+            border-radius: 2px;
+
+            li a {
+                background: var(--lavender);
+                color: var(--surface-0) !important;
+            }
+
+            li:hover a {
+                background: white;
+            }
+        }
+    }
+
+    body[style*="margin-left: 0"] #pma_navigation_resizer {
+        border-left: none;
+    }
+
+    #pma_navigation_collapser {
+        background: none;
+        border: none;
+        color: transparent !important;
+        background-image: url($URL/themes/metro/img/s_host.png);
+        background-position: 50% 50%;
+        background-repeat: no-repeat;
+        transform: rotate(180deg);
+        filter: var(--icon-filter);
+        margin-left: 3px;
+    }
+
+    body[style*="margin-left: 0"] #pma_navigation_collapser {
+        transform: none;
+    }
+
+    #navbarNav {
+        background: var(--base);
+        border-top: 1px solid var(--surface-0);
+        border-bottom: 1px solid var(--surface-1);
+    }
+
+    .breadcrumb {
+        background: var(--base);
+
+        .breadcrumb-item .ic_s_host {
+            display: none;
+        }
+    }
+
+    .navbar-nav .nav-item {
+        background: var(--base);
+        border: none;
+
+        &:hover {
+            background: var(--base);
+
+            a {
+                color: var(--lavender) !important;
+            }
+        }
+
+        &.active {
+            background: var(--mauve);
+
+            a {
+                color: var(--surface-1) !important;
+            }
+
+            .icon {
+                filter: brightness(0.7);
+            }
+        }
+    }
+
+    fieldset {
+        background: var(--surface-0);
+        border: none;
+    }
+
+    fieldset fieldset {
+        background: none;
+        border-color: var(--overlay-0);
+    }
+
+    .tblFooters {
+        background: var(--surface-1);
+    }
+
+    thead tr,
+    thead tr th,
+    tfoot tr,
+    tfoot tr th {
+        background: var(--mantle) !important;
+        border: none !important;
+    }
+
+    tr {
+        background: var(--surface-0) !important;
+    }
+
+    tr:nth-of-type(2n) {
+        background: var(--surface-1) !important;
+    }
+
+    select,
+    textarea,
+    input,
+    input[type="text"],
+    input[type="password"],
+    input[type="number"],
+    input[type="date"] {
+        background: var(--surface-0);
+        color: var(--text);
+        border: 1px solid var(--overlay-2);
+        border-radius: 2px;
+        font-size: 12px;
+        padding: 4px 8px;
+        height: 25px;
+        box-shadow: none;
+
+        &:hover {
+            background: var(--surface-0);
+            color: var(--text);
+            box-shadow: none;
+        }
+
+        &:focus {
+            background: var(--surface-0);
+            color: var(--text);
+            outline: 2px solid var(--lavender);
+            box-shadow: none;
+        }
+    }
+
+    textarea {
+        height: unset;
+    }
+    
+    .input-group-text {
+        background: var(--mantle);
+        color: var(--text);
+        border: 1px solid var(--overlay-2);
+        border-radius: 2px;
+        font-size: 12px;
+        padding: 4px 8px;
+        height: 25px;
+    }
+    
+    /* MORE NAVS */
+    #page_content .nav-pills .nav-item a {
+        background: none;
+        border-radius: 0;
+        border: 1px solid var(--surface-1);
+        
+        &.active {
+            background: var(--mauve);
+            color: var(--surface-1) !important;
+        }
+    }
+    
+    /* BUTTONS */
+    .btn {
+        background: var(--mantle);
+        color: var(--text);
+        border: 1px solid var(--mauve);
+        border-radius: 2px;
+        height: auto;
+        
+        &:hover {
+            background: var(--mauve) !important;
+            border: 1px solid var(--mauve);
+            color: var(--surface-1) !important;
+        }
+    }
+        
+    .btn-primary {
+        background: var(--mauve) !important;
+        color: var(--surface-1) !important;
+        
+        &:hover {
+            background: var(--text) !important;
+            border-color: var(--text) !important;
+        }
+    }
+
+    /* CARDS */
+    .card,
+    #maincontainer .card {
+        background: var(--surface-0);
+        border: none;
+        border-radius: 0;
+    }
+
+    .card .card-header,
+    #maincontainer .card .card-header {
+        background: var(--mantle);
+        border: none;
+        width: 100%;
+        border-radius: 0;
+        border-top-left-radius: 3px;
+        border-top-right-radius: 3px;
+        margin: 0;
+    }
+    
+    .card .card-footer,
+    #maincontainer .card .card-footer {
+        background: var(--mantle);
+        border: none;
+        width: 100%;
+        border-radius: 0;
+        border-bottom-left-radius: 3px;
+        border-bottom-right-radius: 3px;
+        margin: 0;
+    }
+    
+    fieldset {
+        padding-top: 2.5em !important;
+        position: relative;
+        margin-bottom: 1em;
+        
+        legend {
+            background: var(--mantle);
+            padding: 0.2em 1em;
+            border: none;
+            border-radius: 0;
+            margin: 0;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+        }
+    }
+
+    /* ALERTS */
+    .alert.alert-primary {
+        background: var(--overlay-0);
+        border: none;
+        color: var(--text) !important;
+
+        .ic_s_notice {
+            filter: none;
+        }
+    }
+    
+    .ajax_notification {
+        background: var(--overlay-0);
+        border: none;
+        color: var(--text) !important;
+    }
+
+    /* CONSOLE */
+    #pma_console {
+        .switch_button {
+            background: var(--mantle)
+        }
+
+        .toolbar {
+            background: var(--mantle);
+            border-color: var(--overlay-0);
+        }
+
+        .content {
+            background: var(--surface-0);
+            border: none;
+        }
+    }
+
+    /* CODE MIRROR */
+    #sqlqueryform .card {
+        background: var(--surface-0);
+        border: none;
+    }
+    
+    .CodeMirror {
+        background: var(--surface-0);
+
+        .CodeMirror-cursor {
+            border-color: var(--text);
+        }
+        
+        .CodeMirror-gutters {
+            background: var(--surface-0);
+            border-color: var(--surface-1);
+        }
+
+        .cm-keyword {
+            color: var(--mauve) !important;
+            font-weight: bold;
+        }
+        .cm-operator {
+            color: var(--sky) !important;
+        }
+        .cm-string {
+            color: var(--green) !important;
+        }
+        .cm-number {
+            color: var(--peach) !important;
+        }
+    }
+        
+    .CodeMirror-lint-tooltip {
+        background: var(--crust) !important;
+        border: none;
+    }
+    
+    .cm-s-pma .CodeMirror-code pre {
+        font-family: JetBrainsMono Nerd Font,Monaco,Consolas,monospace;
+    }
+    
+    .CodeMirror-hints {
+        border: none;
+        border-radius: 0;
+        background: var(--surface-1);
+        padding: 0;
+        border: 1px solid var(--mauve);
+    }
+    
+    li.CodeMirror-hint {
+        padding: 3px 30px 3px 7px;
+        border-radius: 0;
+    }
+    
+    li.CodeMirror-hint-active {
+        background: var(--mauve);
+        color: var(--mantle) !important;
+    }
+
+    /* ICONS */
+    #navipanellinks .logout {
+        display: none;
+    }
+
+    .icon {
+        filter: var(--icon-filter);
+    }
+
+    .ui-datepicker-trigger {
+        filter: invert(30%) sepia(100%) saturate(300%) hue-rotate(210deg);
+    }
+
+    .icon_fulltext {
+        width: 50px;
+        height: 19px;
+    }
+
+    .ic_asc_order {
+        background-image: url($URL/themes/metro/img/asc_order.png);
+    }
+
+    .ic_b_bookmark {
+        background-image: url($URL/themes/metro/img/b_bookmark.png);
+    }
+
+    .ic_b_browse {
+        background-image: url($URL/themes/metro/img/b_browse.png);
+    }
+
+    .ic_b_calendar {
+        background-image: url($URL/themes/metro/img/b_calendar.png);
+    }
+
+    .ic_b_chart {
+        background-image: url($URL/themes/metro/img/b_chart.png);
+    }
+
+    .ic_b_close {
+        background-image: url($URL/themes/metro/img/b_close.png);
+    }
+
+    .ic_b_column_add {
+        background-image: url($URL/themes/metro/img/b_column_add.png);
+    }
+
+    .ic_b_comment {
+        background-image: url($URL/themes/metro/img/b_comment.png);
+    }
+
+    .ic_b_dbstatistics {
+        background-image: url($URL/themes/metro/img/b_dbstatistics.png);
+    }
+
+    .ic_b_deltbl {
+        background-image: url($URL/themes/metro/img/b_deltbl.png);
+    }
+
+    .ic_b_docs {
+        background-image: url($URL/themes/metro/img/b_docs.png);
+        filter: var(--alt-icon-filter);
+    }
+
+    .ic_b_docsql {
+        background-image: url($URL/themes/metro/img/b_docsql.png);
+    }
+
+    .ic_b_drop {
+        background-image: url($URL/themes/metro/img/b_drop.png);
+    }
+
+    .ic_b_edit {
+        background-image: url($URL/themes/metro/img/b_edit.png);
+    }
+
+    .ic_b_empty {
+        background-image: url($URL/themes/metro/img/b_empty.png);
+    }
+
+    .ic_b_engine {
+        background-image: url($URL/themes/metro/img/b_engine.png);
+    }
+
+    .ic_b_event_add {
+        background-image: url($URL/themes/metro/img/b_event_add.png);
+    }
+
+    .ic_b_events {
+        background-image: url($URL/themes/metro/img/b_events.png);
+    }
+
+    .ic_b_export {
+        background-image: url($URL/themes/metro/img/b_export.png);
+    }
+
+    .ic_b_favorite {
+        background-image: url($URL/themes/metro/img/b_favorite.png);
+    }
+
+    .ic_b_find_replace {
+        background-image: url($URL/themes/metro/img/b_find_replace.png);
+    }
+
+    .ic_b_firstpage {
+        background-image: url($URL/themes/metro/img/b_firstpage.png);
+    }
+
+    .ic_b_ftext {
+        background-image: url($URL/themes/metro/img/b_ftext.png);
+    }
+
+    .ic_b_globe {
+        background-image: url($URL/themes/metro/img/b_globe.gif);
+    }
+
+    .ic_b_group {
+        background-image: url($URL/themes/metro/img/b_group.png);
+    }
+
+    .ic_b_help {
+        background-image: url($URL/themes/metro/img/b_help.png);
+    }
+
+    .ic_b_home {
+        background-image: url($URL/themes/metro/img/b_home.png);
+        filter: var(--alt-icon-filter);
+    }
+
+    .ic_b_import {
+        background-image: url($URL/themes/metro/img/b_import.png);
+    }
+
+    .ic_b_index {
+        background-image: url($URL/themes/metro/img/b_index.png);
+    }
+
+    .ic_b_index_add {
+        background-image: url($URL/themes/metro/img/b_index_add.png);
+    }
+
+    .ic_b_inline_edit {
+        background-image: url($URL/themes/metro/img/b_inline_edit.png);
+    }
+
+    .ic_b_insrow {
+        background-image: url($URL/themes/metro/img/b_insrow.png);
+    }
+
+    .ic_b_lastpage {
+        background-image: url($URL/themes/metro/img/b_lastpage.png);
+    }
+
+    .ic_b_minus {
+        background-image: url($URL/themes/metro/img/b_minus.png);
+    }
+
+    .ic_b_more {
+        background-image: url($URL/themes/metro/img/b_more.png);
+    }
+
+    .ic_b_move {
+        background-image: url($URL/themes/metro/img/b_move.png);
+    }
+
+    .ic_b_newdb {
+        background-image: url($URL/themes/metro/img/b_newdb.png);
+    }
+
+    .ic_b_newtbl {
+        background-image: url($URL/themes/metro/img/b_newtbl.png);
+    }
+
+    .ic_b_nextpage {
+        background-image: url($URL/themes/metro/img/b_nextpage.png);
+    }
+
+    .ic_b_no_favorite {
+        background-image: url($URL/themes/metro/img/b_no_favorite.png);
+    }
+
+    .ic_b_pdfdoc {
+        background-image: url($URL/themes/metro/img/b_pdfdoc.png);
+    }
+
+    .ic_b_plugin {
+        background-image: url($URL/themes/metro/img/b_plugin.png);
+    }
+
+    .ic_b_plus {
+        background-image: url($URL/themes/metro/img/b_plus.png);
+    }
+
+    .ic_b_prevpage {
+        background-image: url($URL/themes/metro/img/b_prevpage.png);
+    }
+
+    .ic_b_primary {
+        background-image: url($URL/themes/metro/img/b_primary.png);
+    }
+
+    .ic_b_print {
+        background-image: url($URL/themes/metro/img/b_print.png);
+    }
+
+    .ic_b_props {
+        background-image: url($URL/themes/metro/img/b_props.png);
+    }
+
+    .ic_b_relations {
+        background-image: url($URL/themes/metro/img/b_relations.png);
+    }
+
+    .ic_b_report {
+        background-image: url($URL/themes/metro/img/b_report.png);
+    }
+
+    .ic_b_rename {
+        background-image: url($URL/themes/metro/img/b_rename.svg);
+    }
+
+    .ic_b_routine_add {
+        background-image: url($URL/themes/metro/img/b_routine_add.png);
+    }
+
+    .ic_b_routines {
+        background-image: url($URL/themes/metro/img/b_routines.png);
+    }
+
+    .ic_b_save {
+        background-image: url($URL/themes/metro/img/b_save.png);
+    }
+
+    .ic_b_saveimage {
+        background-image: url($URL/themes/metro/img/b_saveimage.png);
+    }
+
+    .ic_b_sbrowse {
+        background-image: url($URL/themes/metro/img/b_sbrowse.png);
+    }
+
+    .ic_b_sdb {
+        background-image: url($URL/themes/metro/img/b_sdb.png);
+        width: 10px;
+        height: 10px;
+    }
+
+    .ic_b_search {
+        background-image: url($URL/themes/metro/img/b_search.png);
+    }
+
+    .ic_b_select {
+        background-image: url($URL/themes/metro/img/b_select.png);
+    }
+
+    .ic_b_snewtbl {
+        background-image: url($URL/themes/metro/img/b_snewtbl.png);
+    }
+
+    .ic_b_spatial {
+        background-image: url($URL/themes/metro/img/b_spatial.png);
+    }
+
+    .ic_b_sql {
+        background-image: url($URL/themes/metro/img/b_sql.png);
+    }
+
+    .ic_b_sqldoc {
+        background-image: url($URL/themes/metro/img/b_sqldoc.png);
+    }
+
+    .ic_b_sqlhelp {
+        background-image: url($URL/themes/metro/img/b_sqlhelp.png);
+        filter: var(--alt-icon-filter);
+    }
+
+    .ic_b_table_add {
+        background-image: url($URL/themes/metro/img/b_table_add.png);
+    }
+
+    .ic_b_tblanalyse {
+        background-image: url($URL/themes/metro/img/b_tblanalyse.png);
+    }
+
+    .ic_b_tblexport {
+        background-image: url($URL/themes/metro/img/b_tblexport.png);
+    }
+
+    .ic_b_tblimport {
+        background-image: url($URL/themes/metro/img/b_tblimport.png);
+    }
+
+    .ic_b_tblops {
+        background-image: url($URL/themes/metro/img/b_tblops.png);
+    }
+
+    .ic_b_tbloptimize {
+        background-image: url($URL/themes/metro/img/b_tbloptimize.png);
+    }
+
+    .ic_b_tipp {
+        background-image: url($URL/themes/metro/img/b_tipp.png);
+    }
+
+    .ic_b_trigger_add {
+        background-image: url($URL/themes/metro/img/b_trigger_add.png);
+    }
+
+    .ic_b_triggers {
+        background-image: url($URL/themes/metro/img/b_triggers.png);
+    }
+
+    .ic_b_undo {
+        background-image: url(/themes/metro/../pmahomme/img/b_undo.png);
+    }
+
+    .ic_b_unique {
+        background-image: url($URL/themes/metro/img/b_unique.png);
+    }
+
+    .ic_b_usradd {
+        background-image: url($URL/themes/metro/img/b_usradd.png);
+    }
+
+    .ic_b_usrcheck {
+        background-image: url($URL/themes/metro/img/b_usrcheck.png);
+    }
+
+    .ic_b_usrdrop {
+        background-image: url($URL/themes/metro/img/b_usrdrop.png);
+    }
+
+    .ic_b_usredit {
+        background-image: url($URL/themes/metro/img/b_usredit.png);
+    }
+
+    .ic_b_usrlist {
+        background-image: url($URL/themes/metro/img/b_usrlist.png);
+    }
+
+    .ic_b_versions {
+        background-image: url($URL/themes/metro/img/b_versions.png);
+    }
+
+    .ic_b_view {
+        background-image: url($URL/themes/metro/img/b_view.png);
+    }
+
+    .ic_b_view_add {
+        background-image: url($URL/themes/metro/img/b_view_add.png);
+    }
+
+    .ic_b_views {
+        background-image: url($URL/themes/metro/img/b_views.png);
+    }
+
+    .ic_bd_browse {
+        background-image: url($URL/themes/metro/img/bd_browse.png);
+    }
+
+    .ic_bd_deltbl {
+        background-image: url($URL/themes/metro/img/bd_deltbl.png);
+    }
+
+    .ic_bd_drop {
+        background-image: url($URL/themes/metro/img/bd_drop.png);
+    }
+
+    .ic_bd_edit {
+        background-image: url($URL/themes/metro/img/bd_edit.png);
+    }
+
+    .ic_bd_empty {
+        background-image: url($URL/themes/metro/img/bd_empty.png);
+    }
+
+    .ic_bd_export {
+        background-image: url($URL/themes/metro/img/bd_export.png);
+    }
+
+    .ic_bd_firstpage {
+        background-image: url($URL/themes/metro/img/bd_firstpage.png);
+    }
+
+    .ic_bd_ftext {
+        background-image: url($URL/themes/metro/img/bd_ftext.png);
+    }
+
+    .ic_bd_index {
+        background-image: url($URL/themes/metro/img/bd_index.png);
+    }
+
+    .ic_bd_insrow {
+        background-image: url($URL/themes/metro/img/bd_insrow.png);
+    }
+
+    .ic_bd_lastpage {
+        background-image: url($URL/themes/metro/img/bd_lastpage.png);
+    }
+
+    .ic_bd_nextpage {
+        background-image: url($URL/themes/metro/img/bd_nextpage.png);
+    }
+
+    .ic_bd_prevpage {
+        background-image: url($URL/themes/metro/img/bd_prevpage.png);
+    }
+
+    .ic_bd_primary {
+        background-image: url($URL/themes/metro/img/bd_primary.png);
+    }
+
+    .ic_bd_routine_add {
+        background-image: url($URL/themes/metro/img/bd_routine_add.png);
+    }
+
+    .ic_bd_sbrowse {
+        background-image: url($URL/themes/metro/img/bd_sbrowse.png);
+    }
+
+    .ic_bd_select {
+        background-image: url($URL/themes/metro/img/bd_select.png);
+    }
+
+    .ic_bd_spatial {
+        background-image: url($URL/themes/metro/img/bd_spatial.png);
+    }
+
+    .ic_bd_unique {
+        background-image: url($URL/themes/metro/img/bd_unique.png);
+    }
+
+    .ic_centralColumns {
+        background-image: url($URL/themes/metro/img/centralColumns.png);
+    }
+
+    .ic_centralColumns_add {
+        background-image: url($URL/themes/metro/img/centralColumns_add.png);
+    }
+
+    .ic_centralColumns_delete {
+        background-image: url($URL/themes/metro/img/centralColumns_delete.png);
+    }
+
+    .ic_col_drop {
+        background-image: url($URL/themes/metro/img/col_drop.png);
+    }
+
+    .ic_console {
+        background-image: url($URL/themes/metro/img/console.png);
+    }
+
+    .ic_database {
+        background-image: url($URL/themes/metro/img/database.png);
+    }
+
+    .ic_eye {
+        background-image: url($URL/themes/metro/img/eye.png);
+    }
+
+    .ic_eye_grey {
+        background-image: url($URL/themes/metro/img/eye_grey.png);
+    }
+
+    .ic_hide {
+        background-image: url($URL/themes/metro/img/hide.png);
+    }
+
+    .ic_item {
+        background-image: url($URL/themes/metro/img/item.png);
+        width: 9px;
+        height: 9px;
+    }
+
+    .ic_lightbulb {
+        background-image: url($URL/themes/metro/img/lightbulb.png);
+    }
+
+    .ic_lightbulb_off {
+        background-image: url($URL/themes/metro/img/lightbulb_off.png);
+    }
+
+    .ic_more {
+        background-image: url($URL/themes/metro/img/more.png);
+        width: 13px;
+    }
+
+    .ic_new_data {
+        background-image: url($URL/themes/metro/img/new_data.png);
+    }
+
+    .ic_new_data_hovered {
+        background-image: url($URL/themes/metro/img/new_data_hovered.png);
+    }
+
+    .ic_new_data_selected {
+        background-image: url($URL/themes/metro/img/new_data_selected.png);
+    }
+
+    .ic_new_data_selected_hovered {
+        background-image: url($URL/themes/metro/img/new_data_selected_hovered.png);
+    }
+
+    .ic_new_struct {
+        background-image: url($URL/themes/metro/img/new_struct.png);
+    }
+
+    .ic_new_struct_hovered {
+        background-image: url($URL/themes/metro/img/new_struct_hovered.png);
+    }
+
+    .ic_new_struct_selected {
+        background-image: url($URL/themes/metro/img/new_struct_selected.png);
+    }
+
+    .ic_new_struct_selected_hovered {
+        background-image: url($URL/themes/metro/img/new_struct_selected_hovered.png);
+    }
+
+    .ic_normalize {
+        background-image: url($URL/themes/metro/img/normalize.png);
+    }
+
+    .ic_pause {
+        background-image: url($URL/themes/metro/img/pause.png);
+    }
+
+    .ic_php_sym {
+        background-image: url($URL/themes/metro/img/php_sym.png);
+    }
+
+    .ic_play {
+        background-image: url($URL/themes/metro/img/play.png);
+    }
+
+    .ic_s_asc {
+        background-image: url($URL/themes/metro/img/s_asc.png);
+    }
+
+    .ic_s_asci {
+        background-image: url($URL/themes/metro/img/s_asci.png);
+    }
+
+    .ic_s_attention {
+        background-image: url($URL/themes/metro/img/s_attention.png);
+    }
+
+    .ic_s_cancel {
+        background-image: url($URL/themes/metro/img/s_cancel.png);
+    }
+
+    .ic_s_cancel2 {
+        background-image: url($URL/themes/metro/img/s_cancel2.png);
+    }
+
+    .ic_s_cog {
+        background-image: url($URL/themes/metro/img/s_cog.png);
+    }
+
+    .ic_s_db {
+        background-image: url($URL/themes/metro/img/s_db.png);
+    }
+
+    .ic_s_desc {
+        background-image: url($URL/themes/metro/img/s_desc.png);
+    }
+
+    .ic_s_error {
+        background-image: url($URL/themes/metro/img/s_error.png);
+    }
+
+    .ic_s_host {
+        background-image: url($URL/themes/metro/img/s_host.png);
+    }
+
+    .ic_s_info {
+        background-image: url($URL/themes/metro/img/s_info.png);
+    }
+
+    .ic_s_lang {
+        background-image: url($URL/themes/metro/img/s_lang.png);
+    }
+
+    .ic_s_link {
+        background-image: url($URL/themes/metro/img/s_link.png);
+    }
+
+    .ic_s_lock {
+        background-image: url($URL/themes/metro/img/s_lock.png);
+    }
+
+    .ic_s_loggoff {
+        background-image: url($URL/themes/metro/img/s_loggoff.png);
+    }
+
+    .ic_s_notice {
+        background-image: url($URL/themes/metro/img/s_notice.png);
+    }
+
+    .ic_s_okay {
+        background-image: url($URL/themes/metro/img/s_okay.png);
+    }
+
+    .ic_s_passwd {
+        background-image: url($URL/themes/metro/img/s_passwd.png);
+    }
+
+    .ic_s_process {
+        background-image: url($URL/themes/metro/img/s_process.png);
+    }
+
+    .ic_s_really {
+        background-image: url($URL/themes/metro/img/s_really.png);
+        width: 11px;
+        height: 11px;
+    }
+
+    .ic_s_reload {
+        background-image: url($URL/themes/metro/img/s_reload.png);
+        filter: var(--alt-icon-filter);
+    }
+
+    .ic_s_replication {
+        background-image: url($URL/themes/metro/img/s_replication.png);
+    }
+
+    .ic_s_rights {
+        background-image: url($URL/themes/metro/img/s_rights.png);
+    }
+
+    .ic_s_sortable {
+        background-image: url($URL/themes/metro/img/s_sortable.png);
+    }
+
+    .ic_s_status {
+        background-image: url($URL/themes/metro/img/s_status.png);
+    }
+
+    .ic_s_success {
+        background-image: url($URL/themes/metro/img/s_success.png);
+    }
+
+    .ic_s_sync {
+        background-image: url($URL/themes/metro/img/s_sync.png);
+    }
+
+    .ic_s_tbl {
+        background-image: url($URL/themes/metro/img/s_tbl.png);
+    }
+
+    .ic_s_theme {
+        background-image: url($URL/themes/metro/img/s_theme.png);
+    }
+
+    .ic_s_top {
+        background-image: url($URL/themes/metro/img/s_top.png);
+        filter: var(--alt-icon-filter);
+    }
+
+    .ic_s_unlink {
+        background-image: url($URL/themes/metro/img/s_unlink.png);
+    }
+
+    .ic_s_vars {
+        background-image: url($URL/themes/metro/img/s_vars.png);
+    }
+
+    .ic_s_views {
+        background-image: url($URL/themes/metro/img/s_views.png);
+    }
+
+    .ic_show {
+        background-image: url($URL/themes/metro/img/show.png);
+    }
+
+    .ic_window-new {
+        background-image: url($URL/themes/metro/img/window-new.png);
+    }
+
+    .ic_ajax_clock_small {
+        background-image: url($URL/themes/metro/img/ajax_clock_small.gif);
+    }
+
+    .ic_s_partialtext {
+        background-image: url($URL/themes/metro/img/s_partialtext.png);
+    }
+
+    .ic_s_fulltext {
+        background-image: url($URL/themes/metro/img/s_fulltext.png);
+    }
+  }
+}
+EOF
+
+# echo "#navigator-toolbox { visibility:collapse !important; }" >"$PROFILE_DIR/chrome/userChrome.css"
+
+# Install stylus
+# firefox --install-addon
+
+(
+  trap 'rm -rf "$PROFILE_DIR"' EXIT
+  firefox --no-remote --profile "$PROFILE_DIR" --url "$URL" >/dev/null 2>&1
+) &
