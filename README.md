@@ -147,10 +147,7 @@ notes for myself (and others) on why they’re there:
 
 ## Acknowledgments & Thanks
 
-Huge thanks to **DHH** for creating **Omarchy** and maintaining a slick,
-opinionated dev environment.
-
-Thanks also to all the folks in the open source world whose work I rely on.
+Thanks to all the folks in the open source world whose work I rely on.
 
 Feel free to reuse, fork, and adapt. This repo is not meant to be a starting
 point for anyone, but that’s up to you. Actually, you know what? If you build
