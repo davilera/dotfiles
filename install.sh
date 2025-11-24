@@ -85,7 +85,6 @@ sudo pacman -S --noconfirm
 cat <<EOD | xargs yay -S --noconfirm
 	hunspell-ca
 	navi
-	smassh
 	zoom
 EOD
 
@@ -223,9 +222,6 @@ stow nvim
 
 rm -rf ~/.bash* 2>/dev/null
 stow --no-folding shell
-
-rm -rf ~/.config/smassh 2>/dev/null
-stow smassh
 
 rm -rf ~/.config/php 2>/dev/null
 stow tooling-config
