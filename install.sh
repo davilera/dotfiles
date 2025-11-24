@@ -162,7 +162,7 @@ title "DEVELOPMENT"
 subtitle "Installing global npm deps…"
 # --------------------------------------------------------
 
-source /usr/share/nvim/init-nvm.sh
+source /usr/share/nvm/init-nvm.sh
 nvm install 20
 nvm use 20
 
