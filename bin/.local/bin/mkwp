@@ -74,8 +74,6 @@ else
   done
 fi
 
-exit 0
-
 # Create the directory
 # --------------------------------------------------
 
@@ -99,6 +97,8 @@ recipe: wordpress
 config:
   webroot: .
 services:
+    mailhog:
+        type: mailhog
     phpmyadmin:
         type: phpmyadmin
 EOF
@@ -145,6 +145,31 @@ echo "  - Cleaning default plugins..."
 lando wp plugin delete \
   akismet hello \
   --path=. >/dev/null 2>&1
+
+# -----------------------------------
+echo "  - Creating mailhog muplugin..."
+# -----------------------------------
+[[ ! -d wp-content/mu-plugins ]] && mkdir -p wp-content/mu-plugins/
+cat <<"EOF" >wp-content/mu-plugins/mailhog.php
+<?php
+/**
+ * Plugin Name: MailHog
+ * Version:     1.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+add_action(
+	'phpmailer_init',
+	function ( $phpmailer ) {
+		$phpmailer->isSMTP();
+		$phpmailer->Host       = 'mailhog';
+		$phpmailer->Port       = 1025;
+		$phpmailer->SMTPAuth   = false;
+		$phpmailer->SMTPSecure = '';
+	}
+);
+EOF
 
 # -----------------------------------
 echo "  - Fixing permalink structure..."
