@@ -16,21 +16,57 @@
 	<rule ref="PHPCompatibility" />
 	<config name="testVersion" value="7.4-" />
 
-	<!-- Include the WordPress ruleset, with exclusions. -->
+	<!-- Include the WordPress ruleset, with exclusions -->
 	<rule ref="WordPress">
-		<exclude name="Squiz.Commenting.ClassComment.Missing" />
-		<exclude name="Squiz.Commenting.FunctionComment.Missing" />
-		<exclude name="Squiz.Commenting.VariableComment.Missing" />
+		<exclude name="Generic.Commenting.DocComment.MissingShort"/>
+		<exclude name="Generic.Functions.CallTimePassByReference" />
 
+		<exclude name="Squiz.Commenting.ClassComment.Missing" />
 		<exclude name="Squiz.Commenting.FileComment.Missing" />
 		<exclude name="Squiz.Commenting.FileComment.MissingPackageTag" />
 		<exclude name="Squiz.Commenting.FileComment.SpacingAfterComment" />
 		<exclude name="Squiz.Commenting.FileComment.SpacingAfterOpen" />
 		<exclude name="Squiz.Commenting.FileComment.WrongStyle" />
+		<exclude name="Squiz.Commenting.FunctionComment.Missing" />
 		<exclude name="Squiz.Commenting.FunctionComment.WrongStyle" />
+		<exclude name="Squiz.Commenting.FunctionCommentThrowTag.WrongNumber" />
+		<exclude name="Squiz.Commenting.VariableComment.Missing" />
+	</rule>
 
-		<exclude name="WordPress.Files.FileName.InvalidClassFileName" />
-		<exclude name="Generic.Functions.CallTimePassByReference" />
+	<!-- Add missing checks from Plugin Check -->
+	<rule ref="Generic.PHP.ForbiddenFunctions">
+		<properties>
+			<property name="forbiddenFunctions" type="array">
+				<element key="move_uploaded_file" value="null"/>
+				<element key="passthru" value="null"/>
+				<element key="proc_open" value="null"/>
+				<element key="create_function" value="null"/>
+				<element key="eval" value="null"/>
+				<element key="str_rot13" value="null"/>
+			</property>
+		</properties>
+		<type>error</type>
+		<severity>7</severity>
+	</rule>
+
+	<rule ref="Squiz.PHP.DiscouragedFunctions">
+		<properties>
+			<property name="forbiddenFunctions" type="array">
+				<element key="set_time_limit" value="null"/>
+				<element key="ini_set" value="null"/>
+				<element key="ini_alter" value="null"/>
+				<element key="dl" value="null"/>
+			</property>
+		</properties>
+	</rule>
+	<rule ref="WordPress.Security.ValidatedSanitizedInput.MissingUnslash">
+		<type>warning</type>
+		<severity>5</severity>
+	</rule>
+
+	<rule ref="WordPress.DB.SlowDBQuery.slow_db_query_meta_key">
+		<type>warning</type>
+		<severity>5</severity>
 	</rule>
 
 	<!--
