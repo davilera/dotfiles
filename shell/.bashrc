@@ -61,7 +61,11 @@ function cat() {
       local aux
       aux="$(mktemp --suffix=.md)"
       cp "$1" "$aux"
-      glow -s tokyo-night --pager "$aux"
+      if [ "$(wc -l <"$aux")" -lt "$(tput lines)" ]; then
+        glow -s tokyo-night "$aux"
+      else
+        glow -s tokyo-night --pager "$aux"
+      fi
       rm "$aux"
     else
       bat --tabs 2 "$1"
