@@ -35,7 +35,7 @@ source /usr/share/nvm/init-nvm.sh >/dev/null 2>&1
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" --no-use
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
 # nvm use 20 is too slow. Use this instead (with --no-use):
-export NVM_BIN="${NVM_DIR}/versions/node/v20.19.4/bin"
+export NVM_BIN="${NVM_DIR}/versions/node/v20.19.6/bin"
 PATH="${NVM_BIN}:${PATH}"
 
 # Haskell

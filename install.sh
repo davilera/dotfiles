@@ -168,16 +168,16 @@ source /usr/share/nvm/init-nvm.sh
 nvm install 20
 nvm use 20
 
-gum spin --padding="0 2" --title="Installing yarn…" -- npm install -g yarn
-gum spin --padding="0 2" --title="Installing elm…" -- npm install -g elm elm-test elm-format elm-oracle @elm-tooling/elm-language-server
-gum spin --padding="0 2" --title="Installing emmet…" -- npm install -g emmet-ls
-gum spin --padding="0 2" --title="Installing eslint…" -- npm install -g @wordpress/eslint-plugin @typescript-eslint/eslint-plugin @typescript-eslint/parser
-gum spin --padding="0 2" --title="Installing intelephense…" -- npm install -g intelephense
-gum spin --padding="0 2" --title="Installing prettier…" -- npm install -g prettier@npm:wp-prettier@latest @wordpress/prettier-config
-gum spin --padding="0 2" --title="Installing script helpers…" -- npm install -g glob lodash path >/dev/null 2>&1
-gum spin --padding="0 2" --title="Installing stylelint…" -- npm install -g stylelint @wordpress/stylelint-config >/dev/null 2>&1
-gum spin --padding="0 2" --title="Installing vscode langservers…" -- npm install -g vscode-langservers-extracted
-gum spin --padding="0 2" --title="Installing WordPress scripts…" -- npm install -g @wordpress/scripts
+gum spin --padding="0 2" --show-error --title="Installing yarn…" -- npm install -g yarn
+gum spin --padding="0 2" --show-error --title="Installing elm…" -- npm install -g elm elm-test elm-format elm-oracle @elm-tooling/elm-language-server
+gum spin --padding="0 2" --show-error --title="Installing emmet…" -- npm install -g emmet-ls
+gum spin --padding="0 2" --show-error --title="Installing eslint…" -- npm install -g @wordpress/eslint-plugin @typescript-eslint/eslint-plugin @typescript-eslint/parser
+gum spin --padding="0 2" --show-error --title="Installing intelephense…" -- npm install -g intelephense
+gum spin --padding="0 2" --show-error --title="Installing prettier…" -- npm install -g prettier@npm:wp-prettier@latest @wordpress/prettier-config
+gum spin --padding="0 2" --show-error --title="Installing script helpers…" -- npm install -g glob lodash path
+gum spin --padding="0 2" --show-error --title="Installing stylelint…" -- npm install -g stylelint @wordpress/stylelint-config
+gum spin --padding="0 2" --show-error --title="Installing vscode langservers…" -- npm install -g vscode-langservers-extracted
+gum spin --padding="0 2" --show-error --title="Installing WordPress scripts…" -- npm install -g @wordpress/scripts
 
 # --------------------------------------------------------
 subtitle "Installing composer deps…"
