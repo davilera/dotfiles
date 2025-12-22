@@ -127,6 +127,7 @@ alias lg="lazygit"
 alias lz="lazygit"
 
 # System aliases
+# source "$HOME/.local/share/archlinux-pac-aliases/pac"
 alias pacs='pacman -Ss'       # Search for package or packages in the repositories
 alias pacu='sudo pacman -Syu' # Update the system and upgrade all system packages.
 alias paci='sudo pacman -S'   # Install a specific package from repos added to the system

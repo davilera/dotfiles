@@ -151,6 +151,9 @@ gum spin --padding="0 2" --title="Installing firefoxpwa runtime…" -- firefoxpw
 "$SRC_DIR/bin/.local/bin/firefox-webapp-install" ChatGPT https://chatgpt.com https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/chatgpt.png
 "$SRC_DIR/bin/.local/bin/firefox-webapp-install" WhatsApp https://web.whatsapp.com https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/whatsapp.png
 
+# Pacman and Yay aliases
+git clone https://github.com/davilera/pac ~/.local/share/archlinux-pac-aliases 2>/dev/null
+
 # ========================================================
 # ========================================================
 title "DEVELOPMENT"
