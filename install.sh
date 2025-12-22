@@ -246,6 +246,3 @@ if [ "$(~/.local/share/omarchy/bin/omarchy-theme-current)" != "Catppuccin" ]; th
   yes n | ~/.local/share/omarchy/bin/omarchy-theme-set catppuccin
 fi
 yes n | ~/.local/share/omarchy/bin/omarchy-install-terminal kitty
-
-echo -e "\e[32m Done!\e[0m"
-gum confirm "Relaunch Hyprland to use new settings?" && uwsm stop
