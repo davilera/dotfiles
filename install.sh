@@ -83,6 +83,7 @@ EOD
 sudo pacman -S --noconfirm
 
 cat <<EOD | xargs yay -S --noconfirm
+	bc
 	hunspell-ca
 	navi
 	zoom
