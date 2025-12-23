@@ -72,7 +72,6 @@ cat <<EOD | xargs sudo pacman -S --noconfirm
 	ruby
 	stow
 	subversion
-	tldr
 	the_silver_searcher
 	trash-cli
 	tree
@@ -85,7 +84,6 @@ sudo pacman -S --noconfirm
 cat <<EOD | xargs yay -S --noconfirm
 	bc
 	hunspell-ca
-	navi
 	zoom
 EOD
 
@@ -126,26 +124,6 @@ cd - >/dev/null 2>&1 || exit
 
 # Set Firefox as Default browser
 xdg-settings set default-web-browser firefox.desktop
-
-# Download TLDR entries
-gum spin --padding="0 2" --title="Downloading TLDR entries…" -- tldr -u
-
-# Download navi cheats
-mkdir -p ~/.local/share/navi/cheats
-pushd ~/.local/share/navi/cheats >/dev/null 2>&1 || exit
-rm -rf denisidoro__cheats tmp 2>/dev/null
-mkdir tmp
-pushd tmp >/dev/null 2>&1 || exit
-git clone https://github.com/denisidoro/cheats denisidoro__cheats 2>/dev/null
-if [ -d denisidoro__cheats ]; then
-  pushd denisidoro__cheats >/dev/null 2>&1 || exit
-  mkdir -p ../../denisidoro__cheats
-  find . -name "*.cheat" -printf "%P\n" | while read -r file; do mv "$file" "../../denisidoro__cheats/${file//\//__}" 2>/dev/null; done
-  popd >/dev/null 2>&1 || exit
-fi
-popd >/dev/null 2>&1 || exit
-rm -rf tmp 2>/dev/null
-popd >/dev/null 2>&1 || exit
 
 # Firefox PWA
 gum spin --padding="0 2" --title="Installing firefoxpwa runtime…" -- firefoxpwa runtime install
