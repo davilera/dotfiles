@@ -6,8 +6,7 @@ SRC_DIR=$(pwd)
 
 title() {
   echo ""
-  gum style --trim --border=thick --padding="1 10" "$1"
-  echo ""
+  gum style --trim --bold --foreground=2 "$1"
 }
 
 subtitle() {
@@ -31,7 +30,7 @@ sudo pacman -Syu
 subtitle "Installing packages…"
 # --------------------------------------------------------
 
-cat <<EOD | xargs sudo pacman -S --noconfirm
+cat <<EOD | xargs sudo pacman -S --needed --noconfirm
 	aspell-ca
 	aspell-es
 	aws-cli-v2
@@ -79,9 +78,8 @@ cat <<EOD | xargs sudo pacman -S --noconfirm
 	yq
 	zoxide
 EOD
-sudo pacman -S --noconfirm
 
-cat <<EOD | xargs yay -S --noconfirm
+cat <<EOD | xargs yay -S --needed --noconfirm
 	bc
 	hunspell-ca
 	zoom
@@ -112,23 +110,28 @@ sudo systemctl enable sshd
 sudo systemctl restart sshd
 
 # Adding links for vi and nvim
-sudo ln -s /usr/bin/nvim /usr/bin/vi
-sudo ln -s /usr/bin/nvim /usr/bin/vim
+[[ ! -e /usr/bin/vi ]] &&
+  sudo ln -s /usr/bin/nvim /usr/bin/vi
+[[ ! -e /usr/bin/vim ]] &&
+  sudo ln -s /usr/bin/nvim /usr/bin/vim
 
 # Inkscape setup
 mkdir -p ~/.config/inkscape/extensions >/dev/null 2>&1
 cd ~/.config/inkscape/extensions >/dev/null 2>&1 || exit
-wget "https://raw.githubusercontent.com/Klowner/inkscape-applytransforms/master/applytransform.py" >/dev/null 2>&1
-wget "https://raw.githubusercontent.com/Klowner/inkscape-applytransforms/master/applytransform.inx" >/dev/null 2>&1
+[[ ! -e applytransform.py ]] &&
+  wget "https://raw.githubusercontent.com/Klowner/inkscape-applytransforms/master/applytransform.py" >/dev/null 2>&1
+[[ ! -e applytransform.inx ]] &&
+  wget "https://raw.githubusercontent.com/Klowner/inkscape-applytransforms/master/applytransform.inx" >/dev/null 2>&1
 cd - >/dev/null 2>&1 || exit
 
 # Set Firefox as Default browser
 xdg-settings set default-web-browser firefox.desktop
 
 # Firefox PWA
-gum spin --padding="0 2" --title="Installing firefoxpwa runtime…" -- firefoxpwa runtime install
-"$SRC_DIR/bin/.local/bin/firefox-webapp-install" ChatGPT https://chatgpt.com https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/chatgpt.png
-"$SRC_DIR/bin/.local/bin/firefox-webapp-install" WhatsApp https://web.whatsapp.com https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/whatsapp.png
+[[ ! -e "$HOME/.local/share/firefoxpwa/runtime/firefox" ]] &&
+  gum spin --padding="0 2" --title="Installing firefoxpwa runtime…" -- firefoxpwa runtime install
+"$SRC_DIR/bin/.local/bin/firefox-webapp-install" ChatGPT https://chatgpt.com https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/chatgpt.png >/dev/null
+"$SRC_DIR/bin/.local/bin/firefox-webapp-install" WhatsApp https://web.whatsapp.com https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/whatsapp.png >/dev/null
 
 # Pacman and Yay aliases
 git clone https://github.com/davilera/pac ~/.local/share/archlinux-pac-aliases 2>/dev/null
@@ -144,19 +147,30 @@ subtitle "Installing global npm deps…"
 # --------------------------------------------------------
 
 source /usr/share/nvm/init-nvm.sh
-nvm install 20
-nvm use 20
+nvm install 20.19.6
 
-gum spin --padding="0 2" --show-error --title="Installing yarn…" -- npm install -g yarn
-gum spin --padding="0 2" --show-error --title="Installing elm…" -- npm install -g elm elm-test elm-format elm-oracle @elm-tooling/elm-language-server
-gum spin --padding="0 2" --show-error --title="Installing emmet…" -- npm install -g emmet-ls
-gum spin --padding="0 2" --show-error --title="Installing eslint…" -- npm install -g @wordpress/eslint-plugin @typescript-eslint/eslint-plugin @typescript-eslint/parser
-gum spin --padding="0 2" --show-error --title="Installing intelephense…" -- npm install -g intelephense
-gum spin --padding="0 2" --show-error --title="Installing prettier…" -- npm install -g prettier@npm:wp-prettier@latest @wordpress/prettier-config
-gum spin --padding="0 2" --show-error --title="Installing script helpers…" -- npm install -g glob lodash path
-gum spin --padding="0 2" --show-error --title="Installing stylelint…" -- npm install -g stylelint @wordpress/stylelint-config
-gum spin --padding="0 2" --show-error --title="Installing vscode langservers…" -- npm install -g vscode-langservers-extracted
-gum spin --padding="0 2" --show-error --title="Installing WordPress scripts…" -- npm install -g @wordpress/scripts
+NVM_DIR="$HOME/.nvm/versions/node/v20.19.6/lib/node_modules"
+npm_install() {
+  for name in "$@"; do
+    dirname="$(echo "$name" | sed -e "s/\([^@]\)@.*$/\1/")"
+    if [[ ! -d "$NVM_DIR/$dirname" ]]; then
+      label="$(printf "%s, " "$@" | sed -e "s/, $//" | sed -e "s/, \([^,]\+\)$/, and \1/")"
+      gum spin --padding="0 2" --show-error --title="Installing ${label}…" -- sleep 5 # npm install -g "$@"
+      return
+    fi
+  done
+}
+
+npm_install yarn
+npm_install @wordpress/eslint-plugin @typescript-eslint/eslint-plugin @typescript-eslint/parser
+npm_install @wordpress/scripts
+npm_install elm elm-test elm-format elm-oracle @elm-tooling/elm-language-server
+npm_install emmet-ls
+npm_install glob lodash path
+npm_install intelephense
+npm_install prettier@npm:wp-prettier@latest @wordpress/prettier-config
+npm_install stylelint @wordpress/stylelint-config
+npm_install vscode-langservers-extracted
 
 # --------------------------------------------------------
 subtitle "Installing composer deps…"
@@ -171,8 +185,10 @@ cd - 2>/dev/null || exit
 subtitle "Installing Lando…"
 # --------------------------------------------------------
 
-/bin/bash -c "$(curl -fsSL https://get.lando.dev/setup-lando.sh)" -- -y
-eval "$(/home/david/.lando/bin/lando shellenv)"
+if [[ ! -x "$HOME/.lando/bin/lando" ]]; then
+  /bin/bash -c "$(curl -fsSL https://get.lando.dev/setup-lando.sh)" -- -y
+  eval "$(/home/david/.lando/bin/lando shellenv)"
+fi
 
 # ========================================================
 # ========================================================
