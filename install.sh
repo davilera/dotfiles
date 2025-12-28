@@ -155,7 +155,7 @@ npm_install() {
     dirname="$(echo "$name" | sed -e "s/\([^@]\)@.*$/\1/")"
     if [[ ! -d "$NVM_DIR/$dirname" ]]; then
       label="$(printf "%s, " "$@" | sed -e "s/, $//" | sed -e "s/, \([^,]\+\)$/, and \1/")"
-      gum spin --padding="0 2" --show-error --title="Installing ${label}…" -- sleep 5 # npm install -g "$@"
+      gum spin --padding="0 2" --show-error --title="Installing ${label}…" -- npm install -g "$@"
       return
     fi
   done

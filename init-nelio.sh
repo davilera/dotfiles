@@ -33,6 +33,7 @@ pushd nelio-scripts >/dev/null 2>&1 || exit
 popd >/dev/null 2>&1 || exit
 popd >/dev/null 2>&1 || exit
 
+mkdir -p ~/Programs/dev/sites >/dev/null 2>&1
 pushd ~/Programs/dev/sites >/dev/null 2>&1 || exit
 [[ ! -d nelio ]] && ~/.local/bin/mkwp nelio Nelio
 popd >/dev/null 2>&1 || exit
