@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# shellcheck disable=all
 # shellcheck disable=SC2038
 
 cd "$(dirname "$0")" || exit
@@ -239,6 +240,25 @@ cd - 2>/dev/null || exit
 # --------------------------------------------------------
 subtitle "Customizing Omarchy…"
 # --------------------------------------------------------
+
+if gum confirm "Do you want to remove Omarchy packages?"; then
+  omarchy-webapp-remove
+
+  cat <<EOD | xargs sudo pacman -Rns --noconfirm
+1password-beta
+1password-cli
+aether
+kdenlive
+libreoffice-fresh
+localsend
+obsidian
+pinta
+signal-desktop
+spotify
+typora
+xournalpp
+EOD
+fi
 
 if [ "$(~/.local/share/omarchy/bin/omarchy-theme-current)" != "Catppuccin" ]; then
   yes n | ~/.local/share/omarchy/bin/omarchy-theme-set catppuccin
