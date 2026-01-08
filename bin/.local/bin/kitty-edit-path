@@ -8,7 +8,7 @@ const CTRL_C = '\x03';
 
 main();
 async function main() {
-  const socket = process.env.KITTY_LISTEN_ON;
+	const socket = process.env.KITTY_LISTEN_ON;
 
 	const input = process.argv[ 2 ];
 	const [ filename, line = 0 ] = input
@@ -29,7 +29,7 @@ async function main() {
 
 	const vimTab = win.tabs.find( isTabRunning( cwd, 'nvim' ) )?.id;
 	if ( ! vimTab ) {
-		openVim( socket, win, cwd, filename, line );
+		openVim( win, cwd, filename, line );
 		process.exit( 0 );
 	}
 
@@ -37,8 +37,8 @@ async function main() {
 	spawnSync( 'kitty', [
 		'@',
 		'send-text',
-    '--to',
-    socket,
+		'--to',
+		socket,
 		`--match-tab=id:${ vimTab }`,
 		`${ ESC }:ed +${ line } ${ filename }\n`,
 	] );
@@ -69,26 +69,28 @@ function isTabRunning( cwd, targetProgram ) {
 	};
 }
 
-function openVim( socket, win, cwd, filename, line ) {
+function openVim( win, cwd, filename, line ) {
+	const socket = process.env.KITTY_LISTEN_ON;
 	const id =
-		win.tabs.find( isTabRunning( cwd, 'bash' ) )?.id || openTab( socket, cwd );
+		win.tabs.find( isTabRunning( cwd, 'bash' ) )?.id || openTab( cwd );
 	spawnSync( 'kitty', [ '@', 'focus-tab', '--to', socket, `--match=id:${ id }` ] );
 	spawnSync( 'kitty', [
 		'@',
 		'send-text',
-    '--to',
-    socket,
+		'--to',
+		socket,
 		`--match-tab=id:${ id }`,
 		`${ CTRL_C }  vim +${ line } ${ filename }\n`,
 	] );
 }
 
-function openTab( socket, cwd ) {
+function openTab( cwd ) {
+	const socket = process.env.KITTY_LISTEN_ON;
 	const { stdout } = spawnSync( 'kitty', [
 		'@',
 		'launch',
-    '--to',
-    socket,
+		'--to',
+		socket,
 		'--type=tab',
 		'--location=neighbor',
 		'--keep-focus',
@@ -98,8 +100,8 @@ function openTab( socket, cwd ) {
 	spawnSync( 'kitty', [
 		'@',
 		'send-text',
-    '--to',
-    socket,
+		'--to',
+		socket,
 		`--match-tab=id:${ id }`,
 		'${CTRL_C}  source ~/.bashrc',
 	] );
