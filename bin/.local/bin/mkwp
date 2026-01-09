@@ -126,6 +126,11 @@ lando wp config create \
   --dbhost="$DBHOST" \
   --path=. >/dev/null 2>&1
 
+lando wp config set WP_DEBUG true --raw --path=. >/dev/null 2>&1
+lando wp config set WP_DEBUG_LOG true --raw --path=. >/dev/null 2>&1
+lando wp config set SCRIPT_DEBUG true --raw --path=. >/dev/null 2>&1
+lando wp config set WP_DEBUG_DISPLAY true --raw --path=. >/dev/null 2>&1
+
 # -----------------------------------
 echo "  - Installing WordPress..."
 # -----------------------------------
