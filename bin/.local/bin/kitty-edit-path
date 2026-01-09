@@ -15,7 +15,12 @@ async function main() {
 		.split( ':' )
 		.map( ( x, i ) => ( i === 1 ? Number.parseInt( x ) : x ) );
 
-	const { stdout: info } = spawnSync( 'kitty', [ '@', 'ls', '--to', socket ] );
+	const { stdout: info } = spawnSync( 'kitty', [
+		'@',
+		'ls',
+		'--to',
+		socket,
+	] );
 	const win = JSON.parse( info ).find( ( w ) => w.is_focused );
 	if ( ! win ) {
 		process.exit( 1 );
@@ -28,21 +33,12 @@ async function main() {
 	}
 
 	const vimTab = win.tabs.find( isTabRunning( cwd, 'nvim' ) )?.id;
-	if ( ! vimTab ) {
-		openVim( win, cwd, filename, line );
+	if ( vimTab ) {
+		await openInVim( vimTab, filename, line );
 		process.exit( 0 );
 	}
 
-	spawnSync( 'kitty', [ '@', 'focus-tab', '--to', socket, `--match=id:${ vimTab }` ] );
-	spawnSync( 'kitty', [
-		'@',
-		'send-text',
-		'--to',
-		socket,
-		`--match-tab=id:${ vimTab }`,
-		`${ ESC }:ed +${ line } ${ filename }\n`,
-	] );
-
+	await openInNewVim( win, cwd, filename, line );
 	process.exit( 0 );
 }
 
@@ -69,18 +65,49 @@ function isTabRunning( cwd, targetProgram ) {
 	};
 }
 
-function openVim( win, cwd, filename, line ) {
+async function sleep( time ) {
+	await new Promise( ( r ) => setTimeout( r, time ) );
+}
+
+async function openInVim( vimTab, filename, line ) {
+	const socket = process.env.KITTY_LISTEN_ON;
+	spawnSync( 'kitty', [
+		'@',
+		'focus-tab',
+		'--to',
+		socket,
+		`--match=id:${ vimTab }`,
+	] );
+	await sleep( 50 );
+	spawnSync( 'kitty', [
+		'@',
+		'send-text',
+		'--to',
+		socket,
+		`--match-tab=id:${ vimTab }`,
+		`${ ESC }:ed +${ line } ${ filename }\n`,
+	] );
+}
+
+async function openInNewVim( win, cwd, filename, line ) {
 	const socket = process.env.KITTY_LISTEN_ON;
 	const id =
 		win.tabs.find( isTabRunning( cwd, 'bash' ) )?.id || openTab( cwd );
-	spawnSync( 'kitty', [ '@', 'focus-tab', '--to', socket, `--match=id:${ id }` ] );
+	spawnSync( 'kitty', [
+		'@',
+		'focus-tab',
+		'--to',
+		socket,
+		`--match=id:${ id }`,
+	] );
+	await sleep( 1000 );
 	spawnSync( 'kitty', [
 		'@',
 		'send-text',
 		'--to',
 		socket,
 		`--match-tab=id:${ id }`,
-		`${ CTRL_C }  vim +${ line } ${ filename }\n`,
+		`${ CTRL_C } nvim +${ line } ${ filename }\n`,
 	] );
 }
 
@@ -96,14 +123,5 @@ function openTab( cwd ) {
 		'--keep-focus',
 		`--cwd=${ cwd }`,
 	] );
-	const id = JSON.parse( stdout );
-	spawnSync( 'kitty', [
-		'@',
-		'send-text',
-		'--to',
-		socket,
-		`--match-tab=id:${ id }`,
-		'${CTRL_C}  source ~/.bashrc',
-	] );
-	return id;
+	return JSON.parse( stdout );
 }
