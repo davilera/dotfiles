@@ -92,7 +92,7 @@ async function openInVim( vimTab, filename, line ) {
 async function openInNewVim( win, cwd, filename, line ) {
 	const socket = process.env.KITTY_LISTEN_ON;
 	const id =
-		win.tabs.find( isTabRunning( cwd, 'bash' ) )?.id || openTab( cwd );
+		win.tabs.find( isTabRunning( cwd, 'bash' ) )?.id || await openTab( cwd );
 	spawnSync( 'kitty', [
 		'@',
 		'focus-tab',
@@ -100,7 +100,6 @@ async function openInNewVim( win, cwd, filename, line ) {
 		socket,
 		`--match=id:${ id }`,
 	] );
-	await sleep( 1000 );
 	spawnSync( 'kitty', [
 		'@',
 		'send-text',
@@ -111,7 +110,7 @@ async function openInNewVim( win, cwd, filename, line ) {
 	] );
 }
 
-function openTab( cwd ) {
+async function openTab( cwd ) {
 	const socket = process.env.KITTY_LISTEN_ON;
 	const { stdout } = spawnSync( 'kitty', [
 		'@',
@@ -123,5 +122,6 @@ function openTab( cwd ) {
 		'--keep-focus',
 		`--cwd=${ cwd }`,
 	] );
+	await sleep( 1000 );
 	return JSON.parse( stdout );
 }
