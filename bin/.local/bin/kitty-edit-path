@@ -85,7 +85,9 @@ async function openInVim( vimTab, filename, line ) {
 		'--to',
 		socket,
 		`--match-tab=id:${ vimTab }`,
-		`${ ESC }:ed +${ line } ${ filename }\n`,
+    line > 0
+      ? `${ ESC }:ed +${ line } ${ filename }\n`
+      : `${ ESC }:ed ${ filename }\n`,
 	] );
 }
 
@@ -106,7 +108,9 @@ async function openInNewVim( win, cwd, filename, line ) {
 		'--to',
 		socket,
 		`--match-tab=id:${ id }`,
-		`${ CTRL_C } nvim +${ line } ${ filename }\n`,
+    line > 0
+		  ? `${ CTRL_C } nvim +${ line } ${ filename }\n`
+		  : `${ CTRL_C } nvim ${ filename }\n`,
 	] );
 }
 
