@@ -162,7 +162,7 @@ npm_install() {
   done
 }
 
-npm_install yarn
+npm_install yarn # TODO Install this correctly
 npm_install @wordpress/eslint-plugin @typescript-eslint/eslint-plugin @typescript-eslint/parser
 npm_install @wordpress/scripts
 npm_install elm elm-test elm-format elm-oracle @elm-tooling/elm-language-server
