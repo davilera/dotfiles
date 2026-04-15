@@ -165,6 +165,7 @@ npm_install() {
 npm_install yarn # TODO Install this correctly
 npm_install @wordpress/eslint-plugin @typescript-eslint/eslint-plugin @typescript-eslint/parser
 npm_install @wordpress/scripts
+npm_install @shopify/cli @shopify/app
 npm_install elm elm-test elm-format elm-oracle @elm-tooling/elm-language-server
 npm_install emmet-ls
 npm_install glob lodash path
