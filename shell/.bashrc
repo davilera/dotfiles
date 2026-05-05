@@ -48,6 +48,10 @@ function aws() {
   AWS_ACCESS_KEY_ID=$(pass show aws/access_id) AWS_SECRET_ACCESS_KEY=$(pass show aws/access_token) command aws "$@"
 }
 
+function openai() {
+  OPENAI_API_KEY=$(pass show openai/access_token) command openai "$@"
+}
+
 function cat() {
   if [[ "$#" -eq 1 ]] && [ "$TERM" = 'xterm-kitty' ] && [[ "$(file "$1" | command grep -ci "image data")" -eq 1 ]]; then
     local aux
