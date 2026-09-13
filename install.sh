@@ -83,6 +83,7 @@ EOD
 cat <<EOD | xargs yay -S --needed --noconfirm
 	bc
 	hunspell-ca
+  ttf-dseg
 	zoom
 EOD
 
@@ -136,6 +137,9 @@ xdg-settings set default-web-browser firefox.desktop
 
 # Pacman and Yay aliases
 git clone https://github.com/davilera/pac ~/.local/share/archlinux-pac-aliases 2>/dev/null
+
+# Fonts
+fc-cache -fv
 
 # ========================================================
 # ========================================================
