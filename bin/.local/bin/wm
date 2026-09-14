@@ -1,0 +1,619 @@
+#!/usr/bin/env bash
+
+set -uo pipefail
+
+# ============================================================
+# Configuration
+# ============================================================
+
+font="DSEG14-Classic-Regular"
+
+# Printed size target.
+print_long_cm=15
+font_pt=10
+
+# Distance from photo edges, relative to rendered font size.
+margin_factor=0.30
+
+# Text color.
+orange="#ff8c00dd"
+
+# ------------------------------------------------------------
+# Dark readability patch
+# ------------------------------------------------------------
+
+# Maximum darkness at the bottom-right corner.
+# 0.0 = none
+# 1.0 = fully black
+fade_opacity=0.62
+
+# How large the dark patch is, relative to the rendered
+# watermark dimensions.
+fade_width_factor=4.0
+fade_height_factor=3.5
+
+# Controls how quickly the dark patch fades away.
+# Lower = broader dark area.
+# Higher = tighter around the bottom-right.
+fade_falloff=1.2
+
+# ------------------------------------------------------------
+# Glow
+# ------------------------------------------------------------
+
+# 0 disables glow.
+# Try 0.3 - 0.7.
+glow_strength=0.50
+
+# Glow radius relative to font size.
+glow_blur_factor=0.08
+
+debug="${DEBUG:-0}"
+
+# ============================================================
+# Helpers
+# ============================================================
+
+debug_log() {
+  if [[ "$debug" == "1" ]]; then
+    printf '[DEBUG] %s\n' "$*" >&2
+  fi
+}
+
+fail_file() {
+  printf 'ERROR: %s\n' "$*" >&2
+}
+
+cleanup_files() {
+  rm -f \
+    "${tmp_crop:-}" \
+    "${tmp_text:-}" \
+    "${tmp_glow:-}" \
+    "${tmp_patch:-}" \
+    "${tmp_mask:-}"
+}
+
+# ============================================================
+# Dependencies
+# ============================================================
+
+required_commands=(
+  magick
+  awk
+  sed
+)
+
+for cmd in "${required_commands[@]}"; do
+  if ! command -v "$cmd" >/dev/null 2>&1; then
+    echo "Missing dependency: $cmd" >&2
+    exit 1
+  fi
+done
+
+# ============================================================
+# Usage
+# ============================================================
+
+if (($# == 0)); then
+  cat <<EOF
+Usage:
+  $0 "MAY 2023:BARCELONA.jpg"
+  $0 *.jpg
+
+Filename format:
+  [line 1]:[line 2].jpg
+
+Examples:
+  MAY 2023:BARCELONA.jpg
+  SUMMER 2024:ASTURIAS.jpg
+  JAN 2025:JAPAN.jpg
+
+Debug:
+  DEBUG=1 $0 *.jpg
+EOF
+  exit 1
+fi
+
+# ============================================================
+# Output mode
+# ============================================================
+
+multiple=false
+
+if (($# > 1)); then
+  multiple=true
+  output_dir="$(pwd)/output"
+
+  if ! mkdir -p "$output_dir"; then
+    echo "ERROR: could not create output directory: $output_dir" >&2
+    exit 1
+  fi
+fi
+
+# ============================================================
+# Process image
+# ============================================================
+
+process_image() {
+
+  local input="$1"
+
+  local filename stem extension output
+  local line1 line2 text
+
+  local width height dims status
+  local crop_width crop_height
+  local cropped_width cropped_height
+
+  local long_pixels dpi font_px margin
+  local text_w text_h
+  local fade_w fade_h
+  local glow_blur
+  local output_size
+
+  tmp_crop=""
+  tmp_text=""
+  tmp_glow=""
+  tmp_patch=""
+  tmp_mask=""
+
+  echo
+  echo "============================================================"
+  echo "Processing: $input"
+  echo "============================================================"
+
+  if [[ ! -f "$input" ]]; then
+    fail_file "Not a regular file: $input"
+    return 1
+  fi
+
+  # --------------------------------------------------------
+  # Filename -> watermark text
+  # --------------------------------------------------------
+
+  filename="$(basename "$input")"
+  extension="${filename##*.}"
+  stem="${filename%.*}"
+
+  if [[ "$stem" != *:* ]]; then
+    fail_file "Filename does not contain ':'"
+    fail_file "Expected: [line 1]:[line 2].jpg"
+    fail_file "Got: $filename"
+    return 1
+  fi
+
+  line1="${stem%%:*}"
+  line2="${stem#*:}"
+
+  # Trim leading/trailing whitespace.
+  line1="$(
+    printf '%s' "$line1" |
+      sed 's/^[[:space:]]*//;s/[[:space:]]*$//'
+  )"
+
+  # Convert YYYY-MM or YYYY-MM.n to MMM YYYY
+  if [[ "$line1" =~ ^([0-9]{4})-(0[1-9]|1[0-2])(\.[0-9]+)?$ ]]; then
+    year="${BASH_REMATCH[1]}"
+    month="${BASH_REMATCH[2]}"
+
+    case "$month" in
+    01) month_name="GEN" ;;
+    02) month_name="FEB" ;;
+    03) month_name="MAR" ;;
+    04) month_name="ABR" ;;
+    05) month_name="MAI" ;;
+    06) month_name="JUN" ;;
+    07) month_name="JUL" ;;
+    08) month_name="AGO" ;;
+    09) month_name="SET" ;;
+    10) month_name="OCT" ;;
+    11) month_name="NOV" ;;
+    12) month_name="DES" ;;
+    esac
+
+    line1="$month_name $year"
+  fi
+
+  line2="$(
+    printf '%s' "$line2" |
+      sed 's/^[[:space:]]*//;s/[[:space:]]*$//'
+  )"
+
+  if [[ -z "$line1" || -z "$line2" ]]; then
+    fail_file "Both watermark lines must contain text"
+    fail_file "Got: $filename"
+    return 1
+  fi
+
+  text="${line1}
+${line2}"
+
+  debug_log "Line 1: $line1"
+  debug_log "Line 2: $line2"
+
+  # --------------------------------------------------------
+  # Output filename
+  # --------------------------------------------------------
+
+  if $multiple; then
+    output="$output_dir/$filename"
+  else
+    output="$(dirname "$input")/${stem}-watermarked.${extension}"
+  fi
+
+  debug_log "Input:  $input"
+  debug_log "Output: $output"
+
+  # --------------------------------------------------------
+  # Dimensions
+  # --------------------------------------------------------
+
+  dims="$(magick identify -format '%w %h' "$input" 2>&1)"
+  status=$?
+
+  if ((status != 0)); then
+    fail_file "ImageMagick could not read: $input"
+    fail_file "$dims"
+    return 1
+  fi
+
+  read -r width height <<<"$dims"
+
+  if [[ -z "${width:-}" || -z "${height:-}" ]]; then
+    fail_file "Could not determine image dimensions"
+    return 1
+  fi
+
+  # --------------------------------------------------------
+  # Crop to 3:2 landscape / 2:3 portrait
+  # --------------------------------------------------------
+
+  if ((width >= height)); then
+
+    if ((width * 2 > height * 3)); then
+      crop_width=$((height * 3 / 2))
+      crop_height=$height
+    else
+      crop_width=$width
+      crop_height=$((width * 2 / 3))
+    fi
+
+  else
+
+    if ((height * 2 > width * 3)); then
+      crop_width=$width
+      crop_height=$((width * 3 / 2))
+    else
+      crop_width=$((height * 2 / 3))
+      crop_height=$height
+    fi
+  fi
+
+  # --------------------------------------------------------
+  # Temporary files
+  # --------------------------------------------------------
+
+  tmp_crop="$(mktemp --suffix=.jpg)" || return 1
+
+  tmp_text="$(mktemp --suffix=.png)" || {
+    cleanup_files
+    return 1
+  }
+
+  tmp_glow="$(mktemp --suffix=.png)" || {
+    cleanup_files
+    return 1
+  }
+
+  tmp_patch="$(mktemp --suffix=.png)" || {
+    cleanup_files
+    return 1
+  }
+
+  tmp_mask="$(mktemp --suffix=.png)" || {
+    cleanup_files
+    return 1
+  }
+
+  # --------------------------------------------------------
+  # Crop
+  # --------------------------------------------------------
+
+  if ! magick "$input" \
+    -gravity center \
+    -crop "${crop_width}x${crop_height}+0+0" \
+    +repage \
+    "$tmp_crop"; then
+    cleanup_files
+    fail_file "Cropping failed: $input"
+    return 1
+  fi
+
+  # --------------------------------------------------------
+  # Cropped dimensions
+  # --------------------------------------------------------
+
+  dims="$(magick identify -format '%w %h' "$tmp_crop" 2>&1)"
+  status=$?
+
+  if ((status != 0)); then
+    cleanup_files
+    fail_file "Could not inspect cropped image"
+    fail_file "$dims"
+    return 1
+  fi
+
+  read -r cropped_width cropped_height <<<"$dims"
+
+  # --------------------------------------------------------
+  # Physical font size
+  # --------------------------------------------------------
+
+  if ((cropped_width >= cropped_height)); then
+    long_pixels=$cropped_width
+  else
+    long_pixels=$cropped_height
+  fi
+
+  dpi="$(
+    awk \
+      -v px="$long_pixels" \
+      -v cm="$print_long_cm" \
+      'BEGIN {
+                printf "%.2f", px / (cm / 2.54)
+            }'
+  )"
+
+  font_px="$(
+    awk \
+      -v dpi="$dpi" \
+      -v pt="$font_pt" \
+      'BEGIN {
+                printf "%.0f", pt * dpi / 72
+            }'
+  )"
+
+  margin="$(
+    awk \
+      -v x="$font_px" \
+      -v f="$margin_factor" \
+      'BEGIN {
+                printf "%.0f", x * f
+            }'
+  )"
+
+  glow_blur="$(
+    awk \
+      -v x="$font_px" \
+      -v f="$glow_blur_factor" \
+      'BEGIN {
+                printf "%.1f", x * f
+            }'
+  )"
+
+  # --------------------------------------------------------
+  # Render sharp text
+  # --------------------------------------------------------
+
+  if ! magick \
+    -background none \
+    -fill "$orange" \
+    -font "$font" \
+    -pointsize "$font_px" \
+    -gravity east \
+    -interline-spacing "$((font_px / 5))" \
+    label:"$text" \
+    "$tmp_text"; then
+    cleanup_files
+    fail_file "Could not render watermark text"
+    return 1
+  fi
+
+  text_w="$(magick identify -format '%w' "$tmp_text")"
+  text_h="$(magick identify -format '%h' "$tmp_text")"
+
+  # --------------------------------------------------------
+  # Localized bottom-right dark fade
+  # --------------------------------------------------------
+
+  fade_w="$(
+    awk \
+      -v w="$text_w" \
+      -v f="$fade_width_factor" \
+      'BEGIN {
+                printf "%.0f", w * f
+            }'
+  )"
+
+  fade_h="$(
+    awk \
+      -v h="$text_h" \
+      -v f="$fade_height_factor" \
+      'BEGIN {
+                printf "%.0f", h * f
+            }'
+  )"
+
+  ((fade_w > cropped_width)) && fade_w=$cropped_width
+  ((fade_h > cropped_height)) && fade_h=$cropped_height
+
+  debug_log "Text size: ${text_w}x${text_h}"
+  debug_log "Fade size: ${fade_w}x${fade_h}"
+
+  # --------------------------------------------------------
+  # Fade alpha mask
+  #
+  # Strongest at bottom-right, fully transparent at
+  # top/left boundaries.
+  # --------------------------------------------------------
+
+  if ! magick \
+    -size "${fade_w}x${fade_h}" \
+    xc:black \
+    -fx "
+            pow(
+                max(
+                    0,
+                    1 - sqrt(
+                        pow((w-1-i)/(w-1),2) +
+                        pow((h-1-j)/(h-1),2)
+                    )
+                ),
+                ${fade_falloff}
+            )
+        " \
+    "$tmp_mask"; then
+    cleanup_files
+    fail_file "Could not create fade mask"
+    return 1
+  fi
+
+  # --------------------------------------------------------
+  # Black readability patch using fade as alpha
+  # --------------------------------------------------------
+
+  if ! magick \
+    -size "${fade_w}x${fade_h}" \
+    xc:black \
+    "$tmp_mask" \
+    -alpha off \
+    -compose CopyOpacity \
+    -composite \
+    -channel A \
+    -evaluate multiply "$fade_opacity" \
+    +channel \
+    "$tmp_patch"; then
+    cleanup_files
+    fail_file "Could not create dark readability patch"
+    return 1
+  fi
+
+  # --------------------------------------------------------
+  # Glow
+  # --------------------------------------------------------
+
+  if awk "BEGIN { exit !($glow_strength > 0) }"; then
+
+    if ! magick "$tmp_text" \
+      -channel A \
+      -evaluate multiply "$glow_strength" \
+      +channel \
+      -blur "0x${glow_blur}" \
+      "$tmp_glow"; then
+      cleanup_files
+      fail_file "Could not render glow"
+      return 1
+    fi
+  fi
+
+  # --------------------------------------------------------
+  # Final composite
+  # --------------------------------------------------------
+
+  if awk "BEGIN { exit !($glow_strength > 0) }"; then
+
+    if ! magick "$tmp_crop" \
+      "$tmp_patch" \
+      -gravity southeast \
+      -geometry "+0+0" \
+      -composite \
+      "$tmp_glow" \
+      -gravity southeast \
+      -geometry "+${margin}+${margin}" \
+      -composite \
+      "$tmp_text" \
+      -gravity southeast \
+      -geometry "+${margin}+${margin}" \
+      -composite \
+      -quality 95 \
+      "$output"; then
+      cleanup_files
+      fail_file "Final ImageMagick conversion failed"
+      return 1
+    fi
+
+  else
+
+    if ! magick "$tmp_crop" \
+      "$tmp_patch" \
+      -gravity southeast \
+      -geometry "+0+0" \
+      -composite \
+      "$tmp_text" \
+      -gravity southeast \
+      -geometry "+${margin}+${margin}" \
+      -composite \
+      -quality 95 \
+      "$output"; then
+      cleanup_files
+      fail_file "Final ImageMagick conversion failed"
+      return 1
+    fi
+  fi
+
+  # --------------------------------------------------------
+  # Verify output
+  # --------------------------------------------------------
+
+  if [[ ! -s "$output" ]]; then
+    cleanup_files
+    fail_file "Output was not created correctly: $output"
+    return 1
+  fi
+
+  output_size="$(
+    magick identify -format '%w x %h' "$output" 2>/dev/null ||
+      printf 'unknown'
+  )"
+
+  cleanup_files
+
+  echo "SUCCESS"
+  echo "  Line 1:     $line1"
+  echo "  Line 2:     $line2"
+  echo "  Crop:       ${cropped_width}x${cropped_height}"
+  echo "  Font:       ${font_pt} pt"
+  echo "  Glow:       $glow_strength"
+  echo "  Fade:       $fade_opacity"
+  echo "  Final size: $output_size"
+  echo "  Output:     $output"
+
+  return 0
+}
+
+# ============================================================
+# Batch processing
+# ============================================================
+
+success_count=0
+failure_count=0
+
+for input in "$@"; do
+
+  if process_image "$input"; then
+    success_count=$((success_count + 1))
+  else
+    failure_count=$((failure_count + 1))
+  fi
+done
+
+# ============================================================
+# Summary
+# ============================================================
+
+echo
+echo "============================================================"
+echo "Finished"
+echo "============================================================"
+echo "Successful: $success_count"
+echo "Failed:     $failure_count"
+
+if $multiple; then
+  echo "Output dir: $output_dir"
+fi
+
+if ((failure_count > 0)); then
+  echo
+  echo "Debug with:"
+  echo "  DEBUG=1 $0 <files...>"
+fi
