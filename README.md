@@ -27,8 +27,6 @@ Here’s how I’ve organized things:
 | `smassh/`         | My “super minimal SSH” / simpler SSH config layer (with Catppuccin theming)                                               |
 | `tooling-config/` | Global configs (ESLint, prettier, stylelint, etc) so tooling _without per-project defines_ still follows WordPress style  |
 | `trash/`          | A systemd “task” (timer + service) to periodically purge old items from the “trash” (for me, I alias `rm` to `trash-cli`) |
-| `uwsm/`           | Config files inherited from Omarchy’s `uwsm` (user workflow / session manager) with my custom overlays                    |
-| `waybar/`         | Config files inherited from Omarchy’s `waybar` with my custom overlays                                                    |
 
 Additionally, there is an `install.sh` script at the root whose job is:
 
@@ -133,15 +131,15 @@ notes for myself (and others) on why they’re there:
 ## Assumptions & Caveats
 
 - **This repo assumes Omarchy is already installed** (i.e. it does _not_ replicate
-    or replace Omarchy’s core setup)
+  or replace Omarchy’s core setup)
 - My tooling choices (linters, formatter rules, plugin settings) are heavily
-    influenced by WordPress coding standards and plugin ecosystem norms
+  influenced by WordPress coding standards and plugin ecosystem norms
 - If a project you work on already defines its own tooling (e.g. `.eslintrc`,
-    `.phpcs.xml`), those will usually take priority over my global one (I hope
-    so)
+  `.phpcs.xml`), those will usually take priority over my global one (I hope
+  so)
 - Always back up your existing configs before running the install script
 - Use this as a scaffold or reference, and feel free to remove, replace, or
-    adapt parts you don’t like (duh)
+  adapt parts you don’t like (duh)
 
 ---
 

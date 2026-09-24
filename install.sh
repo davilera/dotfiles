@@ -110,6 +110,7 @@ dconf load /org/gnome/meld/ <"${SRC_DIR}/dconf/meld.ini"
 sudo sed -i "s/^# *Port 22/Port 22/" /etc/ssh/sshd_config
 sudo systemctl enable sshd
 sudo systemctl restart sshd
+sudo ufw allow from 192.168.1.0/24 to any port 22 proto tcp
 
 # Adding links for vi and nvim
 [[ ! -e /usr/bin/vi ]] &&
@@ -139,7 +140,7 @@ xdg-settings set default-web-browser firefox.desktop
 git clone https://github.com/davilera/pac ~/.local/share/archlinux-pac-aliases 2>/dev/null
 
 # Fonts
-fc-cache -fv
+gum spin -- fc-cache -fv
 
 # ========================================================
 # ========================================================
@@ -213,8 +214,8 @@ stow --no-folding bin
 rm -rf ~/.git 2>/dev/null
 stow --no-folding git
 
-rm -rf ~/.config/hypr 2>/dev/null
-stow hypr
+#rm -rf ~/.config/hypr 2>/dev/null
+#stow hypr
 
 rm -rf ~/.config/kitty 2>/dev/null
 stow kitty
@@ -234,38 +235,11 @@ stow --no-folding trash
 systemctl --user enable empty-trash.timer
 systemctl --user start empty-trash.timer
 
-rm -rf ~/.config/uwsm 2>/dev/null
-stow uwsm
-
-rm -rf ~/.config/waybar 2>/dev/null
-stow waybar
-
 cd - 2>/dev/null || exit
 
 # --------------------------------------------------------
 subtitle "Customizing Omarchy…"
 # --------------------------------------------------------
 
-if gum confirm "Do you want to remove Omarchy packages?"; then
-  omarchy-webapp-remove
-
-  cat <<EOD | xargs sudo pacman -Rns --noconfirm
-1password-beta
-1password-cli
-aether
-kdenlive
-libreoffice-fresh
-localsend
-obsidian
-pinta
-signal-desktop
-spotify
-typora
-xournalpp
-EOD
-fi
-
-if [ "$(~/.local/share/omarchy/bin/omarchy-theme-current)" != "Catppuccin" ]; then
-  yes n | ~/.local/share/omarchy/bin/omarchy-theme-set catppuccin
-fi
-yes n | ~/.local/share/omarchy/bin/omarchy-install-terminal kitty
+omarchy default browser firefox
+omarchy default terminal kitty
