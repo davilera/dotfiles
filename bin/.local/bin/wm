@@ -329,6 +329,12 @@ ${line2}"
     return 1
   fi
 
+  is_portrait=false
+  if ((width < height)); then
+    is_portrait=true
+    magick "$tmp_crop" -rotate -90 "$tmp_crop"
+  fi
+
   # --------------------------------------------------------
   # Cropped dimensions
   # --------------------------------------------------------
@@ -549,6 +555,10 @@ ${line2}"
       fail_file "Final ImageMagick conversion failed"
       return 1
     fi
+  fi
+
+  if ((width < height)); then
+    magick "$output" -rotate 90 "$output"
   fi
 
   # --------------------------------------------------------
