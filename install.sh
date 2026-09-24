@@ -83,7 +83,7 @@ EOD
 cat <<EOD | xargs yay -S --needed --noconfirm
 	bc
 	hunspell-ca
-  ttf-dseg
+	ttf-dseg
 	zoom
 EOD
 
@@ -148,10 +148,6 @@ title "DEVELOPMENT"
 # ========================================================
 # ========================================================
 
-# --------------------------------------------------------
-subtitle "Installing global npm deps…"
-# --------------------------------------------------------
-
 source /usr/share/nvm/init-nvm.sh
 nvm install 20.19.6
 
@@ -167,34 +163,58 @@ npm_install() {
   done
 }
 
-npm_install yarn # TODO Install this correctly
-npm_install @wordpress/eslint-plugin @typescript-eslint/eslint-plugin @typescript-eslint/parser
-npm_install @wordpress/scripts
-npm_install @shopify/cli @shopify/app
-npm_install elm elm-test elm-format elm-live elm-oracle @elm-tooling/elm-language-server
-npm_install emmet-ls
-npm_install glob lodash path
-npm_install intelephense
-npm_install prettier@npm:wp-prettier@latest @wordpress/prettier-config
-npm_install stylelint @wordpress/stylelint-config
-npm_install vscode-langservers-extracted
+if gum confirm "Install global npm deps?"; then
+  # --------------------------------------------------------
+  subtitle "Installing global npm deps…"
+  # --------------------------------------------------------
 
-# --------------------------------------------------------
-subtitle "Installing composer deps…"
-# --------------------------------------------------------
+  npm_install yarn # TODO Install this correctly
+  npm_install @wordpress/eslint-plugin @typescript-eslint/eslint-plugin @typescript-eslint/parser
+  npm_install @wordpress/scripts
+  npm_install @shopify/cli @shopify/app
+  npm_install elm elm-test elm-format elm-live elm-oracle @elm-tooling/elm-language-server
+  npm_install emmet-ls
+  npm_install glob lodash path
+  npm_install intelephense
+  npm_install prettier@npm:wp-prettier@latest @wordpress/prettier-config
+  npm_install stylelint @wordpress/stylelint-config
+  npm_install vscode-langservers-extracted
+fi
 
-cd "$SRC_DIR" 2>/dev/null || exit
-stow --no-folding composer >/dev/null 2>&1
-composer global install >/dev/null 2>&1
-cd - 2>/dev/null || exit
+if gum confirm "Install composer deps?"; then
+  # --------------------------------------------------------
+  subtitle "Installing composer deps…"
+  # --------------------------------------------------------
 
-# --------------------------------------------------------
-subtitle "Installing Lando…"
-# --------------------------------------------------------
+  cd "$SRC_DIR" 2>/dev/null || exit
+  stow --no-folding composer >/dev/null 2>&1
+  composer global install >/dev/null 2>&1
+  cd - 2>/dev/null || exit
+fi
 
 if [[ ! -x "$HOME/.lando/bin/lando" ]]; then
+  # --------------------------------------------------------
+  subtitle "Installing Lando…"
+  # --------------------------------------------------------
+
   /bin/bash -c "$(curl -fsSL https://get.lando.dev/setup-lando.sh)" -- -y
   eval "$(/home/david/.lando/bin/lando shellenv)"
+fi
+
+# --------------------------------------------------------
+subtitle "Installing GPG keys…"
+# --------------------------------------------------------
+
+if gum confirm "Import GPG key from /tmp folder?"; then
+  public_key=$(gum file /tmp --header="Public key file")
+  private_key=$(gum file /tmp --header="Private key file")
+
+  gpg --import "$public_key" "$private_key"
+
+  fingerprint=$(gpg --show-keys --with-colons "$public_key" |
+    awk -F: '/^fpr:/ { print $10; exit }')
+
+  echo "$fingerprint:6:" | gpg --import-ownertrust
 fi
 
 # ========================================================
@@ -224,6 +244,7 @@ stow meld
 
 rm -rf ~/.config/nvim ~/.local/share/nvim 2>/dev/null
 stow nvim
+gum spin --title="Installing nvim plugins…" -- nvim --headless "+Lazy! sync" "+MasonToolsInstallSync" "+qa"
 
 rm -rf ~/.bash* 2>/dev/null
 stow --no-folding shell
@@ -243,3 +264,4 @@ subtitle "Customizing Omarchy…"
 
 omarchy default browser firefox
 omarchy default terminal kitty
+omarchy weather location --set "Barcelona"
