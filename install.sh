@@ -91,6 +91,11 @@ EOD
 subtitle "Configuring packages…"
 # --------------------------------------------------------
 
+# TODO. Gum workaround until it's fixed
+curl -LO https://archive.archlinux.org/packages/g/gum/gum-0.17.0-1-x86_64.pkg.tar.zst
+sudo pacman -U gum-0.17.0-1-x86_64.pkg.tar.zst
+rm -f gum-0.17.0-1-x86_64.pkg.tar.zst
+
 # Bat setup
 mkdir -p "$(bat --config-dir)/themes" >/dev/null 2>&1
 wget -P "$(bat --config-dir)/themes" https://github.com/catppuccin/bat/raw/main/themes/Catppuccin%20Mocha.tmTheme >/dev/null 2>&1
