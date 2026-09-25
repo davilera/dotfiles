@@ -239,8 +239,9 @@ stow --no-folding bin
 rm -rf ~/.git 2>/dev/null
 stow --no-folding git
 
-#rm -rf ~/.config/hypr 2>/dev/null
-#stow hypr
+rm -rf ~/.config/hypr 2>/dev/null
+stow hypr
+hyprctl reload
 
 rm -rf ~/.config/kitty 2>/dev/null
 stow kitty
