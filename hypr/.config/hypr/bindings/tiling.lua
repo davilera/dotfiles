@@ -15,10 +15,10 @@ o.bind("SUPER + SHIFT + S", "Cycle previous", hl.dsp.window.cycle_next())
 -- Groups
 o.bind("SUPER + G", "Toggle group", hl.dsp.group.toggle())
 o.bind("SUPER + SHIFT + G", "Toggle window into and out of group on left", "~/.config/hypr/scripts/move-inout-group.sh")
-o.bind("SUPER + COMMA", "Next window in group", "hyprctl dispatch changegroupactive b")
-o.bind("SUPER + PERIOD", "Previous window in group", "hyprctl dispatch changegroupactive f")
-o.bind("SUPER + SHIFT + COMMA", "Swap window to the left in group", "hyprctl dispatch movegroupwindow b")
-o.bind("SUPER + SHIFT + PERIOD", "Swap window to the right in group", "hyprctl dispatch movegroupwindow f")
+o.bind("SUPER + COMMA", "Next window in group", hl.dsp.group.prev())
+o.bind("SUPER + PERIOD", "Previous window in group", hl.dsp.group.next())
+o.bind("SUPER + SHIFT + COMMA", "Swap window to the left in group", hl.dsp.group.move_window({ forward = false }))
+o.bind("SUPER + SHIFT + PERIOD", "Swap window to the right in group", hl.dsp.group.move_window({ forward = true }))
 
 -- Resize active window
 o.bind("SUPER + LEFT", "Adjust divider left", hl.dsp.window.resize({ x = -100, y = 0, relative = true }))
@@ -41,12 +41,20 @@ o.bind("SUPER + SHIFT + L", "Swap window to the right", hl.dsp.window.swap({ dir
 -- Workspace bindings: preserve both the QWERTY row and number-row shortcuts.
 local workspace_keys = { "Q", "W", "E", "R", "T", "Y", "U", "I", "O" }
 for workspace = 1, 9 do
-  local number = tostring(workspace)
-  local letter = workspace_keys[workspace]
-  o.bind("SUPER + " .. letter, "Switch to workspace " .. workspace, hl.dsp.focus({ workspace = number }))
-  o.bind("SUPER + " .. number, "Switch to workspace " .. workspace, hl.dsp.focus({ workspace = number }))
-  o.bind("SUPER + SHIFT + " .. letter, "Move window to workspace " .. workspace, hl.dsp.window.move({ workspace = number }))
-  o.bind("SUPER + SHIFT + " .. number, "Move window to workspace " .. workspace, hl.dsp.window.move({ workspace = number }))
+	local number = tostring(workspace)
+	local letter = workspace_keys[workspace]
+	o.bind("SUPER + " .. letter, "Switch to workspace " .. workspace, hl.dsp.focus({ workspace = number }))
+	o.bind("SUPER + " .. number, "Switch to workspace " .. workspace, hl.dsp.focus({ workspace = number }))
+	o.bind(
+		"SUPER + SHIFT + " .. letter,
+		"Move window to workspace " .. workspace,
+		hl.dsp.window.move({ workspace = number })
+	)
+	o.bind(
+		"SUPER + SHIFT + " .. number,
+		"Move window to workspace " .. workspace,
+		hl.dsp.window.move({ workspace = number })
+	)
 end
 
 -- Scroll through existing workspaces
