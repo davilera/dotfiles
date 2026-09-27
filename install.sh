@@ -279,3 +279,4 @@ omarchy default browser firefox
 omarchy default terminal kitty
 omarchy weather location --set "Barcelona"
 omarchy theme set catppuccin
+omarchy theme bg set /home/david/.dotfiles/backgrounds/lancia-delta.webp
