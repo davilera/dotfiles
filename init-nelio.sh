@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 
+# Make sure we have the docker group
+if [ "$(groups | grep -oE "(^| )docker( |$)" | wc -l)" -eq 0 ]; then
+  echo "You’re not in the docker group yet. Reboot."
+  exit 1
+fi
+
 title() {
   echo ""
   gum style --bold --trim --foreground=2 "$1"
@@ -32,6 +38,10 @@ pushd nelio-scripts >/dev/null 2>&1 || exit
 ./install.sh
 popd >/dev/null 2>&1 || exit
 popd >/dev/null 2>&1 || exit
+
+# --------------------------------------------------------
+title "INIT SITE"
+# --------------------------------------------------------
 
 mkdir -p ~/Programs/dev/sites >/dev/null 2>&1
 pushd ~/Programs/dev/sites >/dev/null 2>&1 || exit

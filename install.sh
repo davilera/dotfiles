@@ -83,6 +83,7 @@ EOD
 cat <<EOD | xargs yay -S --needed --noconfirm
 	bc
 	hunspell-ca
+	mkinitcpio-numlock
 	ttf-dseg
 	zoom
 EOD
@@ -93,7 +94,7 @@ subtitle "Configuring packages…"
 
 # TODO. Gum workaround until it's fixed
 curl -LO https://archive.archlinux.org/packages/g/gum/gum-0.17.0-1-x86_64.pkg.tar.zst
-sudo pacman -U gum-0.17.0-1-x86_64.pkg.tar.zst
+sudo pacman -U --needed --noconfirm gum-0.17.0-1-x86_64.pkg.tar.zst
 rm -f gum-0.17.0-1-x86_64.pkg.tar.zst
 
 # Bat setup
@@ -173,7 +174,12 @@ if gum confirm "Install global npm deps?"; then
   subtitle "Installing global npm deps…"
   # --------------------------------------------------------
 
-  npm_install yarn # TODO Install this correctly
+  cd ~ 2>/dev/null || exit
+  gum spin --padding="0 2" --show-error --title="Installing yarn…" -- npm install -g corepack
+  gum spin --padding="0 2" --show-error --title="Installing yarn…" -- corepack enable
+  gum spin --padding="0 2" --show-error --title="Installing yarn…" -- corepack prepare yarn@4.12.0 --activate
+  cd - 2>/dev/null || exit
+
   npm_install @wordpress/eslint-plugin @typescript-eslint/eslint-plugin @typescript-eslint/parser
   npm_install @wordpress/scripts
   npm_install @shopify/cli @shopify/app
@@ -204,6 +210,7 @@ if [[ ! -x "$HOME/.lando/bin/lando" ]]; then
 
   /bin/bash -c "$(curl -fsSL https://get.lando.dev/setup-lando.sh)" -- -y
   eval "$(/home/david/.lando/bin/lando shellenv)"
+  sudo usermod -aG docker $USER
 fi
 
 # --------------------------------------------------------
@@ -271,3 +278,4 @@ subtitle "Customizing Omarchy…"
 omarchy default browser firefox
 omarchy default terminal kitty
 omarchy weather location --set "Barcelona"
+omarchy theme set catppuccin
