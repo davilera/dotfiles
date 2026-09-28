@@ -14,7 +14,7 @@ return {
         stdin = true,
       },
       stylelint = {
-        command = vim.env.HOME .. "/.nvm/versions/node/v20.19.4/bin/stylelint",
+        command = vim.env.NVM_BIN .. "/stylelint",
         args = { "--fix" },
       },
     },
