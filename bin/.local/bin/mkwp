@@ -96,6 +96,7 @@ name: $(basename "$DIR")
 recipe: wordpress
 config:
   webroot: .
+  php: '8.3'
 services:
     mailhog:
         type: mailhog
