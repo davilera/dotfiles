@@ -14,7 +14,17 @@ o.bind("SUPER + SHIFT + S", "Cycle previous", hl.dsp.window.cycle_next())
 
 -- Groups
 o.bind("SUPER + G", "Toggle group", hl.dsp.group.toggle())
-o.bind("SUPER + SHIFT + G", "Toggle window into and out of group on left", "~/.config/hypr/scripts/move-inout-group.sh")
+o.bind("SUPER + SHIFT + G", "Toggle window into and out of group on left", function()
+	local w = hl.get_active_window()
+	if w == nil then
+		return
+	end
+	if w.group then
+		hl.dispatch(hl.dsp.window.move({ out_of_group = true }))
+	else
+		hl.dispatch(hl.dsp.window.move({ into_group = "left" }))
+	end
+end)
 o.bind("SUPER + COMMA", "Next window in group", hl.dsp.group.prev())
 o.bind("SUPER + PERIOD", "Previous window in group", hl.dsp.group.next())
 o.bind("SUPER + SHIFT + COMMA", "Swap window to the left in group", hl.dsp.group.move_window({ forward = false }))

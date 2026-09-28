@@ -156,12 +156,13 @@ title "DEVELOPMENT"
 
 source /usr/share/nvm/init-nvm.sh
 nvm install 20.19.6
+nvm use 20.19.6
 
-NVM_DIR="$HOME/.nvm/versions/node/v20.19.6/lib/node_modules"
+NODE_GLOBAL_MODULES="$(npm root -g)"
 npm_install() {
   for name in "$@"; do
     dirname="$(echo "$name" | sed -e "s/\([^@]\)@.*$/\1/")"
-    if [[ ! -d "$NVM_DIR/$dirname" ]]; then
+    if [[ ! -d "$NODE_GLOBAL_MODULES/$dirname" ]]; then
       label="$(printf "%s, " "$@" | sed -e "s/, $//" | sed -e "s/, \([^,]\+\)$/, and \1/")"
       gum spin --padding="0 2" --show-error --title="Installing ${label}…" -- npm install -g "$@"
       return
