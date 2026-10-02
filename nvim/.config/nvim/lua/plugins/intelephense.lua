@@ -5,6 +5,9 @@ return {
       intelephense = {
         settings = {
           intelephense = {
+            diagnostics = {
+              enable = false,
+            },
             files = {
               maxSize = 1000000000,
               exclude = {

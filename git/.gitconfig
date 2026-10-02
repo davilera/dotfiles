@@ -18,8 +18,6 @@
 	excludesfile = ~/.gitignore
 	autocrlf = input
 	editor = nvim
-[merge]
-	ff = only
 [user]
 	name = David Aguilera
 	email = david.aguilera@neliosoftware.com
@@ -41,3 +39,5 @@
 	gpgsign = true
 [tag]
 	gpgSign = true
+[pull]
+	rebase = false
