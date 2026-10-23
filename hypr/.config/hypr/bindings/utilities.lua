@@ -2,7 +2,6 @@
 
 -- Clipboard
 o.bind("SUPER + C", "Clipboard history", "omarchy-shell shell toggle omarchy.clipboard")
-o.bind("SUPER + SHIFT + C", "Calculator", "omacalc")
 
 -- Menus
 o.bind("SUPER + A", "Omarchy menu", "omarchy-menu toggle")
