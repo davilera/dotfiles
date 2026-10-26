@@ -13,7 +13,7 @@ print_long_cm=15
 font_pt=10
 
 # Distance from photo edges, relative to rendered font size.
-margin_factor=0.30
+margin_factor=1.0
 
 # Text color.
 orange="#ff8c00dd"
