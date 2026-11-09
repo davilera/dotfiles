@@ -46,6 +46,6 @@ hl.config({
 -- })
 
 -- Keep these creative apps fully opaque, matching the old window rules.
-o.window("blender", { opacity = "1.0 1.0" })
-o.window("org.inkscape.Inkscape", { opacity = "1.0 1.0" })
-o.window("gimp", { opacity = "1.0 1.0" })
+o.transparent_window("blender", "1.0 1.0")
+o.transparent_window("org.inkscape.Inkscape", "1.0 1.0")
+o.transparent_window("gimp", "1.0 1.0")
