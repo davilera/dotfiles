@@ -2,6 +2,7 @@
 
 o.bind("SUPER + ALT + B", "Blender", "blender")
 o.bind("SUPER + ALT + C", "Calculator", "omacalc")
+o.bind("SUPER + ALT + D", "Dictation", "omarchy dictation toggle")
 o.bind("SUPER + ALT + E", "File explorer", { omarchy = "nautilus" })
 o.bind("SUPER + ALT + F", "Firefox", { omarchy = "browser" })
 o.bind("SUPER + ALT + S", "Stats (btop)", { tui = "btop" })

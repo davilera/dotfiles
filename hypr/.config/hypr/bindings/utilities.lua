@@ -6,7 +6,7 @@ o.bind("SUPER + C", "Clipboard history", "omarchy-shell shell toggle omarchy.cli
 -- Menus
 o.bind("SUPER + A", "Omarchy menu", "omarchy-menu toggle")
 o.bind("SUPER + M", "Launch apps", "omarchy-menu toggle apps")
-o.bind("SUPER + APOSTROPHE", "Emoji picker", "omarchy-shell shell toggle omarchy.emojis")
+o.bind("SUPER + APOSTROPHE", nil, { panel = "omarchy.emojis" })
 o.bind("SUPER + ESCAPE", "Power menu", "omarchy-menu toggle system", { locked = true })
 o.bind("SUPER + SHIFT + SLASH", nil, "omarchy-menu-keybindings")
 
